@@ -81,8 +81,8 @@ class Command(BaseCommand):
                 name=item['name'],
                 transliteration=item['trans'],
                 is_vowel=item['vowel'],
-                example_word_cyrillic=item['ex_word'],
-                example_word_meaning=item['ex_mean'],
+                example_word_rus=item['ex_word'],
+                example_word_eng=item['ex_mean'],
                 description=item['desc'],
                 lesson=lessons[item['lesson_idx']]
             )
