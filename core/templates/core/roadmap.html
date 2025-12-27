@@ -1,0 +1,19 @@
+{% extends 'core/base_app.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Russian Path</h1>
+
+    <div class="roadmap-container">
+        {% for lesson in lessons %}
+        <div style="position: relative; margin-left: {% cycle '0' '40px' '-40px' '0' %};">
+            <a href="{% url 'lesson_detail' lesson.id %}"
+                class="lesson-node {% if forloop.counter > 1 %}locked-visual{% endif %}">
+                {{ lesson.icon }}
+            </a>
+            <div class="lesson-label">{{ lesson.title }}</div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

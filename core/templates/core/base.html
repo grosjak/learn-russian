@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyrillic Master</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cyrillic Master</h1>
+            <div class="subtitle">Apprendre l'alphabet russe</div>
+        </header>
+        
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <footer style="text-align: center; margin-top: 4rem; color: #555; padding-bottom: 2rem;">
+            &copy; 2024 Application d'apprentissage du Russe
+        </footer>
+    </div>
+</body>
+</html>

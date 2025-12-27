@@ -1,0 +1,50 @@
+{% extends 'core/base_app.html' %}
+
+{% block content %}
+<div class="container" style="display: flex; flex-direction: column; justify-content: center; min-height: 80vh;">
+    <h1 style="font-size: 2.5rem; margin-bottom: 3rem; color: #fff;">Главное меню</h1>
+
+    <div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+        <a href="{% url 'practice' 'alphabet' %}" class="menu-btn">
+            <span style="font-size: 2rem; margin-right: 15px;">🅰️</span>
+            Alphabet
+        </a>
+
+        <a href="{% url 'vocabulary' %}" class="menu-btn secondary">
+            <span style="font-size: 2rem; margin-right: 15px;">📚</span>
+            Vocabulaire
+        </a>
+    </div>
+</div>
+
+<style>
+    .menu-btn {
+        background-color: var(--card-bg);
+        /* Dark card */
+        border: 2px solid var(--duo-green);
+        /* Orange border */
+        color: white;
+        padding: 1.5rem;
+        border-radius: 16px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 4px 0 var(--duo-green-shadow);
+        /* Orange shadow */
+        transition: transform 0.1s, background 0.2s;
+    }
+
+    .menu-btn:active {
+        transform: translateY(4px);
+        box-shadow: none;
+    }
+
+    .menu-btn.secondary {
+        border-color: #555;
+        box-shadow: 0 4px 0 #333;
+        color: #aaa;
+    }
+</style>
+{% endblock %}

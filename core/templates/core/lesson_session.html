@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson</title>
+    <link rel="stylesheet" href="{% static 'css/duolingo.css' %}">
+</head>
+
+<body>
+    <div class="container lesson-container">
+        <!-- Header -->
+        <div class="progress-header">
+            <div class="close-btn" onclick="window.location.href='/'">✕</div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Question Area -->
+        <div class="question-area" id="questionArea">
+            <!-- Content injected by JS -->
+            <div style="text-align: center; margin-top: 50px;">
+                Loading lesson...
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="check-footer">
+        <button class="btn-primary" id="checkBtn" disabled>Check</button>
+    </div>
+
+    <!-- Audio Elements (hidden) - placeholders for real TTS later -->
+
+    <script>
+        const lessonId = "{{ lesson.id|default:'' }}";
+        const mode = "{{ mode|default:'' }}";
+
+        let apiUrl = '';
+        if (lessonId) {
+            apiUrl = `/api/lesson/${lessonId}/`;
+        } else if (mode) {
+            apiUrl = `/api/practice/${mode}/`;
+        }
+
+        let questions = [];
+        let currentIndex = 0;
+        let selectedOption = null;
+        let isCheckState = true; // true = Check, false = Continue
+
+        const questionArea = document.getElementById('questionArea');
+        const checkBtn = document.getElementById('checkBtn');
+        const progressBar = document.getElementById('progressBar');
+
+        // Fetch Questions
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                questions = data.questions;
+                renderQuestion();
+            });
+
+        function updateProgress() {
+            const percent = ((currentIndex) / questions.length) * 100;
+            progressBar.style.width = `${percent}%`;
+        }
+
+        function renderQuestion() {
+            if (currentIndex >= questions.length) {
+                showCompletion();
+                return;
+            }
+
+            const q = questions[currentIndex];
+            questionArea.innerHTML = '';
+            selectedOption = null;
+            checkBtn.disabled = true;
+            checkBtn.innerText = 'Check';
+            checkBtn.classList.remove('btn-continue');
+            isCheckState = true;
+            updateProgress();
+
+            if (q.type === 'intro') {
+                renderIntro(q);
+                checkBtn.disabled = false;
+                checkBtn.innerText = 'Got it';
+            } else if (q.type === 'select_sound' || q.type === 'select_trans') {
+                renderSelectSound(q);
+            } else if (q.type === 'select_char') {
+                renderSelectChar(q);
+            }
+        }
+
+        function playAudio(text) {
+            if ('speechSynthesis' in window) {
+                // Cancel previous
+                window.speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ru-RU';
+                utterance.rate = 0.9; // Slightly slower for learning
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function renderIntro(q) {
+            questionArea.innerHTML = `
+                <div style="text-align: center;">
+                    <h2>New Letter!</h2>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <div class="big-char" style="margin: 30px 0; color: #58CC02;">${q.char}</div>
+                        <button class="audio-btn" onclick="playAudio('${q.char}')">🔊</button>
+                    </div>
+                    <div style="font-size: 1.5rem; margin-bottom: 10px;">Name: <b>${q.name}</b></div>
+                    <div style="font-size: 1.5rem; color: #777;">Sound: /${q.trans}/</div>
+                    <div style="margin-top: 20px; font-style: italic;">"${q.desc}"</div>
+                </div>
+            `;
+            // Auto-play introduction
+            setTimeout(() => playAudio(q.char), 500);
+        }
+
+        function renderSelectSound(q) {
+            // Letter -> Sound
+            questionArea.innerHTML = `
+                <h2>${q.prompt}</h2>
+                 <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
+                    <button class="audio-btn" style="font-size: 3rem; margin-right: 15px;" onclick="playAudio('${q.main_char}')">🔊</button>
+                    <div class="big-char">${q.main_char}</div>
+                </div>
+                <div class="options-grid">
+                    ${q.options.map((opt, idx) => `
+                        <div class="option-btn" onclick="selectOption(this, '${opt}')">${opt}</div>
+                    `).join('')}
+                </div>
+            `;
+            // Auto-play question audio
+            setTimeout(() => playAudio(q.main_char), 500);
+        }
+
+        function renderSelectChar(q) {
+            // Sound -> Letter
+            questionArea.innerHTML = `
+                <h2>${q.prompt}</h2>
+                <div style="font-size: 3rem; margin-bottom: 2rem; color: #1CB0F6;">/${q.main_sound}/</div>
+                <div class="options-grid">
+                    ${q.options.map((opt, idx) => `
+                        <div class="option-btn" onclick="selectOption(this, '${opt}')">${opt}</div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        window.selectOption = function (el, val) {
+            if (!isCheckState) return; // Locked after check
+
+            // Deselect all
+            document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+
+            el.classList.add('selected');
+            selectedOption = val;
+            checkBtn.disabled = false;
+        }
+
+        checkBtn.addEventListener('click', () => {
+            if (!isCheckState) {
+                // Continue action
+                currentIndex++;
+                renderQuestion();
+                return;
+            }
+
+            // Check Logic
+            const q = questions[currentIndex];
+
+            if (q.type === 'intro') {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                handleValidation(q);
+            }
+        });
+
+        function handleValidation(q) {
+            const correct = q.correct;
+            const isCorrect = selectedOption === correct;
+
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(btn => {
+                if (btn.innerText === correct) btn.classList.add('correct');
+                if (btn.innerText === selectedOption && !isCorrect) btn.classList.add('wrong');
+            });
+
+            if (isCorrect) {
+                // Success visual
+                const footer = document.querySelector('.check-footer');
+                footer.style.backgroundColor = '#d7ffb8';
+                checkBtn.style.backgroundColor = '#58CC02';
+                checkBtn.innerText = 'Continue';
+            } else {
+                // Fail visual
+                const footer = document.querySelector('.check-footer');
+                footer.style.backgroundColor = '#ffdfe0';
+                checkBtn.style.backgroundColor = '#FF4B4B';
+                checkBtn.innerText = 'Continue';
+            }
+
+            // Switch to continue mode
+            isCheckState = false;
+            checkBtn.disabled = false;
+        }
+
+        function showCompletion() {
+            progressBar.style.width = '100%';
+            questionArea.innerHTML = `
+                <div style="text-align: center; margin-top: 50px;">
+                    <div style="font-size: 5rem;">🎉</div>
+                    <h2>Lesson Complete!</h2>
+                    <p>You practiced ${questions.length} exercises.</p>
+                </div>
+            `;
+            checkBtn.innerText = 'Finish';
+            checkBtn.disabled = false;
+            checkBtn.style.backgroundColor = '#58CC02';
+            checkBtn.onclick = () => window.location.href = '/';
+            document.querySelector('.check-footer').style.backgroundColor = '#fff';
+        }
+
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<div class="letter-card">
+    {% if letter.is_vowel %}
+    <div class="vowel-indicator" title="Voyelle"></div>
+    {% else %}
+    <div class="consonant-indicator" title="Consonne"></div>
+    {% endif %}
+
+    <div class="character">{{ letter.character }}</div>
+    <div class="name">{{ letter.name }}</div>
+    <div class="transliteration">/{{ letter.transliteration }}/</div>
+
+    <div class="details">
+        {% if letter.example_word_cyrillic %}
+        <div class="detail-row">
+            <span class="label">Ex:</span>
+            <span style="color: #fff;">{{ letter.example_word_cyrillic }}</span>
+            <span style="font-size: 0.8em; color: #aaa;">({{ letter.example_word_meaning }})</span>
+        </div>
+        {% endif %}
+
+        {% if letter.description %}
+        <div class="detail-row" style="font-style: italic; margin-top: 0.8rem;">
+            {{ letter.description }}
+        </div>
+        {% endif %}
+    </div>
+</div>

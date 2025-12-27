@@ -1,0 +1,17 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h2>Voyelles (Vowels)</h2>
+<div class="alphabet-grid">
+    {% for letter in vowels %}
+    {% include 'core/includes/letter_card.html' with letter=letter %}
+    {% endfor %}
+</div>
+
+<h2>Consonnes (Consonants) & Signes</h2>
+<div class="alphabet-grid">
+    {% for letter in consonants %}
+    {% include 'core/includes/letter_card.html' with letter=letter %}
+    {% endfor %}
+</div>
+{% endblock %}
