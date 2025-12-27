@@ -6,7 +6,7 @@ set -o errexit
 pip install -r requirements.txt
 
 # Convert static files
-python manage.py collectstatic --noinput
+python manage.py collectstatic --noinput --clear
 
 # Apply migrations
 python manage.py migrate
