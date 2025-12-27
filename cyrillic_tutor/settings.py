@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-wedoga*in3ys8_hndw_!d1lzcv(o!@l!sc!wj*7w+=p%^3(s6o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('RENDER', '') != 'true'
 
-ALLOWED_HOSTS = ['*'] if DEBUG else ['.onrender.com']
+ALLOWED_HOSTS = ['*'] if DEBUG else ['.onrender.com', '.alwaysdata.net']
 
 
 # Application definition
