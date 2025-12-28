@@ -100,9 +100,11 @@
             checkBtn.disabled = true;
             checkBtn.innerText = 'Vérifier';
             checkBtn.classList.remove('btn-continue');
-            checkBtn.style.backgroundColor = ''; // Reset to CSS default
+            checkBtn.style.removeProperty('background-color');
+            checkBtn.style.backgroundColor = '';
             const footer = document.querySelector('.check-footer');
-            footer.style.backgroundColor = ''; // Reset to CSS default
+            footer.style.removeProperty('background-color');
+            footer.style.backgroundColor = '';
             isCheckState = true;
             updateProgress();
 
