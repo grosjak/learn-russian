@@ -216,81 +216,82 @@
 
             currentIndex++;
             renderQuestion();
+        }
 
-            window.selectOption = function (el, val) {
-                if (!isCheckState) return; // Locked after check
+        window.selectOption = function (el, val) {
+            if (!isCheckState) return; // Locked after check
 
-                // Deselect all
-                document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            // Deselect all
+            document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
 
-                el.classList.add('selected');
-                selectedOption = val;
-                checkBtn.disabled = false;
+            el.classList.add('selected');
+            selectedOption = val;
+            checkBtn.disabled = false;
+        }
+
+        checkBtn.addEventListener('click', () => {
+            if (!isCheckState) {
+                // Continue action
+                currentIndex++;
+                renderQuestion();
+                return;
             }
 
-            checkBtn.addEventListener('click', () => {
-                if (!isCheckState) {
-                    // Continue action
-                    currentIndex++;
-                    renderQuestion();
-                    return;
-                }
+            // Check Logic
+            const q = questions[currentIndex];
 
-                // Check Logic
-                const q = questions[currentIndex];
+            if (q.type === 'intro') {
+                currentIndex++;
+                renderQuestion();
+            } else {
+                handleValidation(q);
+            }
+        });
 
-                if (q.type === 'intro') {
-                    currentIndex++;
-                    renderQuestion();
-                } else {
-                    handleValidation(q);
-                }
+        function handleValidation(q) {
+            const correct = q.correct;
+            const isCorrect = selectedOption === correct;
+
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(btn => {
+                if (btn.innerText === correct) btn.classList.add('correct');
+                if (btn.innerText === selectedOption && !isCorrect) btn.classList.add('wrong');
             });
 
-            function handleValidation(q) {
-                const correct = q.correct;
-                const isCorrect = selectedOption === correct;
-
-                const options = document.querySelectorAll('.option-btn');
-                options.forEach(btn => {
-                    if (btn.innerText === correct) btn.classList.add('correct');
-                    if (btn.innerText === selectedOption && !isCorrect) btn.classList.add('wrong');
-                });
-
-                if (isCorrect) {
-                    // Success visual
-                    const footer = document.querySelector('.check-footer');
-                    footer.style.backgroundColor = '#d7ffb8';
-                    checkBtn.style.backgroundColor = '#58CC02';
-                    checkBtn.innerText = 'Continue';
-                } else {
-                    // Fail visual
-                    const footer = document.querySelector('.check-footer');
-                    footer.style.backgroundColor = '#ffdfe0';
-                    checkBtn.style.backgroundColor = '#FF4B4B';
-                    checkBtn.innerText = 'Continue';
-                }
-
-                // Switch to continue mode
-                isCheckState = false;
-                checkBtn.disabled = false;
+            if (isCorrect) {
+                // Success visual
+                const footer = document.querySelector('.check-footer');
+                footer.style.backgroundColor = '#d7ffb8';
+                checkBtn.style.backgroundColor = '#58CC02';
+                checkBtn.innerText = 'Continue';
+            } else {
+                // Fail visual
+                const footer = document.querySelector('.check-footer');
+                footer.style.backgroundColor = '#ffdfe0';
+                checkBtn.style.backgroundColor = '#FF4B4B';
+                checkBtn.innerText = 'Continue';
             }
 
-            function showCompletion() {
-                progressBar.style.width = '100%';
-                questionArea.innerHTML = `
+            // Switch to continue mode
+            isCheckState = false;
+            checkBtn.disabled = false;
+        }
+
+        function showCompletion() {
+            progressBar.style.width = '100%';
+            questionArea.innerHTML = `
                 <div style="text-align: center; margin-top: 50px;">
                     <div style="font-size: 5rem;">🎉</div>
                     <h2>Lesson Complete!</h2>
                     <p>You practiced ${questions.length} exercises.</p>
                 </div>
             `;
-                checkBtn.innerText = 'Finish';
-                checkBtn.disabled = false;
-                checkBtn.style.backgroundColor = '#58CC02';
-                checkBtn.onclick = () => window.location.href = '/';
-                document.querySelector('.check-footer').style.backgroundColor = '#fff';
-            }
+            checkBtn.innerText = 'Finish';
+            checkBtn.disabled = false;
+            checkBtn.style.backgroundColor = '#58CC02';
+            checkBtn.onclick = () => window.location.href = '/';
+            document.querySelector('.check-footer').style.backgroundColor = '#fff';
+        }
 
 
     </script>
