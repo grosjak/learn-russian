@@ -23,14 +23,14 @@
         <div class="question-area" id="questionArea">
             <!-- Content injected by JS -->
             <div style="text-align: center; margin-top: 50px;">
-                Loading lesson...
+                Chargement de la leçon...
             </div>
         </div>
     </div>
 
     <!-- Footer -->
     <div class="check-footer">
-        <button class="btn-primary" id="checkBtn" disabled>Check</button>
+        <button class="btn-primary" id="checkBtn" disabled>Vérifier</button>
     </div>
 
     <!-- Audio Elements (hidden) - placeholders for real TTS later -->
@@ -69,7 +69,7 @@
                 }
                 questions = data.questions;
                 if (questions.length === 0) {
-                    questionArea.innerHTML = `<div style="text-align: center; margin-top: 50px;">No vocabulary found.<br>Please run 'populate_vocab' command.</div>`;
+                    questionArea.innerHTML = `<div style="text-align: center; margin-top: 50px;">Aucun vocabulaire trouvé.<br>Veuillez lancer 'populate_vocab'.</div>`;
                     return;
                 }
                 renderQuestion();
@@ -77,7 +77,7 @@
             .catch(err => {
                 console.error(err);
                 questionArea.innerHTML = `<div style="text-align: center; color: #ff4b4b; margin-top: 50px;">
-                    <h3>Error Loading Lesson</h3>
+                    <h3>Erreur de chargement</h3>
                     <p>${err.message}</p>
                     <p style="font-size: 0.8rem; color: #777;">Check your internet connection or server logs.</p>
                 </div>`;
@@ -98,7 +98,7 @@
             questionArea.innerHTML = '';
             selectedOption = null;
             checkBtn.disabled = true;
-            checkBtn.innerText = 'Check';
+            checkBtn.innerText = 'Vérifier';
             checkBtn.classList.remove('btn-continue');
             isCheckState = true;
             updateProgress();
@@ -106,7 +106,7 @@
             if (q.type === 'intro') {
                 renderIntro(q);
                 checkBtn.disabled = false;
-                checkBtn.innerText = 'Got it';
+                checkBtn.innerText = 'Compris';
             } else if (q.type === 'select_sound' || q.type === 'select_trans') {
                 renderSelectSound(q);
             } else if (q.type === 'select_char') {
@@ -131,13 +131,13 @@
         function renderIntro(q) {
             questionArea.innerHTML = `
                 <div style="text-align: center;">
-                    <h2>New Letter!</h2>
+                    <h2>Nouvelle Lettre !</h2>
                     <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
                         <div class="big-char" style="margin: 30px 0; color: #58CC02;">${q.char}</div>
                         <button class="audio-btn" onclick="playAudio('${q.char}')">🔊</button>
                     </div>
-                    <div style="font-size: 1.5rem; margin-bottom: 10px;">Name: <b>${q.name}</b></div>
-                    <div style="font-size: 1.5rem; color: #777;">Sound: /${q.trans}/</div>
+                    <div style="font-size: 1.5rem; margin-bottom: 10px;">Nom : <b>${q.name}</b></div>
+                    <div style="font-size: 1.5rem; color: #777;">Son : /${q.trans}/</div>
                     <div style="margin-top: 20px; font-style: italic;">"${q.desc}"</div>
                 </div>
             `;
@@ -305,13 +305,13 @@
                 const footer = document.querySelector('.check-footer');
                 footer.style.backgroundColor = '#d7ffb8';
                 checkBtn.style.backgroundColor = '#58CC02';
-                checkBtn.innerText = 'Continue';
+                checkBtn.innerText = 'Continuer';
             } else {
                 // Fail visual
                 const footer = document.querySelector('.check-footer');
                 footer.style.backgroundColor = '#ffdfe0';
                 checkBtn.style.backgroundColor = '#FF4B4B';
-                checkBtn.innerText = 'Continue';
+                checkBtn.innerText = 'Continuer';
             }
 
             // Switch to continue mode
@@ -324,11 +324,11 @@
             questionArea.innerHTML = `
                 <div style="text-align: center; margin-top: 50px;">
                     <div style="font-size: 5rem;">🎉</div>
-                    <h2>Lesson Complete!</h2>
-                    <p>You practiced ${questions.length} exercises.</p>
+                    <h2>Leçon terminée !</h2>
+                    <p>Vous avez pratiqué ${questions.length} exercices.</p>
                 </div>
             `;
-            checkBtn.innerText = 'Finish';
+            checkBtn.innerText = 'Terminer';
             checkBtn.disabled = false;
             checkBtn.style.backgroundColor = '#58CC02';
             checkBtn.onclick = () => window.location.href = '/';

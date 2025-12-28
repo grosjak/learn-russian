@@ -24,8 +24,8 @@ class Letter(models.Model):
 
 class Word(models.Model):
     CATEGORY_CHOICES = [
-        ('word', 'Word'),
-        ('verb', 'Verb'),
+        ('word', 'Mot'),
+        ('verb', 'Verbe'),
     ]
     
     russian = models.CharField(max_length=100)

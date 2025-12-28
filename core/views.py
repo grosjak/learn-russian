@@ -55,7 +55,7 @@ def practice_data(request, mode):
             
             questions.append({
                 'type': 'select_char',
-                'prompt': f'Which one is "{letter.transliteration}"?',
+                'prompt': f'Laquelle est "{letter.transliteration}" ?',
                 'correct': letter.character,
                 'options': options,
                 'main_sound': letter.transliteration
@@ -67,7 +67,7 @@ def practice_data(request, mode):
             
             questions.append({
                 'type': 'select_sound',
-                'prompt': 'What sound does this letter make?',
+                'prompt': 'Quel son fait cette lettre ?',
                 'correct': letter.transliteration,
                 'options': options_sound,
                 'main_char': letter.character
@@ -148,7 +148,7 @@ def lesson_data(request, lesson_id):
         
         questions.append({
             'type': 'select_char',
-            'prompt': f'Which one is "{letter.transliteration}"?', # e.g. "Which one is 'Zh'?"
+            'prompt': f'Laquelle est "{letter.transliteration}" ?', # e.g. "Which one is 'Zh'?"
             'correct': letter.character,
             'options': options_char,
             'main_sound': letter.transliteration 
@@ -162,7 +162,7 @@ def lesson_data(request, lesson_id):
         
         questions.append({
             'type': 'select_sound',
-            'prompt': 'What sound does this letter make?',
+            'prompt': 'Quel son fait cette lettre ?',
             'correct': letter.transliteration,
             'options': options_sound,
             'main_char': letter.character
