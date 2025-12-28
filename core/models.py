@@ -31,7 +31,6 @@ class Word(models.Model):
     russian = models.CharField(max_length=100)
     french = models.CharField(max_length=100)
     transliteration = models.CharField(max_length=100)
-    transliteration = models.CharField(max_length=100)
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='word')
 
     def __str__(self):

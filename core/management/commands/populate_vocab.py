@@ -5,239 +5,48 @@ class Command(BaseCommand):
     help = 'Populates the database with Top 200 Russian vocabulary (Translated)'
 
     def handle(self, *args, **kwargs):
-        # Transliteration Table
-        trans_map = {
-            'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'ye', 'ё': 'yo',
-            'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
-            'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
-            'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
-            'ъ': '', 'ы': 'y', 'ь': "'", 'э': 'e', 'ю': 'yu', 'я': 'ya'
-        }
+        import json
+        import os
 
-        def transliterate(text):
-            res = []
-            for char in text.lower():
-                res.append(trans_map.get(char, char))
-            return "".join(res).capitalize()
+        json_path = '/home/jack/Developpement/make_dictionnary/dictionnaire_fr_ru_complet.json'
+        
+        if not os.path.exists(json_path):
+            self.stdout.write(self.style.ERROR(f'File not found: {json_path}'))
+            return
 
-        # Data: Russian, French, Original POS (verb/other)
-        raw_data = [
-            ("и", "et", "conj"),
-            ("в", "dans/en", "prep"),
-            ("не", "ne pas", "part"),
-            ("он", "il", "pron"),
-            ("на", "sur", "prep"),
-            ("я", "je", "pron"),
-            ("что", "que/quoi", "pron"),
-            ("тот", "ce/celui-là", "adj"),
-            ("быть", "être", "verb"),
-            ("с", "avec", "prep"),
-            ("а", "et/mais", "conj"),
-            ("весь", "tout", "pron"),
-            ("это", "ce/ça", "pron"),
-            ("как", "comment", "adv"),
-            ("она", "elle", "pron"),
-            ("по", "par/selon", "prep"),
-            ("но", "mais", "conj"),
-            ("они", "ils", "pron"),
-            ("к", "vers", "prep"),
-            ("у", "chez/près de", "prep"),
-            ("ты", "tu", "pron"),
-            ("из", "de (origine)", "prep"),
-            ("мы", "nous", "pron"),
-            ("за", "derrière/pour", "prep"),
-            ("вы", "vous", "pron"),
-            ("так", "ainsi/si", "adv"),
-            ("же", "donc/même", "part"),
-            ("от", "de (provenance)", "prep"),
-            ("сказать", "dire", "verb"),
-            ("этот", "ce/cet", "pron"),
-            ("который", "lequel/qui", "pron"),
-            ("мочь", "pouvoir", "verb"),
-            ("человек", "homme/personne", "noun"),
-            ("о", "au sujet de", "prep"),
-            ("один", "un/seul", "num"),
-            ("ещё", "encore", "adv"),
-            ("бы", "(conditionnel)", "part"),
-            ("такой", "tel/si", "pron"),
-            ("только", "seulement", "adv"),
-            ("себя", "soi-même", "pron"),
-            ("своё", "le sien", "pron"),
-            ("какой", "quel", "pron"),
-            ("когда", "quand", "adv"),
-            ("уже", "déjà", "adv"),
-            ("для", "pour", "prep"),
-            ("вот", "voici/voilà", "part"),
-            ("кто", "qui", "pron"),
-            ("да", "oui", "part"),
-            ("говорить", "parler", "verb"),
-            ("год", "année", "noun"),
-            ("знать", "savoir", "verb"),
-            ("мой", "mon", "pron"),
-            ("до", "jusqu'à", "prep"),
-            ("или", "ou", "conj"),
-            ("если", "si", "conj"),
-            ("время", "temps", "noun"),
-            ("рука", "main/bras", "noun"),
-            ("нет", "non", "part"),
-            ("самый", "le plus", "adj"),
-            ("ни", "ni", "part"),
-            ("стать", "devenir", "verb"),
-            ("большой", "grand", "adj"),
-            ("даже", "même", "part"),
-            ("другой", "autre", "adj"),
-            ("наш", "notre", "pron"),
-            ("свой", "son propre", "pron"),
-            ("ну", "eh bien", "part"),
-            ("под", "sous", "prep"),
-            ("где", "où", "adv"),
-            ("дело", "affaire/chose", "noun"),
-            ("есть", "manger / être", "verb"),
-            ("сам", "soi-même", "pron"),
-            ("раз", "fois", "noun"),
-            ("чтобы", "pour que", "conj"),
-            ("два", "deux", "num"),
-            ("там", "là-bas", "adv"),
-            ("чем", "que (comparaison)", "conj"),
-            ("глаз", "œil", "noun"),
-            ("жизнь", "vie", "noun"),
-            ("первый", "premier", "adj"),
-            ("день", "jour", "noun"),
-            ("тут", "ici", "adv"),
-            ("во", "dans", "prep"),
-            ("ничто", "rien", "pron"),
-            ("потом", "ensuite", "adv"),
-            ("очень", "très", "adv"),
-            ("со", "avec", "prep"),
-            ("хотеть", "vouloir", "verb"),
-            ("ли", "si (question)", "part"),
-            ("при", "près de/lors de", "prep"),
-            ("голова", "tête", "noun"),
-            ("надо", "il faut", "verb"),
-            ("без", "sans", "prep"),
-            ("видеть", "voir", "verb"),
-            ("идти", "aller", "verb"),
-            ("теперь", "maintenant", "adv"),
-            ("тоже", "aussi", "adv"),
-            ("стоять", "être debout", "verb"),
-            ("друг", "ami", "noun"),
-            ("дом", "maison", "noun"),
-            ("сейчас", "maintenant", "adv"),
-            ("можно", "c'est possible", "pred"),
-            ("после", "après", "prep"),
-            ("слово", "mot", "noun"),
-            ("здесь", "ici", "adv"),
-            ("думать", "penser", "verb"),
-            ("место", "lieu", "noun"),
-            ("спросить", "demander", "verb"),
-            ("через", "à travers", "prep"),
-            ("лицо", "visage", "noun"),
-            ("тогда", "alors", "adv"),
-            ("ведь", "en effet", "conj"),
-            ("хороший", "bon", "adj"),
-            ("каждый", "chaque", "adj"),
-            ("новый", "nouveau", "adj"),
-            ("жить", "vivre", "verb"),
-            ("должный", "dû/nécessaire", "adj"),
-            ("смотреть", "regarder", "verb"),
-            ("почему", "pourquoi", "adv"),
-            ("потому", "c'est pourquoi", "adv"),
-            ("сторона", "côté", "noun"),
-            ("просто", "simplement", "adv"),
-            ("нога", "jambe/pied", "noun"),
-            ("сидеть", "être assis", "verb"),
-            ("понять", "comprendre", "verb"),
-            ("иметь", "avoir", "verb"),
-            ("конечный", "final", "adj"),
-            ("делать", "faire", "verb"),
-            ("вдруг", "soudain", "adv"),
-            ("над", "au-dessus", "prep"),
-            ("взять", "prendre", "verb"),
-            ("никто", "personne", "pron"),
-            ("сделать", "faire (perfectif)", "verb"),
-            ("дверь", "porte", "noun"),
-            ("перед", "devant", "prep"),
-            ("нужный", "nécessaire", "adj"),
-            ("понимать", "comprendre (imparfait)", "verb"),
-            ("казаться", "sembler", "verb"),
-            ("работа", "travail", "noun"),
-            ("три", "trois", "num"),
-            ("ваш", "votre", "pron"),
-            ("уж", "déjà/vraiment", "part"),
-            ("земля", "terre", "noun"),
-            ("конец", "fin", "noun"),
-            ("несколько", "plusieurs", "adv"),
-            ("час", "heure", "noun"),
-            ("голос", "voix", "noun"),
-            ("город", "ville", "noun"),
-            ("последний", "dernier", "adj"),
-            ("пока", "pour l'instant", "adv"),
-            ("хорошо", "bien", "adv"),
-            ("давать", "donner", "verb"),
-            ("вода", "eau", "noun"),
-            ("более", "plus", "adv"),
-            ("хотя", "bien que", "conj"),
-            ("всегда", "toujours", "adv"),
-            ("второй", "deuxième", "adj"),
-            ("куда", "où (direction)", "adv"),
-            ("пойти", "aller (perfectif)", "verb"),
-            ("стол", "table", "noun"),
-            ("ребёнок", "enfant", "noun"),
-            ("увидеть", "voir (perfectif)", "verb"),
-            ("сила", "force", "noun"),
-            ("отец", "père", "noun"),
-            ("женщина", "femme", "noun"),
-            ("машина", "voiture", "noun"),
-            ("случай", "cas", "noun"),
-            ("ночь", "nuit", "noun"),
-            ("сразу", "aussitôt", "adv"),
-            ("мир", "monde/paix", "noun"),
-            ("совсем", "tout à fait", "adv"),
-            ("остаться", "rester", "verb"),
-            ("об", "au sujet de", "prep"),
-            ("вид", "vue/aspect", "noun"),
-            ("выйти", "sortir", "verb"),
-            ("дать", "donner (perfectif)", "verb"),
-            ("работать", "travailler", "verb"),
-            ("любить", "aimer", "verb"),
-            ("старый", "vieux", "adj"),
-            ("почти", "presque", "adv"),
-            ("ряд", "rangée", "noun"),
-            ("оказаться", "s'avérer", "verb"),
-            ("начало", "début", "noun"),
-            ("твой", "ton", "pron"),
-            ("вопрос", "question", "noun"),
-            ("много", "beaucoup", "adv"),
-            ("война", "guerre", "noun"),
-            ("снова", "à nouveau", "adv"),
-            ("ответить", "répondre", "verb"),
-            ("между", "entre", "prep"),
-            ("подумать", "penser (perfectif)", "verb"),
-            ("опять", "encore", "adv"),
-            ("белый", "blanc", "adj"),
-            ("деньги", "argent", "noun"),
-            ("значить", "signifier", "verb"),
-            ("про", "à propos de", "prep"),
-        ]
+        with open(json_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
 
         # Reset DB
-        Word.objects.all().delete()
+        deleted, _ = Word.objects.all().delete()
+        self.stdout.write(self.style.WARNING(f'Deleted {deleted} existing words.'))
         
         batch = []
-        for rus, fra, pos in raw_data:
-            # Determine category: 'verb' if pos says so, otherwise 'word'
-            cat = 'verb' if 'verb' in pos else 'word'
+        for item in data:
+            rus = item.get('ru_cyrillic', '').strip()
+            fra = item.get('fr', '').strip()
+            phon = item.get('ru_phonetique', '').strip()
             
-            # Auto-transliterate
-            trans = transliterate(rus)
+            if not rus or not fra:
+                continue
+
+            # Heuristic for Category: Verb detection
+            # Russian infinitives usually end in ть, ти, or чь
+            if rus.lower().endswith(('ть', 'ти', 'чь')):
+                category = 'verb'
+            else:
+                category = 'word'
+            
+            # Additional heuristic: French verbs often end in er/ir/re, 
+            # checking both increases accuracy but Russian morphology is reliable for infinitives.
 
             batch.append(Word(
                 russian=rus,
                 french=fra,
-                transliteration=trans,
-                category=cat
+                transliteration=phon,
+                category=category
             ))
         
         Word.objects.bulk_create(batch)
             
-        self.stdout.write(self.style.SUCCESS(f'Successfully populated {len(batch)} vocabulary items from Top 200 list'))
+        self.stdout.write(self.style.SUCCESS(f'Successfully imported {len(batch)} words from JSON.'))
