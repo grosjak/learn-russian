@@ -20,6 +20,18 @@ def vocabulary(request):
     return render(request, 'core/vocabulary.html')
 
 @login_required
+def revision_list(request):
+    # Get all words marked as needs_review for the current user
+    progress_entries = UserWordProgress.objects.filter(
+        user=request.user, 
+        needs_review=True
+    ).select_related('word')
+    
+    words = [entry.word for entry in progress_entries]
+    
+    return render(request, 'core/revision_list.html', {'words': words})
+
+@login_required
 def practice(request, mode):
     # Reuse lesson_session template but data will come from a different API endpoint
     return render(request, 'core/lesson_session.html', {'mode': mode})
