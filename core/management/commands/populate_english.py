@@ -155,7 +155,7 @@ class Command(BaseCommand):
         # 3c. Common Words
         common = data.get('common_words', [])
         if common:
-            chunk_size = 30
+            chunk_size = 12 # Reduced from 30 for shorter lessons
             chunks = [common[i:i + chunk_size] for i in range(0, len(common), chunk_size)]
             
             for i, chunk in enumerate(chunks):

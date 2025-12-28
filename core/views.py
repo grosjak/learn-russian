@@ -79,8 +79,8 @@ def practice_data(request, mode):
         
         # However, to be safe, let's just use existing letters.
         letters = list(Letter.objects.all())
-        # Pick 15 random letters
-        selected = random.sample(letters, min(len(letters), 15))
+        # Pick 10 random letters (Reduced from 15)
+        selected = random.sample(letters, min(len(letters), 10))
         
         for letter in selected:
              # Mix of Sound->Char and Char->Sound
@@ -110,7 +110,9 @@ def practice_data(request, mode):
                 'main_char': letter.character
             })
 
-        # Add Grid Question at the beginning
+        random.shuffle(questions)
+
+        # Add Grid Question at the beginning (Must be AFTER shuffle)
         questions.insert(0, {
             'type': 'alphabet_grid',
             'letters': [{'char': l.character, 'trans': l.transliteration} for l in letters]
@@ -135,8 +137,8 @@ def practice_data(request, mode):
 
         if len(words) > 0:
             random.shuffle(words)
-            # Take up to 20 words for a session
-            selected = words[:20]
+            # Take up to 15 words for a session (Reduced from 20)
+            selected = words[:15]
             
             for word in selected:
                 questions.append({
