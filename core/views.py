@@ -141,7 +141,8 @@ def practice_data(request, mode):
                     'trans': word.transliteration,
                     'breakdown': get_letter_breakdown(word.russian),
                     'category': word.category,
-                    'is_revision': mode == 'revision'
+                    'is_revision': mode == 'revision',
+                    'example': word.example_sentence
                 })
 
     random.shuffle(questions)
@@ -217,7 +218,8 @@ def lesson_data(request, lesson_id):
                 'type': 'intro_word',
                 'word': word.russian, # 'russian' field stores Eng word
                 'translation': word.french,
-                'category': word.category
+                'category': word.category,
+                'example': word.example_sentence
             })
             
         # 2. Quiz Questions
@@ -233,7 +235,8 @@ def lesson_data(request, lesson_id):
                 'prompt': f'Que signifie "{word.russian}" ?',
                 'correct': word.french,
                 'options': options,
-                'main_word': word.russian
+                'main_word': word.russian,
+                'example': word.example_sentence
             })
             
             # Type B: Match Word (Fr -> En)
@@ -245,7 +248,8 @@ def lesson_data(request, lesson_id):
                 'prompt': f'Comment dit-on "{word.french}" ?',
                 'correct': word.russian,
                 'options': options_en,
-                'main_word': word.french # Source word to display if needed
+                'main_word': word.french, # Source word to display if needed
+                'example': word.example_sentence
             })
             
         # Shuffle logic similar to Russian

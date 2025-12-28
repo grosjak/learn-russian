@@ -75,38 +75,86 @@ class Command(BaseCommand):
         with open(json_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
-        # 3a. Irregular Verbs
+        # 3a. Irregular Verbs (Existing)
         irr_verbs = data.get('irregular_verbs', [])
         if irr_verbs:
             lesson_irr = Lesson.objects.create(
                 title='Verbes Irréguliers',
                 description='Les verbes qui ne suivent pas les règles.',
                 icon='⚡',
-                order=10, # Place later in curriculum
+                order=10, 
                 target_language='en'
             )
             
+            # Simple examples map for irregular verbs
+            examples_irr = {
+                'be': 'I am happy.',
+                'go': 'I go to school.',
+                'eat': 'I eat an apple.',
+                'drink': 'I drink water.',
+                'have': 'I have a car.',
+                'see': 'I see a bird.',
+                'take': 'I take the bus.',
+                'get': 'I get up early.',
+                'do': 'I do my homework.',
+                'make': 'I make a cake.'
+            }
+
             batch_irr = []
             for v in irr_verbs:
-                # Use transliteration field to store past forms for "Hint"
+                base = v.get('base')
                 forms = f"Past: {v.get('past')}, PP: {v.get('participle')}"
+                ex = examples_irr.get(base, f"I {base} something.") # Generic fallback
+
                 batch_irr.append(Word(
-                    russian=v.get('base'),
+                    russian=base,
                     french=v.get('fr'),
                     transliteration=forms,
                     category='verb',
                     target_language='en',
-                    lesson=lesson_irr
+                    lesson=lesson_irr,
+                    example_sentence=ex
                 ))
             Word.objects.bulk_create(batch_irr)
             self.stdout.write(f'Imported {len(batch_irr)} irregular verbs.')
 
-        # 3b. Common Words
+        # 3b. Verbes en Contexte (NEW)
+        # We select some common verbs to show in sentences
+        context_verbs = [
+            {'en': 'Want', 'fr': 'Vouloir', 'ex': 'I want a pizza.'},
+            {'en': 'Need', 'fr': 'Avoir besoin', 'ex': 'I need help.'},
+            {'en': 'Like', 'fr': 'Aimer', 'ex': 'I like chocolate.'},
+            {'en': 'Love', 'fr': 'Adorer', 'ex': 'I love my dog.'},
+            {'en': 'Know', 'fr': 'Savoir', 'ex': 'I know the answer.'},
+            {'en': 'Think', 'fr': 'Penser', 'ex': 'I think it is good.'},
+            {'en': 'Understand', 'fr': 'Comprendre', 'ex': 'I understand you.'},
+        ]
+
+        lesson_context = Lesson.objects.create(
+            title='Verbes en Contexte',
+            description='Apprenez avec des phrases.',
+            icon='🗣️',
+            order=15,
+            target_language='en'
+        )
+        
+        batch_context = []
+        for v in context_verbs:
+             batch_context.append(Word(
+                russian=v['en'],
+                french=v['fr'],
+                transliteration='',
+                category='verb',
+                target_language='en',
+                lesson=lesson_context,
+                example_sentence=v['ex']
+            ))
+        Word.objects.bulk_create(batch_context)
+
+
+        # 3c. Common Words
         common = data.get('common_words', [])
         if common:
-            # Split into chunks of 20 to avoid huge lessons? 
-            # Or just one big "Top 100" lesson.
-            # Let's do chunks of 30.
             chunk_size = 30
             chunks = [common[i:i + chunk_size] for i in range(0, len(common), chunk_size)]
             
@@ -128,7 +176,8 @@ class Command(BaseCommand):
                         transliteration='', # No extra info needed
                         category=cat,
                         target_language='en',
-                        lesson=lesson_common
+                        lesson=lesson_common,
+                        example_sentence="" # Could add logic here too
                     ))
                 Word.objects.bulk_create(batch_common)
             self.stdout.write(f'Imported {len(common)} common words into {len(chunks)} lessons.')

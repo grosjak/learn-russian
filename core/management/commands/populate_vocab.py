@@ -38,14 +38,36 @@ class Command(BaseCommand):
             else:
                 category = 'word'
             
-            # Additional heuristic: French verbs often end in er/ir/re, 
-            # checking both increases accuracy but Russian morphology is reliable for infinitives.
+            # Simple Example Logic for common words
+            example = ""
+            # Manual map for demo
+            examples_map = {
+                'быть': 'Я хочу быть счастливым. (I want to be happy)',
+                'сказать': 'Что ты хочешь сказать? (What do you want to say?)',
+                'говорить': 'Я говорю по-русски. (I speak Russian)',
+                'знать': 'Я не знаю. (I do not know)',
+                'стать': 'Он станет врачом. (He will become a doctor)',
+                'есть': 'Я хочу есть. (I want to eat)',
+                'хотеть': 'Я хочу спать. (I want to sleep)',
+                'видеть': 'Я вижу тебя. (I see you)',
+                'идти': 'Я иду домой. (I am going home)',
+                'думать': 'О чем ты думаешь? (What are you thinking about?)',
+                'жить': 'Где ты живешь? (Where do you live?)',
+                'смотреть': 'Я смотрю телевизор. (I am watching TV)',
+                'работать': 'Она работает в школе. (She works at a school)',
+                'любить': 'Я люблю тебя. (I love you)',
+                'понимать': 'Я не понимаю. (I do not understand)',
+            }
+            
+            if rus in examples_map:
+                example = examples_map[rus]
 
             batch.append(Word(
                 russian=rus,
                 french=fra,
                 transliteration=phon,
-                category=category
+                category=category,
+                example_sentence=example
             ))
         
         Word.objects.bulk_create(batch)

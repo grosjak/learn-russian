@@ -44,6 +44,7 @@ class Word(models.Model):
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='word')
     target_language = models.CharField(max_length=2, choices=TARGET_LANGUAGE_CHOICES, default='ru')
     lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True, blank=True, related_name='words')
+    example_sentence = models.TextField(blank=True, help_text="Phrase d'exemple pour illustrer le mot")
 
     def __str__(self):
         return f"[{self.get_target_language_display()}] {self.russian} - {self.french}"
