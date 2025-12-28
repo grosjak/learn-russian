@@ -145,16 +145,19 @@
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.5);
             } else {
-                // Error sound (Sawtooth, low pitch)
+                // "Prout" sound (Sawtooth, low pitch, rapid descent)
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+                // Start low (80Hz) and drop to rumble (30Hz)
+                osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.4);
 
-                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                // Texture: Modulate gain to make it "sputtery" if possible, 
+                // but simple envelope works well for cartoon styling.
+                gainNode.gain.setValueAtTime(0.8, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
 
                 osc.start();
-                osc.stop(audioCtx.currentTime + 0.3);
+                osc.stop(audioCtx.currentTime + 0.4);
             }
         }
 
