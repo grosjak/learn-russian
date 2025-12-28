@@ -58,8 +58,16 @@ def practice_data(request, mode):
             
     elif mode in ['words', 'verbs', 'revision']:
         if mode == 'revision':
-            # Revision mode: only words flagged as needing review
-            words = list(Word.objects.filter(needs_review=True))
+            # Revision mode: only words flagged as needing review for this user
+            if request.user.is_authenticated:
+                words = [
+                    p.word for p in UserWordProgress.objects.filter(
+                        user=request.user, 
+                        needs_review=True
+                    ).select_related('word')
+                ]
+            else:
+                words = []
         else:
             category = 'word' if mode == 'words' else 'verb'
             words = list(Word.objects.filter(category=category))
@@ -154,18 +162,27 @@ def lesson_data(request, lesson_id):
 @csrf_exempt
 def update_word_status(request, word_id):
     if request.method == 'POST':
+        if not request.user.is_authenticated:
+            return JsonResponse({'status': 'error', 'message': 'Not logged in'}, status=401)
+
         try:
             data = json.loads(request.body)
+            # data.get('known') is true if user knew the word
             is_known = data.get('known', False)
-            word = Word.objects.get(pk=word_id)
             
-            # Logic: 
-            # If NOT known (failed) -> Set needs_review = True
-            # If known (success) -> Set needs_review = False (cleared from revision)
-            word.needs_review = not is_known
-            word.save()
+            word = get_object_or_404(Word, pk=word_id)
             
-            return JsonResponse({'status': 'ok', 'needs_review': word.needs_review})
+            # Update or create progress entry
+            progress, created = UserWordProgress.objects.get_or_create(
+                user=request.user,
+                word=word
+            )
+            
+            # If known -> needs_review = False. If failed -> needs_review = True
+            progress.needs_review = not is_known
+            progress.save()
+            
+            return JsonResponse({'status': 'ok', 'needs_review': progress.needs_review})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)

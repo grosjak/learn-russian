@@ -31,8 +31,20 @@ class Word(models.Model):
     russian = models.CharField(max_length=100)
     french = models.CharField(max_length=100)
     transliteration = models.CharField(max_length=100)
+    transliteration = models.CharField(max_length=100)
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='word')
-    needs_review = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.russian} - {self.french}"
+
+class UserWordProgress(models.Model):
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    word = models.ForeignKey(Word, on_delete=models.CASCADE)
+    needs_review = models.BooleanField(default=True)
+    last_reviewed = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('user', 'word')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.word.russian} ({'Review' if self.needs_review else 'Known'})"

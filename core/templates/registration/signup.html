@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - Learn Russian</title>
+    <link rel="stylesheet" href="{% static 'css/duolingo.css' %}">
+    <style>
+        .auth-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #202F36;
+            border-radius: 16px;
+            border: 2px solid #37464f;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #131F24;
+            border: 2px solid #37464f;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            color: #ff4b4b;
+            font-size: 0.8rem;
+        }
+
+        label {
+            display: none;
+        }
+
+        .helptext {
+            display: none;
+        }
+
+        .btn-auth {
+            width: 100%;
+            margin-top: 20px;
+            background-color: #1CB0F6;
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            border-bottom: 4px solid #1899d6;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <h2 style="margin-bottom: 30px;">Créer un profil 🚀</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-auth">S'INSCRIRE</button>
+        </form>
+        <p style="margin-top: 20px; color: #777;">
+            Déjà un compte ? <a href="{% url 'login' %}" style="color: #58CC02;">Se connecter</a>
+        </p>
+    </div>
+</body>
+
+</html>
