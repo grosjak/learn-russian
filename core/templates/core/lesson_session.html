@@ -116,6 +116,10 @@
                 renderIntroWord(q);
                 checkBtn.disabled = false;
                 checkBtn.innerText = 'Compris';
+            } else if (q.type === 'alphabet_grid') {
+                renderAlphabetGrid(q);
+                checkBtn.disabled = false;
+                checkBtn.innerText = 'Apprendre';
             } else if (q.type === 'select_sound' || q.type === 'select_trans') {
                 renderSelectSound(q);
             } else if (q.type === 'select_char') {
@@ -165,7 +169,126 @@
             }
         }
 
-        // ...
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSFX(type) {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                const osc = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+
+                osc.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                if (type === 'success') {
+                    // Ding sound (Sine wave, high pitch)
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+
+                    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.5);
+                } else {
+                    // "Prout" sound (Sawtooth, low pitch, rapid descent)
+                    osc.type = 'sawtooth';
+                    // Start low (80Hz) and drop to rumble (30Hz)
+                    osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.4);
+
+                    // Texture: Modulate gain to make it "sputtery" if possible, 
+                    // but simple envelope works well for cartoon styling.
+                    gainNode.gain.setValueAtTime(0.8, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.4);
+                }
+            } catch (e) {
+                console.warn("Audio Context Error", e);
+            }
+        }
+
+        function playAudio(text) {
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                if ('speechSynthesis' in window) {
+                    // Cancel previous
+                    window.speechSynthesis.cancel();
+
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    // Heuristic: If text contains Cyrillic, use ru-RU, else en-US (or fr-FR if it was French?)
+                    // But here we are playing English words or Russian words.
+                    // Our q.word or q.char are the target language.
+                    // If text is French (instructions/translation), we normally don't play it.
+                    // Simple regex for Cyrillic:
+                    if (/[а-яА-Я]/.test(text)) {
+                        utterance.lang = 'ru-RU';
+                    } else {
+                        utterance.lang = 'en-US';
+                    }
+
+                    utterance.rate = 0.9;
+                    window.speechSynthesis.speak(utterance);
+                }
+            } catch (e) {
+                console.warn("Speech Synthesis Error", e);
+            }
+        }
+
+        function renderIntro(q) {
+            questionArea.innerHTML = `
+                <div style="text-align: center;">
+                    <h2>Nouvelle Lettre !</h2>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        <div class="big-char" style="margin: 30px 0; color: #58CC02;">${q.char}</div>
+                        <button class="audio-btn" onclick="playAudio('${q.char}')">🔊</button>
+                    </div>
+                    <div style="font-size: 1.5rem; margin-bottom: 10px;">Nom : <b>${q.name}</b></div>
+                    <div style="font-size: 1.5rem; color: #777;">Son : /${q.trans}/</div>
+                    <div style="margin-top: 20px; font-style: italic;">"${q.desc}"</div>
+                </div>
+            `;
+            // Auto-play introduction
+            setTimeout(() => playAudio(q.char), 500);
+        }
+
+        function renderSelectSound(q) {
+            // Letter -> Sound
+            questionArea.innerHTML = `
+                <h2>${q.prompt}</h2>
+                 <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
+                    <button class="audio-btn" style="font-size: 3rem; margin-right: 15px;" onclick="playAudio('${q.main_char}')">🔊</button>
+                    <div class="big-char">${q.main_char}</div>
+                </div>
+                <div class="options-grid">
+                    ${q.options.map((opt, idx) => `
+                        <div class="option-btn" data-val="${opt}" onclick="selectOption(this, '${opt}')">${opt}</div>
+                    `).join('')}
+                </div>
+            `;
+            // Auto-play question audio
+            setTimeout(() => playAudio(q.main_char), 500);
+        }
+
+        function renderSelectChar(q) {
+            // Sound -> Letter
+            questionArea.innerHTML = `
+                <h2>${q.prompt}</h2>
+                <div style="font-size: 3rem; margin-bottom: 2rem; color: #1CB0F6;">/${q.main_sound}/</div>
+                <div class="options-grid">
+                    ${q.options.map((opt, idx) => `
+                        <div class="option-btn" data-val="${opt}" onclick="selectOption(this, '${opt}')">${opt}</div>
+                    `).join('')}
+                </div>
+            `;
+        }
 
         function renderFlashcard(q) {
             checkBtn.style.display = 'none'; // Hide default check button
@@ -276,13 +399,38 @@
             // Check Logic
             const q = questions[currentIndex];
 
-            if (q.type === 'intro' || q.type === 'intro_word') {
+            if (q.type === 'intro' || q.type === 'intro_word' || q.type === 'alphabet_grid') {
                 currentIndex++;
                 renderQuestion();
+            } else if (q.type === 'limit_reached') {
+                // skip
+            } else if (q.type === 'alphabet_grid') {
+                renderAlphabetGrid(q);
+                checkBtn.disabled = false;
+                checkBtn.innerText = 'Apprendre';
             } else {
                 handleValidation(q);
             }
         });
+
+        function renderAlphabetGrid(q) {
+            checkBtn.style.display = 'block';
+            questionArea.innerHTML = `
+                <div style="text-align: center;">
+                    <h2>Alphabet Russe</h2>
+                    <p style="color: #777; margin-bottom: 20px;">Voici toutes les lettres que vous allez apprendre.</p>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 10px; max-width: 600px; margin: 0 auto;">
+                        ${q.letters.map(l => `
+                            <div style="background: #2b2b2b; padding: 10px; border-radius: 10px; border: 2px solid #373737; cursor: pointer;" onclick="playAudio('${l.char}')">
+                                <div style="font-size: 1.5rem; color: #58CC02; font-weight: bold;">${l.char}</div>
+                                <div style="font-size: 0.9rem; color: #aaa;">/${l.trans}/</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
 
         function handleValidation(q) {
             const correct = q.correct;

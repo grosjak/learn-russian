@@ -109,6 +109,12 @@ def practice_data(request, mode):
                 'options': options_sound,
                 'main_char': letter.character
             })
+
+        # Add Grid Question at the beginning
+        questions.insert(0, {
+            'type': 'alphabet_grid',
+            'letters': [{'char': l.character, 'trans': l.transliteration} for l in letters]
+        })
             
     elif mode in ['words', 'verbs', 'revision']:
         if mode == 'revision':
