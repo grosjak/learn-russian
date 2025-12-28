@@ -55,7 +55,9 @@
     <div class="container"
         style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;">
 
-        <img src="{% static 'img/logo.png' %}" alt="Logo" width="120" style="margin-bottom: 2rem;">
+        <div style="position: absolute; top: 20px; right: 20px; font-size: 1.2rem; color: #1CB0F6; font-weight: bold;">
+            👤 {{ user.username }}
+        </div>
 
         <h1 style="color: white; margin-bottom: 3rem;">Que voulez-vous apprendre ?</h1>
 
