@@ -57,10 +57,30 @@
 
         // Fetch Questions
         fetch(apiUrl)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Server returned ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
             .then(data => {
+                if (!data || !data.questions) {
+                    throw new Error("Invalid data received from server");
+                }
                 questions = data.questions;
+                if (questions.length === 0) {
+                    questionArea.innerHTML = `<div style="text-align: center; margin-top: 50px;">No vocabulary found.<br>Please run 'populate_vocab' command.</div>`;
+                    return;
+                }
                 renderQuestion();
+            })
+            .catch(err => {
+                console.error(err);
+                questionArea.innerHTML = `<div style="text-align: center; color: #ff4b4b; margin-top: 50px;">
+                    <h3>Error Loading Lesson</h3>
+                    <p>${err.message}</p>
+                    <p style="font-size: 0.8rem; color: #777;">Check your internet connection or server logs.</p>
+                </div>`;
             });
 
         function updateProgress() {
