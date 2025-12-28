@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Learn Russian</title>
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
     <link rel="stylesheet" href="{% static 'css/duolingo.css' %}">
     <style>
         .auth-container {
@@ -50,6 +51,7 @@
 
 <body>
     <div class="auth-container">
+        <img src="{% static 'img/logo.png' %}" alt="Logo" width="80" style="margin-bottom: 20px;">
         <h2 style="margin-bottom: 30px;">Bon retour ! 👋</h2>
         <form method="post">
             {% csrf_token %}

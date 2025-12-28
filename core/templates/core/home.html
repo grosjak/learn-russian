@@ -4,7 +4,10 @@
 <div class="container" style="display: flex; flex-direction: column; justify-content: center; min-height: 80vh;">
     <!-- User Header -->
     <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 2rem;">
-        <h1 style="font-size: 2.5rem; color: #fff; margin: 0;">Главное меню</h1>
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <img src="{% static 'img/logo.png' %}" alt="Logo" width="50" height="50">
+            <h1 style="font-size: 2.5rem; color: #fff; margin: 0;">Главное меню</h1>
+        </div>
         <div style="text-align: right;">
             {% if user.is_authenticated %}
             <div style="color: #58CC02; font-weight: bold; margin-bottom: 5px;">👤 {{ user.username }}</div>
