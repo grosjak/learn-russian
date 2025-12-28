@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('api/word/<int:word_id>/status/', views.update_word_status, name='update_word_status'),
     # path('alphabet/', views.roadmap, name='roadmap'), # Removed per user request
     path('vocabulary/', views.vocabulary, name='vocabulary'),
     path('practice/<str:mode>/', views.practice, name='practice'),

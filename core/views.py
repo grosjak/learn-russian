@@ -1,5 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Lesson, Letter, Word
+import json
 from .models import Lesson, Letter, Word
 import random
 
@@ -53,9 +56,14 @@ def practice_data(request, mode):
                 'main_char': letter.character
             })
             
-    elif mode in ['words', 'verbs']:
-        category = 'word' if mode == 'words' else 'verb'
-        words = list(Word.objects.filter(category=category))
+    elif mode in ['words', 'verbs', 'revision']:
+        if mode == 'revision':
+            # Revision mode: only words flagged as needing review
+            words = list(Word.objects.filter(needs_review=True))
+        else:
+            category = 'word' if mode == 'words' else 'verb'
+            words = list(Word.objects.filter(category=category))
+
         if len(words) > 0:
             random.shuffle(words)
             # Take up to 20 words for a session
@@ -64,11 +72,13 @@ def practice_data(request, mode):
             for word in selected:
                 questions.append({
                     'type': 'flashcard',
+                    'id': word.id,
                     'front': word.russian,
                     'back': word.french,
                     'trans': word.transliteration,
                     'breakdown': get_letter_breakdown(word.russian),
-                    'category': word.category
+                    'category': word.category,
+                    'is_revision': mode == 'revision'
                 })
 
     random.shuffle(questions)
@@ -140,6 +150,25 @@ def lesson_data(request, lesson_id):
     final_sequence = intro_q + test_q
     
     return JsonResponse({'questions': final_sequence})
+
+@csrf_exempt
+def update_word_status(request, word_id):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            is_known = data.get('known', False)
+            word = Word.objects.get(pk=word_id)
+            
+            # Logic: 
+            # If NOT known (failed) -> Set needs_review = True
+            # If known (success) -> Set needs_review = False (cleared from revision)
+            word.needs_review = not is_known
+            word.save()
+            
+            return JsonResponse({'status': 'ok', 'needs_review': word.needs_review})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)
 
 def get_letter_breakdown(word):
     trans_map = {

@@ -235,10 +235,22 @@
         window.rateCard = function (known) {
             const q = questions[currentIndex];
 
+            // Call API to persist status (Fire and forget, but logging error if needed)
+            if (q.id) {
+                fetch(`/api/word/${q.id}/status/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ known: known })
+                }).catch(err => console.error('Failed to update status', err));
+            }
+
             if (!known) {
                 // If unknown, re-insert card 3 positions later (or at end)
                 const reInsertIdx = Math.min(currentIndex + 4, questions.length);
                 questions.splice(reInsertIdx, 0, q);
+            } else if (known && q.is_revision) {
+                // In revision mode, if known/fixed, we simply move on (it won't come back)
+                // Nothing special to do, just don't re-insert.
             }
 
             // Restore default Check button visibility for next question
