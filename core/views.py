@@ -8,11 +8,18 @@ import random
 
 def select_language(request):
     """
-    Sets the target language in the session and redirects to home.
+    Sets the target language in the session.
+    If 'lang' param is missing, clears the selection (Redirects to choice page).
     """
-    lang = request.GET.get('lang', 'ru')
-    if lang in ['ru', 'en']:
+    lang = request.GET.get('lang')
+    
+    if not lang:
+        # Reset language selection
+        if 'target_language' in request.session:
+            del request.session['target_language']
+    elif lang in ['ru', 'en']:
         request.session['target_language'] = lang
+        
     return redirect('home')
 
 @login_required

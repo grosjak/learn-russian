@@ -11,6 +11,14 @@
 </head>
 
 <body>
+    <div class="app-header"
+        style="background: #202F36; padding: 10px 20px; display: flex; align-items: center; border-bottom: 2px solid #37464f; margin-bottom: 20px;">
+        <a href="{% url 'home' %}"
+            style="text-decoration: none; color: white; font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 10px;">
+            <span>🎓 Apprendre les langues</span>
+        </a>
+    </div>
+
     <div class="app-container">
         {% block content %}
         {% endblock %}
