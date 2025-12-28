@@ -1,13 +1,19 @@
 from django.db import models
 
 class Lesson(models.Model):
+    TARGET_LANGUAGE_CHOICES = [
+        ('ru', 'Russe'),
+        ('en', 'Anglais'),
+    ]
+
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     order = models.IntegerField(default=0)
     icon = models.CharField(max_length=10, default='📝')
+    target_language = models.CharField(max_length=2, choices=TARGET_LANGUAGE_CHOICES, default='ru')
 
     def __str__(self):
-        return self.title
+        return f"[{self.get_target_language_display()}] {self.title}"
 
 class Letter(models.Model):
     character = models.CharField(max_length=1)
@@ -27,14 +33,19 @@ class Word(models.Model):
         ('word', 'Mot'),
         ('verb', 'Verbe'),
     ]
+    TARGET_LANGUAGE_CHOICES = [
+        ('ru', 'Russe'),
+        ('en', 'Anglais'),
+    ]
     
     russian = models.CharField(max_length=100)
     french = models.CharField(max_length=100)
     transliteration = models.CharField(max_length=100)
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='word')
+    target_language = models.CharField(max_length=2, choices=TARGET_LANGUAGE_CHOICES, default='ru')
 
     def __str__(self):
-        return f"{self.russian} - {self.french}"
+        return f"[{self.get_target_language_display()}] {self.russian} - {self.french}"
 
 class UserWordProgress(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)

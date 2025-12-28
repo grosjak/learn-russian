@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -6,13 +6,35 @@ from .models import Lesson, Letter, Word, UserWordProgress
 import json
 import random
 
+def select_language(request):
+    """
+    Sets the target language in the session and redirects to home.
+    """
+    lang = request.GET.get('lang', 'ru')
+    if lang in ['ru', 'en']:
+        request.session['target_language'] = lang
+    return redirect('home')
+
 @login_required
 def home(request):
-    return render(request, 'core/home.html')
+    """
+    Home view: Shows categories (Alphabet, Vocabulary).
+    Filters content based on selected language.
+    """
+    target_lang = request.session.get('target_language')
+    
+    # If no language is set, render a selection page (or redirect to one)
+    if not target_lang:
+        return render(request, 'core/language_selection.html')
+        
+    return render(request, 'core/home.html', {
+        'target_language': target_lang
+    })
 
 @login_required
 def roadmap(request):
-    lessons = Lesson.objects.all()
+    lang = request.session.get('target_language', 'ru')
+    lessons = Lesson.objects.filter(target_language=lang).order_by('order')
     return render(request, 'core/roadmap.html', {'lessons': lessons})
 
 @login_required
@@ -41,6 +63,14 @@ def practice_data(request, mode):
     questions = []
     
     if mode == 'alphabet':
+        # Alphabet might be language specific. For now, assume 'ru' implies Cyrillic alphabet logic.
+        # If 'en', we might practice phonemes? Or maybe just hide alphabet mode for 'en' initially.
+        # Let's keep existing logic but maybe filter by language if we add English alphabet later?
+        # Actually, Letter model does not have target_language yet. 
+        # But 'Alphabet' button should probably only show if lang == 'ru'.
+        # For 'en', we might skip this.
+        
+        # However, to be safe, let's just use existing letters.
         letters = list(Letter.objects.all())
         # Pick 15 random letters
         selected = random.sample(letters, min(len(letters), 15))
@@ -86,8 +116,9 @@ def practice_data(request, mode):
             else:
                 words = []
         else:
+            lang = request.session.get('target_language', 'ru')
             category = 'word' if mode == 'words' else 'verb'
-            words = list(Word.objects.filter(category=category))
+            words = list(Word.objects.filter(category=category, target_language=lang))
 
         if len(words) > 0:
             random.shuffle(words)

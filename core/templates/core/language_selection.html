@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apprendre les langues</title>
+    <link rel="icon" type="image/png" href="{% static 'img/logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/duolingo.css' %}">
+    <style>
+        .lang-card {
+            background: var(--card-bg);
+            border: 2px solid var(--duo-gray);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            text-decoration: none;
+            color: var(--duo-text);
+            width: 100%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .lang-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--duo-blue);
+        }
+
+        .lang-flag {
+            font-size: 4rem;
+        }
+
+        .lang-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .lang-grid {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container"
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh;">
+
+        <img src="{% static 'img/logo.png' %}" alt="Logo" width="120" style="margin-bottom: 2rem;">
+
+        <h1 style="color: white; margin-bottom: 3rem;">Que voulez-vous apprendre ?</h1>
+
+        <div class="lang-grid">
+            <a href="{% url 'select_language' %}?lang=ru" class="lang-card">
+                <div class="lang-flag">🇷🇺</div>
+                <div class="lang-name">Russe</div>
+            </a>
+
+            <a href="{% url 'select_language' %}?lang=en" class="lang-card">
+                <div class="lang-flag">🇬🇧</div>
+                <div class="lang-name">Anglais</div>
+            </a>
+        </div>
+
+    </div>
+</body>
+
+</html>

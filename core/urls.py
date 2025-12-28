@@ -3,6 +3,7 @@ from . import views, views_auth
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path('select-language/', views.select_language, name='select_language'),
     
     # Auth
     path('signup/', views_auth.signup_view, name='signup'),
