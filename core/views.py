@@ -1,25 +1,30 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from .models import Lesson, Letter, Word
+from django.contrib.auth.decorators import login_required
+from .models import Lesson, Letter, Word, UserWordProgress
 import json
-from .models import Lesson, Letter, Word
 import random
 
+@login_required
 def home(request):
     return render(request, 'core/home.html')
 
+@login_required
 def roadmap(request):
     lessons = Lesson.objects.all()
     return render(request, 'core/roadmap.html', {'lessons': lessons})
 
+@login_required
 def vocabulary(request):
     return render(request, 'core/vocabulary.html')
 
+@login_required
 def practice(request, mode):
     # Reuse lesson_session template but data will come from a different API endpoint
     return render(request, 'core/lesson_session.html', {'mode': mode})
 
+@login_required
 def practice_data(request, mode):
     questions = []
     
@@ -92,10 +97,12 @@ def practice_data(request, mode):
     random.shuffle(questions)
     return JsonResponse({'questions': questions})
 
+@login_required
 def lesson_detail(request, lesson_id):
     lesson = get_object_or_404(Lesson, pk=lesson_id)
     return render(request, 'core/lesson_session.html', {'lesson': lesson})
 
+@login_required
 def lesson_data(request, lesson_id):
     """API to get questions for the lesson"""
     lesson = get_object_or_404(Lesson, pk=lesson_id)
@@ -160,11 +167,9 @@ def lesson_data(request, lesson_id):
     return JsonResponse({'questions': final_sequence})
 
 @csrf_exempt
+@login_required
 def update_word_status(request, word_id):
     if request.method == 'POST':
-        if not request.user.is_authenticated:
-            return JsonResponse({'status': 'error', 'message': 'Not logged in'}, status=401)
-
         try:
             data = json.loads(request.body)
             # data.get('known') is true if user knew the word
