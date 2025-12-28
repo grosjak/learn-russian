@@ -296,19 +296,19 @@
             });
 
             if (isCorrect) {
-                playSFX('success');
                 // Success visual
                 const footer = document.querySelector('.check-footer');
                 footer.style.backgroundColor = '#d7ffb8';
                 checkBtn.style.backgroundColor = '#58CC02';
                 checkBtn.innerText = 'Continuer';
+                try { playSFX('success'); } catch (e) { console.warn(e); }
             } else {
-                playSFX('error');
                 // Fail visual
                 const footer = document.querySelector('.check-footer');
                 footer.style.backgroundColor = '#ffdfe0';
                 checkBtn.style.backgroundColor = '#FF4B4B';
                 checkBtn.innerText = 'Continuer';
+                try { playSFX('error'); } catch (e) { console.warn(e); }
             }
 
             // Switch to continue mode
