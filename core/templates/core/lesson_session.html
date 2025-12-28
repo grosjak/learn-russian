@@ -112,12 +112,52 @@
                 renderIntro(q);
                 checkBtn.disabled = false;
                 checkBtn.innerText = 'Compris';
+            } else if (q.type === 'intro_word') { // NEW
+                renderIntroWord(q);
+                checkBtn.disabled = false;
+                checkBtn.innerText = 'Compris';
             } else if (q.type === 'select_sound' || q.type === 'select_trans') {
                 renderSelectSound(q);
             } else if (q.type === 'select_char') {
                 renderSelectChar(q);
+            } else if (q.type === 'select_translation' || q.type === 'select_word') { // NEW
+                renderSelectTextOpt(q);
             } else if (q.type === 'flashcard') {
                 renderFlashcard(q);
+            }
+        }
+
+        // ... (audioCtx code remains same) ...
+
+        function renderIntroWord(q) {
+            questionArea.innerHTML = `
+                <div style="text-align: center;">
+                    <h2>Nouveau Mot !</h2>
+                    <div style="font-size: 2rem; margin: 20px 0; color: #58CC02; font-weight: bold;">${q.word}</div>
+                    <button class="audio-btn" style="font-size: 2rem; margin-bottom: 20px;" onclick="playAudio('${q.word.replace("'", "\\'")}')">🔊</button>
+                    <div style="font-size: 1.5rem; color: #555;">${q.translation}</div>
+                    <div style="margin-top: 10px; color: #aaa;">(${q.category === 'verb' ? 'Verbe' : 'Mot'})</div>
+                </div>
+            `;
+            setTimeout(() => playAudio(q.word), 500);
+        }
+
+        function renderSelectTextOpt(q) {
+            // Generic text selection for translation/word matching
+            questionArea.innerHTML = `
+                <h2>${q.prompt}</h2>
+                 <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
+                    ${q.main_word ? `<div class="big-char" style="font-size: 2.5rem;">${q.main_word}</div>` : ''}
+                    ${q.type === 'select_translation' ? `<button class="audio-btn" style="font-size: 2rem; margin-left: 10px;" onclick="playAudio('${q.main_word.replace("'", "\\'")}')">🔊</button>` : ''}
+                </div>
+                <div class="options-grid">
+                    ${q.options.map((opt, idx) => `
+                        <div class="option-btn" data-val="${opt}" onclick="selectOption(this, '${opt.replace("'", "\\'")}')" style="font-size: 1rem;">${opt}</div>
+                    `).join('')}
+                </div>
+            `;
+            if (q.type === 'select_translation') {
+                setTimeout(() => playAudio(q.main_word), 500);
             }
         }
 
@@ -170,8 +210,18 @@
                 window.speechSynthesis.cancel();
 
                 const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ru-RU';
-                utterance.rate = 0.9; // Slightly slower for learning
+                // Heuristic: If text contains Cyrillic, use ru-RU, else en-US (or fr-FR if it was French?)
+                // But here we are playing English words or Russian words.
+                // Our q.word or q.char are the target language.
+                // If text is French (instructions/translation), we normally don't play it.
+                // Simple regex for Cyrillic:
+                if (/[а-яА-Я]/.test(text)) {
+                    utterance.lang = 'ru-RU';
+                } else {
+                    utterance.lang = 'en-US';
+                }
+
+                utterance.rate = 0.9;
                 window.speechSynthesis.speak(utterance);
             }
         }
@@ -330,7 +380,7 @@
             // Check Logic
             const q = questions[currentIndex];
 
-            if (q.type === 'intro') {
+            if (q.type === 'intro' || q.type === 'intro_word') {
                 currentIndex++;
                 renderQuestion();
             } else {

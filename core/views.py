@@ -149,63 +149,103 @@ def lesson_detail(request, lesson_id):
 def lesson_data(request, lesson_id):
     """API to get questions for the lesson"""
     lesson = get_object_or_404(Lesson, pk=lesson_id)
-    letters = list(lesson.letters.all())
-    
     questions = []
-    
-    # 1. Intro Cards (Show all new letters first)
-    for letter in letters:
-        questions.append({
-            'type': 'intro',
-            'char': letter.character,
-            'name': letter.name,
-            'trans': letter.transliteration,
-            'desc': letter.description
-        })
-        
-    # 2. Quiz Questions
-    # We want to test each letter in the lesson multiple times
-    
-    for letter in letters:
-        # Get distractors from OUTSIDE the current lesson to avoid confusion? 
-        # Or mixed? Random from all letters is best.
-        all_letters = list(Letter.objects.exclude(id=letter.id))
-        
-        # --- Type A: "Select the character for [Sound]" ---
-        # Options: 4 Cyrillic Characters
-        distractors_char = random.sample(all_letters, 3) if len(all_letters) >= 3 else all_letters
-        options_char = [l.character for l in distractors_char] + [letter.character]
-        random.shuffle(options_char)
-        
-        questions.append({
-            'type': 'select_char',
-            'prompt': f'Laquelle est "{letter.transliteration}" ?', # e.g. "Which one is 'Zh'?"
-            'correct': letter.character,
-            'options': options_char,
-            'main_sound': letter.transliteration 
-        })
-        
-        # --- Type B: "What sound does [Char] make?" ---
-        # Options: 4 Transliterations/Sounds
-        distractors_sound = random.sample(all_letters, 3) if len(all_letters) >= 3 else all_letters
-        options_sound = [l.transliteration for l in distractors_sound] + [letter.transliteration]
-        random.shuffle(options_sound)
-        
-        questions.append({
-            'type': 'select_sound',
-            'prompt': 'Quel son fait cette lettre ?',
-            'correct': letter.transliteration,
-            'options': options_sound,
-            'main_char': letter.character
-        })
 
-    # Shuffle the quiz part
-    intro_q = [q for q in questions if q['type'] == 'intro']
-    test_q = [q for q in questions if q['type'] != 'intro']
-    random.shuffle(test_q)
-    
-    # Present Intros first, then randomized tests
-    final_sequence = intro_q + test_q
+    # Logic for Russian (Letters based)
+    if lesson.target_language == 'ru':
+        letters = list(lesson.letters.all())
+        
+        # 1. Intro Cards
+        for letter in letters:
+            questions.append({
+                'type': 'intro',
+                'char': letter.character,
+                'name': letter.name,
+                'trans': letter.transliteration,
+                'desc': letter.description
+            })
+            
+        # 2. Quiz Questions
+        for letter in letters:
+            all_letters = list(Letter.objects.exclude(id=letter.id))
+            
+            # Type A: Select Char
+            distractors_char = random.sample(all_letters, 3) if len(all_letters) >= 3 else all_letters
+            options_char = [l.character for l in distractors_char] + [letter.character]
+            random.shuffle(options_char)
+            
+            questions.append({
+                'type': 'select_char',
+                'prompt': f'Laquelle est "{letter.transliteration}" ?',
+                'correct': letter.character,
+                'options': options_char,
+                'main_sound': letter.transliteration 
+            })
+            
+            # Type B: Select Sound
+            distractors_sound = random.sample(all_letters, 3) if len(all_letters) >= 3 else all_letters
+            options_sound = [l.transliteration for l in distractors_sound] + [letter.transliteration]
+            random.shuffle(options_sound)
+            
+            questions.append({
+                'type': 'select_sound',
+                'prompt': 'Quel son fait cette lettre ?',
+                'correct': letter.transliteration,
+                'options': options_sound,
+                'main_char': letter.character
+            })
+            
+        intro_q = [q for q in questions if q['type'] == 'intro']
+        test_q = [q for q in questions if q['type'] != 'intro']
+        random.shuffle(test_q)
+        final_sequence = intro_q + test_q
+
+    # Logic for English (Word based)
+    else:
+        words = list(lesson.words.all())
+        
+        # 1. Intro Cards (New Words)
+        for word in words:
+            questions.append({
+                'type': 'intro_word',
+                'word': word.russian, # 'russian' field stores Eng word
+                'translation': word.french,
+                'category': word.category
+            })
+            
+        # 2. Quiz Questions
+        for word in words:
+            # Type A: Match Translation (En -> Fr)
+            all_words = list(Word.objects.filter(target_language='en').exclude(id=word.id))
+            distractors = random.sample(all_words, 3) if len(all_words) >= 3 else all_words
+            options = [w.french for w in distractors] + [word.french]
+            random.shuffle(options)
+            
+            questions.append({
+                'type': 'select_translation',
+                'prompt': f'Que signifie "{word.russian}" ?',
+                'correct': word.french,
+                'options': options,
+                'main_word': word.russian
+            })
+            
+            # Type B: Match Word (Fr -> En)
+            options_en = [w.russian for w in distractors] + [word.russian]
+            random.shuffle(options_en)
+             
+            questions.append({
+                'type': 'select_word',
+                'prompt': f'Comment dit-on "{word.french}" ?',
+                'correct': word.russian,
+                'options': options_en,
+                'main_word': word.french # Source word to display if needed
+            })
+            
+        # Shuffle logic similar to Russian
+        intro_q = [q for q in questions if q['type'] == 'intro_word']
+        test_q = [q for q in questions if q['type'] != 'intro_word']
+        random.shuffle(test_q)
+        final_sequence = intro_q + test_q
     
     return JsonResponse({'questions': final_sequence})
 
