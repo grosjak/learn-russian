@@ -56,34 +56,19 @@ def practice_data(request, mode):
     elif mode in ['words', 'verbs']:
         category = 'word' if mode == 'words' else 'verb'
         words = list(Word.objects.filter(category=category))
-        selected = random.sample(words, min(len(words), 15))
-        
-        for word in selected:
-            # Rus -> French (Select Trans)
-            all_words = list(Word.objects.exclude(id=word.id))
-            distractors = random.sample(all_words, 3) if len(all_words) >= 3 else all_words
-            options = [w.french for w in distractors] + [word.french]
-            random.shuffle(options)
+        if len(words) > 0:
+            random.shuffle(words)
+            # Take up to 20 words for a session
+            selected = words[:20]
             
-            questions.append({
-                'type': 'select_trans', 
-                'prompt': f'Translate "{word.russian}"',
-                'correct': word.french,
-                'options': options,
-                'main_char': word.russian 
-            })
-
-            # French -> Rus (Select Char/Word)
-            options_rus = [w.russian for w in distractors] + [word.russian]
-            random.shuffle(options_rus)
-
-            questions.append({
-                'type': 'select_char', 
-                'prompt': f'Translate "{word.french}"',
-                'correct': word.russian,
-                'options': options_rus,
-                'main_sound': word.french 
-            })
+            for word in selected:
+                questions.append({
+                    'type': 'flashcard',
+                    'front': word.russian,
+                    'back': word.french,
+                    'trans': word.transliteration,
+                    'category': word.category
+                })
 
     random.shuffle(questions)
     return JsonResponse({'questions': questions})

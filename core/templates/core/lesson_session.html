@@ -91,6 +91,8 @@
                 renderSelectSound(q);
             } else if (q.type === 'select_char') {
                 renderSelectChar(q);
+            } else if (q.type === 'flashcard') {
+                renderFlashcard(q);
             }
         }
 
@@ -154,80 +156,141 @@
             `;
         }
 
-        window.selectOption = function (el, val) {
-            if (!isCheckState) return; // Locked after check
+        function renderFlashcard(q) {
+            checkBtn.style.display = 'none'; // Hide default check button
 
-            // Deselect all
-            document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+            questionArea.innerHTML = `
+                <div class="flashcard-container">
+                    <!-- Front Side -->
+                    <div id="cardFront">
+                        <h2 style="color: #777; margin-bottom: 2rem;">Comment dit-on ?</h2>
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 3rem;">
+                            <div class="big-char" style="font-size: 3.5rem;">${q.front}</div>
+                            <button class="audio-btn" style="width: 50px; height: 50px; font-size: 1.5rem;" onclick="playAudio('${q.front}')">🔊</button>
+                        </div>
+                        
+                        <button class="btn-primary" onclick="revealCard()" style="width: 100%; max-width: 300px; margin: 0 auto; display: block;">
+                            Révéler la réponse
+                        </button>
+                    </div>
 
-            el.classList.add('selected');
-            selectedOption = val;
-            checkBtn.disabled = false;
+                    <!-- Back Side (Hidden initially) -->
+                    <div id="cardBack" style="display: none; text-align: center;">
+                        <div style="margin-bottom: 2rem;">
+                            <div style="font-size: 1.5rem; color: #58CC02; font-weight: bold; margin-bottom: 0.5rem;">${q.back}</div>
+                            <div style="font-size: 1.2rem; color: #1CB0F6;">/${q.trans}/</div>
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
+                            <button class="btn-primary" onclick="rateCard(false)" style="background-color: #FF4B4B; border-bottom: 4px solid #d41818;">
+                                ❌ Je ne savais pas
+                            </button>
+                            <button class="btn-primary" onclick="rateCard(true)" style="background-color: #58CC02;">
+                                ✅ Je savais
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Auto play audio on show
+            setTimeout(() => playAudio(q.front), 300);
         }
 
-        checkBtn.addEventListener('click', () => {
-            if (!isCheckState) {
-                // Continue action
-                currentIndex++;
-                renderQuestion();
-                return;
-            }
+        window.revealCard = function () {
+            document.getElementById('cardFront').style.display = 'none';
+            document.getElementById('cardBack').style.display = 'block';
+        }
 
-            // Check Logic
+        window.rateCard = function (known) {
             const q = questions[currentIndex];
 
-            if (q.type === 'intro') {
-                currentIndex++;
-                renderQuestion();
-            } else {
-                handleValidation(q);
+            if (!known) {
+                // If unknown, re-insert card 3 positions later (or at end)
+                const reInsertIdx = Math.min(currentIndex + 4, questions.length);
+                questions.splice(reInsertIdx, 0, q);
             }
-        });
 
-        function handleValidation(q) {
-            const correct = q.correct;
-            const isCorrect = selectedOption === correct;
+            // Restore default Check button visibility for next question
+            checkBtn.style.display = 'block';
 
-            const options = document.querySelectorAll('.option-btn');
-            options.forEach(btn => {
-                if (btn.innerText === correct) btn.classList.add('correct');
-                if (btn.innerText === selectedOption && !isCorrect) btn.classList.add('wrong');
+            currentIndex++;
+            renderQuestion();
+
+            window.selectOption = function (el, val) {
+                if (!isCheckState) return; // Locked after check
+
+                // Deselect all
+                document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+
+                el.classList.add('selected');
+                selectedOption = val;
+                checkBtn.disabled = false;
+            }
+
+            checkBtn.addEventListener('click', () => {
+                if (!isCheckState) {
+                    // Continue action
+                    currentIndex++;
+                    renderQuestion();
+                    return;
+                }
+
+                // Check Logic
+                const q = questions[currentIndex];
+
+                if (q.type === 'intro') {
+                    currentIndex++;
+                    renderQuestion();
+                } else {
+                    handleValidation(q);
+                }
             });
 
-            if (isCorrect) {
-                // Success visual
-                const footer = document.querySelector('.check-footer');
-                footer.style.backgroundColor = '#d7ffb8';
-                checkBtn.style.backgroundColor = '#58CC02';
-                checkBtn.innerText = 'Continue';
-            } else {
-                // Fail visual
-                const footer = document.querySelector('.check-footer');
-                footer.style.backgroundColor = '#ffdfe0';
-                checkBtn.style.backgroundColor = '#FF4B4B';
-                checkBtn.innerText = 'Continue';
+            function handleValidation(q) {
+                const correct = q.correct;
+                const isCorrect = selectedOption === correct;
+
+                const options = document.querySelectorAll('.option-btn');
+                options.forEach(btn => {
+                    if (btn.innerText === correct) btn.classList.add('correct');
+                    if (btn.innerText === selectedOption && !isCorrect) btn.classList.add('wrong');
+                });
+
+                if (isCorrect) {
+                    // Success visual
+                    const footer = document.querySelector('.check-footer');
+                    footer.style.backgroundColor = '#d7ffb8';
+                    checkBtn.style.backgroundColor = '#58CC02';
+                    checkBtn.innerText = 'Continue';
+                } else {
+                    // Fail visual
+                    const footer = document.querySelector('.check-footer');
+                    footer.style.backgroundColor = '#ffdfe0';
+                    checkBtn.style.backgroundColor = '#FF4B4B';
+                    checkBtn.innerText = 'Continue';
+                }
+
+                // Switch to continue mode
+                isCheckState = false;
+                checkBtn.disabled = false;
             }
 
-            // Switch to continue mode
-            isCheckState = false;
-            checkBtn.disabled = false;
-        }
-
-        function showCompletion() {
-            progressBar.style.width = '100%';
-            questionArea.innerHTML = `
+            function showCompletion() {
+                progressBar.style.width = '100%';
+                questionArea.innerHTML = `
                 <div style="text-align: center; margin-top: 50px;">
                     <div style="font-size: 5rem;">🎉</div>
                     <h2>Lesson Complete!</h2>
                     <p>You practiced ${questions.length} exercises.</p>
                 </div>
             `;
-            checkBtn.innerText = 'Finish';
-            checkBtn.disabled = false;
-            checkBtn.style.backgroundColor = '#58CC02';
-            checkBtn.onclick = () => window.location.href = '/';
-            document.querySelector('.check-footer').style.backgroundColor = '#fff';
-        }
+                checkBtn.innerText = 'Finish';
+                checkBtn.disabled = false;
+                checkBtn.style.backgroundColor = '#58CC02';
+                checkBtn.onclick = () => window.location.href = '/';
+                document.querySelector('.check-footer').style.backgroundColor = '#fff';
+            }
 
 
     </script>
