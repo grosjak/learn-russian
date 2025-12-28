@@ -56,6 +56,18 @@
             {{ form.as_p }}
             <button type="submit" class="btn-auth">SE CONNECTER</button>
         </form>
+
+        <div style="margin: 20px 0; border-top: 1px solid #37464f; padding-top: 20px;">
+            {% load socialaccount %}
+            <a href="{% provider_login_url 'google' %}" style="text-decoration: none;">
+                <button type="button" class="btn-auth"
+                    style="background-color: #fff; color: #333; border-bottom-color: #ccc; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google" width="20">
+                    Continuer avec Google
+                </button>
+            </a>
+        </div>
+
         <p style="margin-top: 20px; color: #777;">
             Pas de compte ? <a href="{% url 'signup' %}" style="color: #1CB0F6;">S'inscrire</a>
         </p>
