@@ -7,8 +7,9 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         import json
         import os
+        from django.conf import settings
 
-        json_path = '/home/jack/Developpement/make_dictionnary/dictionnaire_fr_ru_complet.json'
+        json_path = os.path.join(settings.BASE_DIR, 'core', 'data', 'dictionnaire_fr_ru_complet.json')
         
         if not os.path.exists(json_path):
             self.stdout.write(self.style.ERROR(f'File not found: {json_path}'))
