@@ -121,7 +121,47 @@
             }
         }
 
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSFX(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            osc.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            if (type === 'success') {
+                // Ding sound (Sine wave, high pitch)
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
+
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+            } else {
+                // Error sound (Sawtooth, low pitch)
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.3);
+
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.3);
+            }
+        }
+
         function playAudio(text) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
             if ('speechSynthesis' in window) {
                 // Cancel previous
                 window.speechSynthesis.cancel();
@@ -307,12 +347,14 @@
             });
 
             if (isCorrect) {
+                playSFX('success');
                 // Success visual
                 const footer = document.querySelector('.check-footer');
                 footer.style.backgroundColor = '#d7ffb8';
                 checkBtn.style.backgroundColor = '#58CC02';
                 checkBtn.innerText = 'Continuer';
             } else {
+                playSFX('error');
                 // Fail visual
                 const footer = document.querySelector('.check-footer');
                 footer.style.backgroundColor = '#ffdfe0';
