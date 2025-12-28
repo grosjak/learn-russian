@@ -11,7 +11,7 @@ urlpatterns = [
     path('logout/', views_auth.logout_view, name='logout'),
 
     path('api/word/<int:word_id>/status/', views.update_word_status, name='update_word_status'),
-    # path('alphabet/', views.roadmap, name='roadmap'), # Removed per user request
+    path('alphabet/', views.roadmap, name='roadmap'), 
     path('vocabulary/', views.vocabulary, name='vocabulary'),
     path('revision/', views.revision_list, name='revision_list'),
     path('practice/<str:mode>/', views.practice, name='practice'),
