@@ -11,9 +11,9 @@
     /* Dark Gray elements */
     --duo-text: #E5E5E5;
     /* Light text */
-    --bg-color: #121212;
-    /* Dark Background */
-    --card-bg: #1E1E1E;
+    --bg-color: #212121;
+    /* Dark Background, slightly lighter than black */
+    --card-bg: #2d2d2d;
 }
 
 *,
