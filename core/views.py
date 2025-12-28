@@ -153,7 +153,6 @@ def practice_data(request, mode):
                     'example': word.example_sentence
                 })
 
-    random.shuffle(questions)
     return JsonResponse({'questions': questions})
 
 @login_required
