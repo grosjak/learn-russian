@@ -155,7 +155,7 @@
                 </div>
                 <div class="options-grid">
                     ${q.options.map((opt, idx) => `
-                        <div class="option-btn" onclick="selectOption(this, '${opt}')">${opt}</div>
+                        <div class="option-btn" data-val="${opt}" onclick="selectOption(this, '${opt}')">${opt}</div>
                     `).join('')}
                 </div>
             `;
@@ -170,7 +170,7 @@
                 <div style="font-size: 3rem; margin-bottom: 2rem; color: #1CB0F6;">/${q.main_sound}/</div>
                 <div class="options-grid">
                     ${q.options.map((opt, idx) => `
-                        <div class="option-btn" onclick="selectOption(this, '${opt}')">${opt}</div>
+                        <div class="option-btn" data-val="${opt}" onclick="selectOption(this, '${opt}')">${opt}</div>
                     `).join('')}
                 </div>
             `;
@@ -296,8 +296,9 @@
 
             const options = document.querySelectorAll('.option-btn');
             options.forEach(btn => {
-                if (btn.innerText === correct) btn.classList.add('correct');
-                if (btn.innerText === selectedOption && !isCorrect) btn.classList.add('wrong');
+                const val = btn.dataset.val;
+                if (val === correct) btn.classList.add('correct');
+                if (val === selectedOption && !isCorrect) btn.classList.add('wrong');
             });
 
             if (isCorrect) {
