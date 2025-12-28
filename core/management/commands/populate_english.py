@@ -6,12 +6,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.stdout.write('Populating English curriculum...')
+        import json
+        import os
+        from django.conf import settings
 
         # 1. Clear existing English content
         Word.objects.filter(target_language='en').delete()
         Lesson.objects.filter(target_language='en').delete()
         
-        # 2. Define Curriculum
+        # 2. Existing Structured Curriculum (Manual)
+        self.stdout.write('Creating manual basic lessons...')
         curriculum = [
             {
                 'title': 'Introduction',
@@ -24,8 +28,6 @@ class Command(BaseCommand):
                     {'en': 'Thank you', 'fr': 'Merci'},
                     {'en': 'Yes', 'fr': 'Oui'},
                     {'en': 'No', 'fr': 'Non'},
-                    {'en': 'Car', 'fr': 'Voiture'},
-                    {'en': 'House', 'fr': 'Maison'},
                 ]
             },
             {
@@ -39,41 +41,10 @@ class Command(BaseCommand):
                     {'en': 'Red', 'fr': 'Rouge'},
                     {'en': 'Blue', 'fr': 'Bleu'},
                     {'en': 'Green', 'fr': 'Vert'},
-                    {'en': 'White', 'fr': 'Blanc'},
-                    {'en': 'Black', 'fr': 'Noir'},
-                ]
-            },
-            {
-                'title': 'Nourriture',
-                'desc': 'Manger et boire.',
-                'icon': '🍎',
-                'words': [
-                    {'en': 'Apple', 'fr': 'Pomme'},
-                    {'en': 'Bread', 'fr': 'Pain'},
-                    {'en': 'Water', 'fr': 'Eau'},
-                    {'en': 'Milk', 'fr': 'Lait'},
-                    {'en': 'Coffee', 'fr': 'Café'},
-                    {'en': 'Tea', 'fr': 'Thé'},
-                    {'en': 'Cheese', 'fr': 'Fromage'},
-                    {'en': 'Cake', 'fr': 'Gâteau'},
-                ]
-            },
-            {
-                'title': 'Verbes Basiques',
-                'desc': 'Actions du quotidien.',
-                'icon': '🏃',
-                'words': [
-                    {'en': 'To eat', 'fr': 'Manger', 'cat': 'verb'},
-                    {'en': 'To drink', 'fr': 'Boire', 'cat': 'verb'},
-                    {'en': 'To sleep', 'fr': 'Dormir', 'cat': 'verb'},
-                    {'en': 'To go', 'fr': 'Aller', 'cat': 'verb'},
-                    {'en': 'To have', 'fr': 'Avoir', 'cat': 'verb'},
-                    {'en': 'To be', 'fr': 'Être', 'cat': 'verb'},
                 ]
             }
         ]
 
-        total_words = 0
         for idx, module in enumerate(curriculum):
             lesson = Lesson.objects.create(
                 title=module['title'],
@@ -85,18 +56,81 @@ class Command(BaseCommand):
             
             batch = []
             for item in module['words']:
-                category = item.get('cat', 'word')
                 batch.append(Word(
                     russian=item['en'],
                     french=item['fr'],
                     transliteration='',
-                    category=category,
+                    category='word',
                     target_language='en',
                     lesson=lesson
                 ))
-            
             Word.objects.bulk_create(batch)
-            total_words += len(batch)
-            self.stdout.write(f'Created lesson "{module["title"]}" with {len(batch)} words.')
+        
+        # 3. Load from JSON dictionary
+        json_path = os.path.join(settings.BASE_DIR, 'core', 'data', 'anglais-francais.json')
+        if not os.path.exists(json_path):
+            self.stdout.write(self.style.ERROR(f'JSON file not found at {json_path}'))
+            return
 
-        self.stdout.write(self.style.SUCCESS(f'Successfully populated {len(curriculum)} English lessons with {total_words} words.'))
+        with open(json_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        # 3a. Irregular Verbs
+        irr_verbs = data.get('irregular_verbs', [])
+        if irr_verbs:
+            lesson_irr = Lesson.objects.create(
+                title='Verbes Irréguliers',
+                description='Les verbes qui ne suivent pas les règles.',
+                icon='⚡',
+                order=10, # Place later in curriculum
+                target_language='en'
+            )
+            
+            batch_irr = []
+            for v in irr_verbs:
+                # Use transliteration field to store past forms for "Hint"
+                forms = f"Past: {v.get('past')}, PP: {v.get('participle')}"
+                batch_irr.append(Word(
+                    russian=v.get('base'),
+                    french=v.get('fr'),
+                    transliteration=forms,
+                    category='verb',
+                    target_language='en',
+                    lesson=lesson_irr
+                ))
+            Word.objects.bulk_create(batch_irr)
+            self.stdout.write(f'Imported {len(batch_irr)} irregular verbs.')
+
+        # 3b. Common Words
+        common = data.get('common_words', [])
+        if common:
+            # Split into chunks of 20 to avoid huge lessons? 
+            # Or just one big "Top 100" lesson.
+            # Let's do chunks of 30.
+            chunk_size = 30
+            chunks = [common[i:i + chunk_size] for i in range(0, len(common), chunk_size)]
+            
+            for i, chunk in enumerate(chunks):
+                lesson_common = Lesson.objects.create(
+                    title=f'Mots Fréquents {i+1}',
+                    description=f'Vocabulaire essentiel partie {i+1}.',
+                    icon='📊',
+                    order=20 + i,
+                    target_language='en'
+                )
+                
+                batch_common = []
+                for w in chunk:
+                    cat = 'verb' if 'verb' in w.get('type', '') else 'word'
+                    batch_common.append(Word(
+                        russian=w.get('en'),
+                        french=w.get('fr'),
+                        transliteration='', # No extra info needed
+                        category=cat,
+                        target_language='en',
+                        lesson=lesson_common
+                    ))
+                Word.objects.bulk_create(batch_common)
+            self.stdout.write(f'Imported {len(common)} common words into {len(chunks)} lessons.')
+
+        self.stdout.write(self.style.SUCCESS(f'Successfully populated English content.'))
