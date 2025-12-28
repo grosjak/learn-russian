@@ -67,6 +67,7 @@ def practice_data(request, mode):
                     'front': word.russian,
                     'back': word.french,
                     'trans': word.transliteration,
+                    'breakdown': get_letter_breakdown(word.russian),
                     'category': word.category
                 })
 
@@ -139,3 +140,20 @@ def lesson_data(request, lesson_id):
     final_sequence = intro_q + test_q
     
     return JsonResponse({'questions': final_sequence})
+
+def get_letter_breakdown(word):
+    trans_map = {
+        'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'ye', 'ё': 'yo',
+        'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+        'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+        'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch',
+        'ъ': '(hard)', 'ы': 'y', 'ь': "'", 'э': 'e', 'ю': 'yu', 'я': 'ya'
+    }
+    breakdown = []
+    for char in word:
+        lower = char.lower()
+        if lower in trans_map:
+            breakdown.append({'char': char, 'sound': trans_map[lower]})
+        elif char.strip(): # Ignore pure whitespace in breakdown if confusing, but keeping punctuation is good
+            breakdown.append({'char': char, 'sound': char})
+    return breakdown

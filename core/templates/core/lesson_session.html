@@ -198,7 +198,17 @@
                     <div id="cardBack" style="display: none; text-align: center;">
                         <div style="margin-bottom: 2rem;">
                             <div style="font-size: 1.5rem; color: #58CC02; font-weight: bold; margin-bottom: 0.5rem;">${q.back}</div>
-                            <div style="font-size: 1.2rem; color: #1CB0F6;">/${q.trans}/</div>
+                            <div style="font-size: 1.2rem; color: #1CB0F6; margin-bottom: 1rem;">/${q.trans}/</div>
+                            
+                            <!-- Breakdown -->
+                            <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
+                                ${q.breakdown.map(b => `
+                                    <div style="display: flex; flex-direction: column; align-items: center; background: #37464f; padding: 5px 8px; border-radius: 8px;">
+                                        <div style="font-size: 1.2rem; font-weight: bold; color: #fff;">${b.char}</div>
+                                        <div style="font-size: 0.8rem; color: #aaa;">${b.sound}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
                         </div>
 
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
