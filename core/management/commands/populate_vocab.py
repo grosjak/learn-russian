@@ -18,9 +18,9 @@ class Command(BaseCommand):
         with open(json_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
-        # Reset DB
-        deleted, _ = Word.objects.all().delete()
-        self.stdout.write(self.style.WARNING(f'Deleted {deleted} existing words.'))
+        # Reset DB (Russian only)
+        deleted, _ = Word.objects.filter(target_language='ru').delete()
+        self.stdout.write(self.style.WARNING(f'Deleted {deleted} existing Russian words.'))
         
         batch = []
         for item in data:
