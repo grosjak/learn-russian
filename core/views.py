@@ -150,7 +150,8 @@ def practice_data(request, mode):
                     'category': word.category,
                     'is_revision': mode == 'revision',
                     'example': word.example_sentence,
-                    'audio_url': word.audio.url if word.audio else None
+                    'audio_url': word.audio.url if word.audio else None,
+                    'transliteration': word.transliteration
                 })
     
     return JsonResponse({'questions': questions})

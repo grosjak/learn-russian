@@ -8,45 +8,24 @@
     <title>Lesson</title>
     <link rel="stylesheet" href="{% static 'css/duolingo.css' %}">
     <style>
-        .user-input:focus {
-            border-color: #58CC02 !important;
-            box-shadow: 0 0 0 4px rgba(88, 204, 2, 0.2);
-        }
-
-        .srs-btn {
-            border: none;
-            border-bottom: 4px solid;
-            color: white;
-            font-weight: bold;
-            padding: 15px;
-            border-radius: 12px;
+        .hint-btn {
+            background: none;
+            border: 2px solid #e5e5e5;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: transform 0.1s;
-            text-transform: uppercase;
-            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .srs-btn:active {
-            transform: translateY(4px);
-            border-bottom-width: 0;
-            margin-bottom: 4px;
-        }
-
-        /* Diff Styles */
-        ins {
-            background-color: #e6ffec;
-            color: #249d3c;
-            text-decoration: none;
-            padding: 2px 4px;
-            border-radius: 4px;
-        }
-
-        del {
-            background-color: #ffeef0;
-            color: #d82e44;
-            text-decoration: none;
-            padding: 2px 4px;
-            border-radius: 4px;
+        .hint-btn:hover {
+            border-color: #ffd900;
+            background-color: #fffde7;
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -93,6 +72,7 @@
         let selectedOption = null;
         let isCheckState = true; // true = Check, false = Continue
         let currentQuestionStartTime = Date.now();
+        let hintLevel = 0; // 0 = None, 1 = Translit, 2 = First Letter
 
         const questionArea = document.getElementById('questionArea');
         const checkBtn = document.getElementById('checkBtn');
@@ -140,6 +120,7 @@
             const q = questions[currentIndex];
             questionArea.innerHTML = '';
             selectedOption = null;
+            hintLevel = 0; // Reset hint level
 
             // Reset UI
             checkBtn.disabled = true;
@@ -214,11 +195,14 @@
         function renderInputQuestion(q) {
             questionArea.innerHTML = `
                 <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-                    <h2 style="margin-bottom: 2rem;">Traduisez en Russe</h2>
+                    <h2 style="margin-bottom: 1rem;">Traduisez en Russe</h2>
                     
-                     <div style="font-size: 2rem; margin-bottom: 3rem; color: #4b4b4b;">
-                        "${q.prompt}"
+                     <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 2rem;">
+                        <div style="font-size: 2rem; color: #4b4b4b;">"${q.prompt}"</div>
+                        <button class="hint-btn" onclick="toggleHint()" title="Indice">💡</button>
                     </div>
+
+                    <div id="hintArea" style="min-height: 1.5rem; margin-bottom: 1.5rem; color: #1CB0F6; font-weight: bold; font-size: 1.2rem;"></div>
                     
                     ${q.audio_url ? `<!-- Audio Hint if needed -->` : ''}
 
@@ -243,6 +227,26 @@
                     document.getElementById('checkBtn').click();
                 }
             });
+        }
+
+        window.toggleHint = function () {
+            const q = questions[currentIndex];
+            const area = document.getElementById('hintArea');
+
+            if (hintLevel === 0) {
+                // Show Transliteration
+                area.innerText = q.transliteration || 'Pas d\'indice phonétique';
+                hintLevel = 1;
+            } else if (hintLevel === 1) {
+                // Show First Letter + Underscores
+                const first = q.correct.charAt(0);
+                const rest = q.correct.length > 1 ? ' _'.repeat(q.correct.length - 1) : '';
+                area.innerText = first + rest;
+                hintLevel = 2;
+            }
+            // Optional: Cycle back to 0? Or keep at 2? The user spec didn't strictly say, but usually users want it to stay or provide more help.
+            // Let's stop at 2 for now, or clear if clicked again?
+            // "Au premier clic... Au deuxième clic..." implies progressive.
         }
 
         window.checkInputState = function (el) {

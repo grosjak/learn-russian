@@ -12,3 +12,4 @@ cryptography
 thefuzz
 python-Levenshtein
 diff-match-patch
+transliterate

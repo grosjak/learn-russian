@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from core.models import Word
+from transliterate import translit
 
 class Command(BaseCommand):
     help = 'Populates the database with Top 200 Russian vocabulary (Translated)'
@@ -29,6 +30,14 @@ class Command(BaseCommand):
             
             if not rus or not fra:
                 continue
+
+            # Auto-generate transliteration if missing (Hint System)
+            if not phon:
+                try:
+                    phon = translit(rus, 'ru', reversed=True)
+                except Exception:
+                    # Fallback if transliteration fails or char not found
+                    pass
 
             # Heuristic for Category: Verb detection
             if rus.lower().endswith(('ть', 'ти', 'чь')):
