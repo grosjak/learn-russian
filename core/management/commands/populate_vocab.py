@@ -87,4 +87,3 @@ class Command(BaseCommand):
             
         self.stdout.write(self.style.SUCCESS(f'Finished: {count_created} created, {count_updated} updated.'))
             
-        self.stdout.write(self.style.SUCCESS(f'Successfully imported {len(batch)} words from JSON.'))
