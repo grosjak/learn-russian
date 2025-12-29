@@ -9,3 +9,6 @@ django-allauth
 requests
 PyJWT
 cryptography
+thefuzz
+python-Levenshtein
+diff-match-patch

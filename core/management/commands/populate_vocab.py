@@ -18,11 +18,10 @@ class Command(BaseCommand):
         with open(json_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
-        # Reset DB (Russian only)
-        deleted, _ = Word.objects.filter(target_language='ru').delete()
-        self.stdout.write(self.style.WARNING(f'Deleted {deleted} existing Russian words.'))
+        # Update or Create words (Preserve IDs for SRS history)
+        count_created = 0
+        count_updated = 0
         
-        batch = []
         for item in data:
             rus = item.get('ru_cyrillic', '').strip()
             fra = item.get('fr', '').strip()
@@ -32,7 +31,6 @@ class Command(BaseCommand):
                 continue
 
             # Heuristic for Category: Verb detection
-            # Russian infinitives usually end in ть, ти, or чь
             if rus.lower().endswith(('ть', 'ти', 'чь')):
                 category = 'verb'
             else:
@@ -62,14 +60,22 @@ class Command(BaseCommand):
             if rus in examples_map:
                 example = examples_map[rus]
 
-            batch.append(Word(
+            word, created = Word.objects.update_or_create(
                 russian=rus,
-                french=fra,
-                transliteration=phon,
-                category=category,
-                example_sentence=example
-            ))
-        
-        Word.objects.bulk_create(batch)
+                target_language='ru',
+                defaults={
+                    'french': fra,
+                    'transliteration': phon,
+                    'category': category,
+                    'example_sentence': example
+                }
+            )
+            
+            if created:
+                count_created += 1
+            else:
+                count_updated += 1
+            
+        self.stdout.write(self.style.SUCCESS(f'Finished: {count_created} created, {count_updated} updated.'))
             
         self.stdout.write(self.style.SUCCESS(f'Successfully imported {len(batch)} words from JSON.'))

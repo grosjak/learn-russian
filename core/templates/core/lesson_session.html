@@ -7,6 +7,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lesson</title>
     <link rel="stylesheet" href="{% static 'css/duolingo.css' %}">
+    <style>
+        .user-input:focus {
+            border-color: #58CC02 !important;
+            box-shadow: 0 0 0 4px rgba(88, 204, 2, 0.2);
+        }
+
+        .srs-btn {
+            border: none;
+            border-bottom: 4px solid;
+            color: white;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .srs-btn:active {
+            transform: translateY(4px);
+            border-bottom-width: 0;
+            margin-bottom: 4px;
+        }
+
+        /* Diff Styles */
+        ins {
+            background-color: #e6ffec;
+            color: #249d3c;
+            text-decoration: none;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        del {
+            background-color: #ffeef0;
+            color: #d82e44;
+            text-decoration: none;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,6 +92,7 @@
         let currentIndex = 0;
         let selectedOption = null;
         let isCheckState = true; // true = Check, false = Continue
+        let currentQuestionStartTime = Date.now();
 
         const questionArea = document.getElementById('questionArea');
         const checkBtn = document.getElementById('checkBtn');
@@ -97,41 +140,237 @@
             const q = questions[currentIndex];
             questionArea.innerHTML = '';
             selectedOption = null;
+
+            // Reset UI
             checkBtn.disabled = true;
             checkBtn.innerText = 'Vérifier';
             checkBtn.classList.remove('btn-continue');
             checkBtn.style.removeProperty('background-color');
             checkBtn.style.backgroundColor = '';
+            checkBtn.style.display = 'block'; // Ensure visible
+
             const footer = document.querySelector('.check-footer');
             footer.style.removeProperty('background-color');
             footer.style.backgroundColor = '';
+            footer.innerHTML = '<button class="btn-primary" id="checkBtn" disabled>Vérifier</button>'; // Reset footer content
+
+            // Re-bind checkBtn since we wiped footer
+            const newCheckBtn = document.getElementById('checkBtn');
+            newCheckBtn.addEventListener('click', handleCheckClick);
+
             isCheckState = true;
+            currentQuestionStartTime = Date.now();
             updateProgress();
 
             if (q.type === 'intro') {
                 renderIntro(q);
-                checkBtn.disabled = false;
-                checkBtn.innerText = 'Compris';
-            } else if (q.type === 'intro_word') { // NEW
+                newCheckBtn.disabled = false;
+                newCheckBtn.innerText = 'Compris';
+            } else if (q.type === 'intro_word') {
                 renderIntroWord(q);
-                checkBtn.disabled = false;
-                checkBtn.innerText = 'Compris';
+                newCheckBtn.disabled = false;
+                newCheckBtn.innerText = 'Compris';
             } else if (q.type === 'alphabet_grid') {
                 renderAlphabetGrid(q);
-                checkBtn.disabled = false;
-                checkBtn.innerText = 'Apprendre';
+                newCheckBtn.disabled = false;
+                newCheckBtn.innerText = 'Apprendre';
             } else if (q.type === 'select_sound' || q.type === 'select_trans') {
                 renderSelectSound(q);
             } else if (q.type === 'select_char') {
                 renderSelectChar(q);
-            } else if (q.type === 'select_translation' || q.type === 'select_word') { // NEW
+            } else if (q.type === 'select_translation' || q.type === 'select_word') {
                 renderSelectTextOpt(q);
             } else if (q.type === 'flashcard') {
                 renderFlashcard(q);
+            } else if (q.type === 'input_text') {
+                renderInputQuestion(q);
             }
         }
 
-        // ... (audioCtx code remains same) ...
+        function handleCheckClick() {
+            const btn = document.getElementById('checkBtn');
+            if (!isCheckState) {
+                // Continue action
+                currentIndex++;
+                renderQuestion();
+                return;
+            }
+
+            // Check Logic
+            const q = questions[currentIndex];
+
+            if (q.type === 'intro' || q.type === 'intro_word' || q.type === 'alphabet_grid') {
+                currentIndex++;
+                renderQuestion();
+            } else if (q.type === 'input_text') {
+                handleInputValidation(q);
+            } else if (q.type === 'flashcard') {
+                // handled internally
+            } else {
+                handleSelectionValidation(q);
+            }
+        }
+
+        function renderInputQuestion(q) {
+            questionArea.innerHTML = `
+                <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                    <h2 style="margin-bottom: 2rem;">Traduisez en Russe</h2>
+                    
+                     <div style="font-size: 2rem; margin-bottom: 3rem; color: #4b4b4b;">
+                        "${q.prompt}"
+                    </div>
+                    
+                    ${q.audio_url ? `<!-- Audio Hint if needed -->` : ''}
+
+                    <textarea id="userAnswer" 
+                        class="user-input" 
+                        placeholder="Tapez en Russe..." 
+                        rows="2"
+                        style="width: 100%; font-size: 1.5rem; padding: 15px; border-radius: 15px; border: 2px solid #e5e5e5; resize: none; outline: none; transition: border-color 0.2s;"
+                        oninput="checkInputState(this)"></textarea>
+                    
+                     <div style="margin-top: 10px; color: #888; font-size: 0.9rem;">
+                        Appuyez sur Entrée pour valider
+                    </div>
+                </div>
+            `;
+
+            const input = document.getElementById('userAnswer');
+            input.focus();
+            input.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    document.getElementById('checkBtn').click();
+                }
+            });
+        }
+
+        window.checkInputState = function (el) {
+            const btn = document.getElementById('checkBtn');
+            btn.disabled = el.value.trim().length === 0;
+            if (!btn.disabled) {
+                btn.style.backgroundColor = '#58CC02';
+                btn.style.color = 'white';
+            } else {
+                btn.style.backgroundColor = '';
+                btn.style.color = '';
+            }
+        }
+
+        function handleInputValidation(q) {
+            const input = document.getElementById('userAnswer');
+            const userText = input.value.trim();
+            const btn = document.getElementById('checkBtn');
+
+            // Disable input
+            input.disabled = true;
+            btn.disabled = true;
+            btn.innerText = 'Validation...';
+
+            // Call API
+            fetch('/api/validate/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    word_id: q.id,
+                    user_input: userText
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'ok') {
+                        showInputFeedback(q, data, userText);
+                    } else {
+                        alert('Erreur: ' + data.message);
+                        btn.disabled = false;
+                        input.disabled = false;
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Erreur réseau');
+                    btn.disabled = false;
+                    input.disabled = false;
+                });
+        }
+
+        function showInputFeedback(q, result, userText) {
+            const footer = document.querySelector('.check-footer');
+            const btn = document.getElementById('checkBtn'); // This is the old check btn, we will replace footer content
+
+            let resultColor = '';
+            let title = '';
+
+            if (result.is_correct && result.similarity === 100) {
+                resultColor = '#d7ffb8'; // Light Green
+                title = '<h3 style="color: #58CC02; margin: 0;">Parfait !</h3>';
+                try { playSFX('success'); } catch (e) { }
+            } else if (result.is_correct) {
+                resultColor = '#fff8b8'; // Yellowish
+                title = '<h3 style="color: #dcb300; margin: 0;">Presque !</h3>';
+                try { playSFX('success'); } catch (e) { }
+            } else {
+                resultColor = '#ffdfe0'; // Redish
+                title = '<h3 style="color: #FF4B4B; margin: 0;">Pas tout à fait...</h3>';
+                try { playSFX('error'); } catch (e) { }
+            }
+
+            footer.style.backgroundColor = resultColor;
+
+            // Generate Footer Content with SRS Buttons
+            footer.innerHTML = `
+                <div style="display: flex; flex-direction: column; width: 100%;">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <div style="background: white; border-radius: 50%; padding: 5px;">
+                                ${result.is_correct ? '✅' : '❌'}
+                            </div>
+                            <div style="text-align: left;">
+                                ${title}
+                                ${!result.is_correct || result.similarity < 100 ? `
+                                    <div style="color: #777; margin-top: 5px;">Correct: <b>${result.correct_answer}</b></div>
+                                    <div style="font-size: 0.9rem; margin-top: 5px;">Diff: <span style="background: white; padding: 2px 5px; border-radius: 4px;">${result.diff_html}</span></div>
+                                ` : ''}
+                            </div>
+                        </div>
+                         <button class="audio-btn" style="font-size: 1.5rem;" onclick="playAudio('${result.correct_answer.replace("'", "\\'")}')">🔊</button>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
+                        <button class="srs-btn" onclick="submitSRS(${q.id}, 0)" style="background: #FF4B4B; border-bottom-color: #d41818;">Difficile</button>
+                        <button class="srs-btn" onclick="submitSRS(${q.id}, 4)" style="background: #1CB0F6; border-bottom-color: #1693ce;">Moyen</button>
+                        <button class="srs-btn" onclick="submitSRS(${q.id}, 5)" style="background: #58CC02; border-bottom-color: #46a302;">Facile</button>
+                    </div>
+                </div>
+            `;
+
+            // Play Audio of correct answer
+            setTimeout(() => playAudio(result.correct_answer), 300);
+        }
+
+        window.submitSRS = function (wordId, quality) {
+            fetch(`/api/word/${wordId}/status/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ quality: quality })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    // Determine if we repeat
+                    // If quality == 0 (Fail) -> Repeat in this session? 
+                    // SM2 updates DB, but for this session flow:
+                    if (quality === 0) {
+                        // Insert back into queue options
+                        const q = questions[currentIndex];
+                        const reInsertIdx = Math.min(currentIndex + 3, questions.length);
+                        questions.splice(reInsertIdx, 0, q);
+                    }
+
+                    currentIndex++;
+                    renderQuestion();
+                })
+                .catch(err => console.error(err));
+        }
 
         function renderIntroWord(q) {
             questionArea.innerHTML = `
@@ -183,28 +422,21 @@
                 gainNode.connect(audioCtx.destination);
 
                 if (type === 'success') {
-                    // Ding sound (Sine wave, high pitch)
+                    // Ding sound
                     osc.type = 'sine';
                     osc.frequency.setValueAtTime(600, audioCtx.currentTime);
                     osc.frequency.exponentialRampToValueAtTime(1000, audioCtx.currentTime + 0.1);
-
                     gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
                     gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.5);
                 } else {
-                    // "Prout" sound (Sawtooth, low pitch, rapid descent)
+                    // Fail sound
                     osc.type = 'sawtooth';
-                    // Start low (80Hz) and drop to rumble (30Hz)
                     osc.frequency.setValueAtTime(80, audioCtx.currentTime);
                     osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.4);
-
-                    // Texture: Modulate gain to make it "sputtery" if possible, 
-                    // but simple envelope works well for cartoon styling.
                     gainNode.gain.setValueAtTime(0.8, audioCtx.currentTime);
                     gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
-
                     osc.start();
                     osc.stop(audioCtx.currentTime + 0.4);
                 }
@@ -219,21 +451,13 @@
                     audioCtx.resume();
                 }
                 if ('speechSynthesis' in window) {
-                    // Cancel previous
                     window.speechSynthesis.cancel();
-
                     const utterance = new SpeechSynthesisUtterance(text);
-                    // Heuristic: If text contains Cyrillic, use ru-RU, else en-US (or fr-FR if it was French?)
-                    // But here we are playing English words or Russian words.
-                    // Our q.word or q.char are the target language.
-                    // If text is French (instructions/translation), we normally don't play it.
-                    // Simple regex for Cyrillic:
                     if (/[а-яА-Я]/.test(text)) {
                         utterance.lang = 'ru-RU';
                     } else {
                         utterance.lang = 'en-US';
                     }
-
                     utterance.rate = 0.9;
                     window.speechSynthesis.speak(utterance);
                 }
@@ -255,12 +479,10 @@
                     <div style="margin-top: 20px; font-style: italic;">"${q.desc}"</div>
                 </div>
             `;
-            // Auto-play introduction
             setTimeout(() => playAudio(q.char), 500);
         }
 
         function renderSelectSound(q) {
-            // Letter -> Sound
             questionArea.innerHTML = `
                 <h2>${q.prompt}</h2>
                  <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
@@ -273,12 +495,10 @@
                     `).join('')}
                 </div>
             `;
-            // Auto-play question audio
             setTimeout(() => playAudio(q.main_char), 500);
         }
 
         function renderSelectChar(q) {
-            // Sound -> Letter
             questionArea.innerHTML = `
                 <h2>${q.prompt}</h2>
                 <div style="font-size: 3rem; margin-bottom: 2rem; color: #1CB0F6;">/${q.main_sound}/</div>
@@ -291,130 +511,51 @@
         }
 
         function renderFlashcard(q) {
-            checkBtn.style.display = 'none'; // Hide default check button
-
-            questionArea.innerHTML = `
-                <div class="flashcard-container">
-                    <!-- Front Side -->
-                    <div id="cardFront">
-                        <h2 style="color: #777; margin-bottom: 2rem;">Comment dit-on ?</h2>
-                        <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 3rem;">
-                            <div class="big-char" style="font-size: 3.5rem;">${q.front}</div>
-                            <button class="audio-btn" style="width: 50px; height: 50px; font-size: 1.5rem;" onclick="playAudio('${q.front.replace("'", "\\'")}')">🔊</button>
-                        </div>
-                        ${q.example ? `<div style="text-align: center; margin-bottom: 20px; font-style: italic; color: #888;">"${q.example}"</div>` : ''}
-                        
-                        <button class="btn-primary" onclick="revealCard()" style="width: 100%; max-width: 300px; margin: 0 auto; display: block;">
-                            Révéler la réponse
-                        </button>
-                    </div>
-
-                    <!-- Back Side (Hidden initially) -->
-                    <div id="cardBack" style="display: none; text-align: center;">
-                        <div style="margin-bottom: 2rem;">
-                            <div style="font-size: 1.5rem; color: #58CC02; font-weight: bold; margin-bottom: 0.5rem;">${q.back}</div>
-                            <div style="font-size: 1.2rem; color: #1CB0F6; margin-bottom: 1rem;">/${q.trans}/</div>
-                            
-                            <!-- Breakdown -->
-                            <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">
-                                ${q.breakdown.map(b => `
-                                    <div style="display: flex; flex-direction: column; align-items: center; background: #37464f; padding: 5px 8px; border-radius: 8px;">
-                                        <div style="font-size: 1.2rem; font-weight: bold; color: #fff;">${b.char}</div>
-                                        <div style="font-size: 0.8rem; color: #aaa;">${b.sound}</div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                            
-                            ${q.example ? `<div style="margin-top: 15px; font-style: italic; color: #ccc;">Ex: ${q.example}</div>` : ''}
-                        </div>
-
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 30px;">
-                            <button class="btn-primary" onclick="rateCard(false)" style="background-color: #FF4B4B; border-bottom: 4px solid #d41818;">
-                                ❌ Je ne savais pas
-                            </button>
-                            <button class="btn-primary" onclick="rateCard(true)" style="background-color: #58CC02;">
-                                ✅ Je savais
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            // Auto play audio on show
-            setTimeout(() => playAudio(q.front), 300);
-        }
-
-        window.revealCard = function () {
-            document.getElementById('cardFront').style.display = 'none';
-            document.getElementById('cardBack').style.display = 'block';
-        }
-
-        window.rateCard = function (known) {
-            const q = questions[currentIndex];
-
-            // Call API to persist status (Fire and forget, but logging error if needed)
-            if (q.id) {
-                fetch(`/api/word/${q.id}/status/`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ known: known })
-                }).catch(err => console.error('Failed to update status', err));
-            }
-
-            if (!known) {
-                // If unknown, re-insert card 3 positions later (or at end)
-                const reInsertIdx = Math.min(currentIndex + 4, questions.length);
-                questions.splice(reInsertIdx, 0, q);
-            } else if (known && q.is_revision) {
-                // In revision mode, if known/fixed, we simply move on (it won't come back)
-                // Nothing special to do, just don't re-insert.
-            }
-
-            // Restore default Check button visibility for next question
-            checkBtn.style.display = 'block';
-
-            currentIndex++;
-            renderQuestion();
+            // Legacy flashcard
+            questionArea.innerHTML = '<div>Flashcard Legacy (Unsupported in this refactor)</div>';
         }
 
         window.selectOption = function (el, val) {
-            if (!isCheckState) return; // Locked after check
-
-            // Deselect all
+            if (!isCheckState) return;
             document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-
             el.classList.add('selected');
             selectedOption = val;
-            checkBtn.disabled = false;
+            const btn = document.getElementById('checkBtn');
+            btn.disabled = false;
         }
 
-        checkBtn.addEventListener('click', () => {
-            if (!isCheckState) {
-                // Continue action
-                currentIndex++;
-                renderQuestion();
-                return;
-            }
+        function handleSelectionValidation(q) {
+            const btn = document.getElementById('checkBtn');
+            const correct = q.correct;
+            const isCorrect = selectedOption === correct;
 
-            // Check Logic
-            const q = questions[currentIndex];
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(btn => {
+                const val = btn.dataset.val;
+                if (val === correct) btn.classList.add('correct');
+                if (val === selectedOption && !isCorrect) btn.classList.add('wrong');
+            });
 
-            if (q.type === 'intro' || q.type === 'intro_word' || q.type === 'alphabet_grid') {
-                currentIndex++;
-                renderQuestion();
-            } else if (q.type === 'limit_reached') {
-                // skip
-            } else if (q.type === 'alphabet_grid') {
-                renderAlphabetGrid(q);
-                checkBtn.disabled = false;
-                checkBtn.innerText = 'Apprendre';
+            if (isCorrect) {
+                const footer = document.querySelector('.check-footer');
+                footer.style.backgroundColor = '#d7ffb8';
+                btn.style.backgroundColor = '#58CC02';
+                btn.innerText = 'Continuer';
+                try { playSFX('success'); } catch (e) { }
             } else {
-                handleValidation(q);
+                const footer = document.querySelector('.check-footer');
+                footer.style.backgroundColor = '#ffdfe0';
+                btn.style.backgroundColor = '#FF4B4B';
+                btn.innerText = 'Continuer';
+                try { playSFX('error'); } catch (e) { }
             }
-        });
+
+            isCheckState = false;
+            btn.disabled = false;
+        }
 
         function renderAlphabetGrid(q) {
-            checkBtn.style.display = 'block';
+            document.getElementById('checkBtn').style.display = 'block';
             questionArea.innerHTML = `
                 <div style="text-align: center;">
                     <h2>Alphabet Russe</h2>
@@ -432,38 +573,6 @@
             `;
         }
 
-        function handleValidation(q) {
-            const correct = q.correct;
-            const isCorrect = selectedOption === correct;
-
-            const options = document.querySelectorAll('.option-btn');
-            options.forEach(btn => {
-                const val = btn.dataset.val;
-                if (val === correct) btn.classList.add('correct');
-                if (val === selectedOption && !isCorrect) btn.classList.add('wrong');
-            });
-
-            if (isCorrect) {
-                // Success visual
-                const footer = document.querySelector('.check-footer');
-                footer.style.backgroundColor = '#d7ffb8';
-                checkBtn.style.backgroundColor = '#58CC02';
-                checkBtn.innerText = 'Continuer';
-                try { playSFX('success'); } catch (e) { console.warn(e); }
-            } else {
-                // Fail visual
-                const footer = document.querySelector('.check-footer');
-                footer.style.backgroundColor = '#ffdfe0';
-                checkBtn.style.backgroundColor = '#FF4B4B';
-                checkBtn.innerText = 'Continuer';
-                try { playSFX('error'); } catch (e) { console.warn(e); }
-            }
-
-            // Switch to continue mode
-            isCheckState = false;
-            checkBtn.disabled = false;
-        }
-
         function showCompletion() {
             progressBar.style.width = '100%';
             questionArea.innerHTML = `
@@ -473,13 +582,15 @@
                     <p>Vous avez pratiqué ${questions.length} exercices.</p>
                 </div>
             `;
-            checkBtn.innerText = 'Terminer';
-            checkBtn.disabled = false;
-            checkBtn.style.backgroundColor = '#58CC02';
-            checkBtn.onclick = () => window.location.href = '/';
+            const btn = document.getElementById('checkBtn');
+            btn.innerText = 'Terminer';
+            btn.disabled = false;
+            btn.style.backgroundColor = '#58CC02';
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            newBtn.onclick = () => window.location.href = '/';
             document.querySelector('.check-footer').style.backgroundColor = '#fff';
         }
-
 
     </script>
 </body>

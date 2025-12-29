@@ -45,6 +45,7 @@ class Word(models.Model):
     target_language = models.CharField(max_length=2, choices=TARGET_LANGUAGE_CHOICES, default='ru')
     lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True, blank=True, related_name='words')
     example_sentence = models.TextField(blank=True, help_text="Phrase d'exemple pour illustrer le mot")
+    audio = models.FileField(upload_to='audio/words/', null=True, blank=True, help_text="Fichier audio pour la prononciation")
 
     def __str__(self):
         return f"[{self.get_target_language_display()}] {self.russian} - {self.french}"
@@ -54,6 +55,12 @@ class UserWordProgress(models.Model):
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
     needs_review = models.BooleanField(default=True)
     last_reviewed = models.DateTimeField(auto_now=True)
+    
+    # SRS Fields (SM-2 Algorithm)
+    next_review_date = models.DateTimeField(null=True, blank=True)
+    interval = models.IntegerField(default=1, help_text="Intervalle en jours")
+    ease_factor = models.FloatField(default=2.5, help_text="Facteur de facilité")
+    streak = models.IntegerField(default=0, help_text="Nombre de réussites consécutives")
 
     class Meta:
         unique_together = ('user', 'word')

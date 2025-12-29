@@ -118,6 +118,7 @@ def practice_data(request, mode):
             'letters': [{'char': l.character, 'trans': l.transliteration} for l in letters]
         })
             
+
     elif mode in ['words', 'verbs', 'revision']:
         if mode == 'revision':
             # Revision mode: only words flagged as needing review for this user
@@ -137,22 +138,21 @@ def practice_data(request, mode):
 
         if len(words) > 0:
             random.shuffle(words)
-            # Take up to 15 words for a session (Reduced from 20)
+            # Take up to 15 words for a session
             selected = words[:15]
             
             for word in selected:
                 questions.append({
-                    'type': 'flashcard',
+                    'type': 'input_text',
                     'id': word.id,
-                    'front': word.russian,
-                    'back': word.french,
-                    'trans': word.transliteration,
-                    'breakdown': get_letter_breakdown(word.russian),
+                    'prompt': word.french, # Show French, ask for Russian
+                    'correct': word.russian,
                     'category': word.category,
                     'is_revision': mode == 'revision',
-                    'example': word.example_sentence
+                    'example': word.example_sentence,
+                    'audio_url': word.audio.url if word.audio else None
                 })
-
+    
     return JsonResponse({'questions': questions})
 
 @login_required
@@ -267,28 +267,74 @@ def lesson_data(request, lesson_id):
     
     return JsonResponse({'questions': final_sequence})
 
+
 @csrf_exempt
 @login_required
-def update_word_status(request, word_id):
+def validate_answer(request):
+    """
+    API to validate user input against the correct word.
+    """
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            # data.get('known') is true if user knew the word
-            is_known = data.get('known', False)
+            word_id = data.get('word_id')
+            user_input = data.get('user_input', '')
             
             word = get_object_or_404(Word, pk=word_id)
             
-            # Update or create progress entry
+            from .services import TextValidationService
+            result = TextValidationService.validate(user_input, word.russian)
+            
+            return JsonResponse({
+                'status': 'ok',
+                'is_correct': result['is_correct'],
+                'similarity': result['similarity'],
+                'diff_html': result['diff_html'],
+                'correct_answer': word.russian
+            })
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)
+
+@csrf_exempt
+@login_required
+def update_word_status(request, word_id):
+    """
+    Update progress using SM-2 algorithm.
+    Requires 'quality' (0-5) in the body.
+    """
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            quality = int(data.get('quality', 0))
+            
+            word = get_object_or_404(Word, pk=word_id)
+            
             progress, created = UserWordProgress.objects.get_or_create(
                 user=request.user,
                 word=word
             )
             
-            # If known -> needs_review = False. If failed -> needs_review = True
-            progress.needs_review = not is_known
+            from .services import SM2Service
+            srs_data = SM2Service.calculate_review(
+                quality,
+                progress.interval if not created else 0,
+                progress.ease_factor,
+                progress.streak
+            )
+            
+            progress.interval = srs_data['interval']
+            progress.ease_factor = srs_data['ease_factor']
+            progress.next_review_date = srs_data['next_review_date']
+            progress.streak = srs_data['streak']
+            progress.needs_review = srs_data['next_review_date'] <= timezone.now()
             progress.save()
             
-            return JsonResponse({'status': 'ok', 'needs_review': progress.needs_review})
+            return JsonResponse({
+                'status': 'ok',
+                'next_review': progress.next_review_date.isoformat(),
+                'interval': progress.interval
+            })
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
     return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=405)
