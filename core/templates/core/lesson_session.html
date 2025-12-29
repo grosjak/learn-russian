@@ -27,6 +27,84 @@
             background-color: #fffde7;
             transform: scale(1.1);
         }
+
+        /* SRS Premium Buttons */
+        .srs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .srs-card {
+            border: none;
+            border-radius: 16px;
+            padding: 12px 5px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* Neumorphic / Soft shadow look */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+            background: white;
+            color: #4b4b4b;
+            font-family: inherit;
+        }
+
+        .srs-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .srs-card:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .srs-card .emoji {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .srs-card .label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .srs-hard {
+            border-bottom: 4px solid #ff8787;
+        }
+
+        .srs-hard:hover {
+            background-color: #fff5f5;
+            border-color: #fa5252;
+            color: #e03131;
+        }
+
+        .srs-medium {
+            border-bottom: 4px solid #74c0fc;
+        }
+
+        .srs-medium:hover {
+            background-color: #e7f5ff;
+            border-color: #228be6;
+            color: #1864ab;
+        }
+
+        .srs-easy {
+            border-bottom: 4px solid #8ce99a;
+        }
+
+        .srs-easy:hover {
+            background-color: #ebfbee;
+            border-color: #40c057;
+            color: #2b8a3e;
+        }
     </style>
 </head>
 
@@ -358,26 +436,37 @@
             // Generate Footer Content with SRS Buttons
             footer.innerHTML = `
                 <div style="display: flex; flex-direction: column; width: 100%;">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
-                        <div style="display: flex; gap: 10px; align-items: center;">
-                            <div style="background: white; border-radius: 50%; padding: 5px;">
-                                ${result.is_correct ? '✅' : '❌'}
+                    <!-- Feedback Header -->
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; padding: 0 5px;">
+                        <div style="display: flex; gap: 12px; align-items: center;">
+                            <div style="background: white; border-radius: 50%; padding: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <span style="font-size: 1.5rem;">${result.is_correct ? '🎉' : '🤔'}</span>
                             </div>
                             <div style="text-align: left;">
                                 ${title}
                                 ${!result.is_correct || result.similarity < 100 ? `
-                                    <div style="color: #777; margin-top: 5px;">Correct: <b>${result.correct_answer}</b></div>
-                                    <div style="font-size: 0.9rem; margin-top: 5px;">Diff: <span style="background: white; padding: 2px 5px; border-radius: 4px;">${result.diff_html}</span></div>
+                                    <div style="color: #666; margin-top: 4px; font-size: 0.95rem;">Réponse : <b>${result.correct_answer}</b></div>
+                                    <div style="font-size: 0.85rem; margin-top: 4px; opacity: 0.8;">Correction : ${result.diff_html}</div>
                                 ` : ''}
                             </div>
                         </div>
-                         <button class="audio-btn" style="font-size: 1.5rem;" onclick="playAudio('${result.correct_answer.replace("'", "\\'")}')">🔊</button>
+                        <button class="audio-btn" style="width: 45px; height: 45px; font-size: 1.5rem; background: white; border-radius: 12px; border: 2px solid #eee;" onclick="playAudio('${result.correct_answer.replace("'", "\\'")}')">🔊</button>
                     </div>
                     
-                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 10px;">
-                        <button class="srs-btn" onclick="submitSRS(${q.id}, 0)" style="background: #FF4B4B; border-bottom-color: #d41818;">Difficile</button>
-                        <button class="srs-btn" onclick="submitSRS(${q.id}, 4)" style="background: #1CB0F6; border-bottom-color: #1693ce;">Moyen</button>
-                        <button class="srs-btn" onclick="submitSRS(${q.id}, 5)" style="background: #58CC02; border-bottom-color: #46a302;">Facile</button>
+                    <!-- SRS Action Cards -->
+                    <div class="srs-grid">
+                        <button class="srs-card srs-hard" onclick="submitSRS(${q.id}, 0)">
+                            <span class="emoji">😓</span>
+                            <span class="label">Difficile</span>
+                        </button>
+                        <button class="srs-card srs-medium" onclick="submitSRS(${q.id}, 4)">
+                            <span class="emoji">😐</span>
+                            <span class="label">Moyen</span>
+                        </button>
+                        <button class="srs-card srs-easy" onclick="submitSRS(${q.id}, 5)">
+                            <span class="emoji">😎</span>
+                            <span class="label">Facile</span>
+                        </button>
                     </div>
                 </div>
             `;
