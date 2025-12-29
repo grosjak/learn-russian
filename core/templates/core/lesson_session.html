@@ -243,11 +243,10 @@
                 area.innerText = `Son : ${q.transliteration || '?'}`;
                 hintLevel = 2;
             } else if (hintLevel === 2) {
-                // Hint 3: First Letter + Underscores
-                const first = q.correct.charAt(0);
-                const rest = q.correct.length > 1 ? ' _'.repeat(q.correct.length - 1) : '';
-                area.innerText = `Début : ${first}${rest}`;
+                // Hint 3: First Letter + Underscores (Dynamic)
                 hintLevel = 3; // Max level
+                const input = document.getElementById('userAnswer');
+                updateDynamicHint(input.value);
             } else {
                 // Reset (Loop back)
                 area.innerText = '';
@@ -265,6 +264,35 @@
                 btn.style.backgroundColor = '';
                 btn.style.color = '';
             }
+
+            // Live Hint Update
+            if (hintLevel === 3) {
+                updateDynamicHint(el.value);
+            }
+        }
+
+        function updateDynamicHint(userInput) {
+            const q = questions[currentIndex];
+            const area = document.getElementById('hintArea');
+            const answer = q.correct;
+
+            // Find common prefix length
+            let i = 0;
+            while (i < userInput.length && i < answer.length && userInput[i].toLowerCase() === answer[i].toLowerCase()) {
+                i++;
+            }
+
+            // i is now the length of correct prefix typed by user
+            // We want to show prefix + next char + underscores
+
+            let revealLength = i + 1;
+            if (revealLength > answer.length) revealLength = answer.length;
+
+            const revealed = answer.substring(0, revealLength);
+            const restCount = answer.length - revealLength;
+            const rest = restCount > 0 ? ' _'.repeat(restCount) : '';
+
+            area.innerText = `Début : ${revealed}${rest}`;
         }
 
         function handleInputValidation(q) {
