@@ -72,7 +72,7 @@
         let selectedOption = null;
         let isCheckState = true; // true = Check, false = Continue
         let currentQuestionStartTime = Date.now();
-        let hintLevel = 0; // 0 = None, 1 = Translit, 2 = First Letter
+        let hintLevel = 0; // 0=None, 1=Structure, 2=Translit, 3=Letters
 
         const questionArea = document.getElementById('questionArea');
         const checkBtn = document.getElementById('checkBtn');
@@ -234,19 +234,21 @@
             const area = document.getElementById('hintArea');
 
             if (hintLevel === 0) {
-                // Show Transliteration
-                area.innerText = q.transliteration || 'Pas d\'indice phonétique';
+                // Hint 1: Structure (Length)
+                const structure = '_ '.repeat(q.correct.length).trim();
+                area.innerText = `Structure : ${structure}`;
                 hintLevel = 1;
             } else if (hintLevel === 1) {
-                // Show First Letter + Underscores
+                // Hint 2: Transliteration
+                area.innerText = `Son : ${q.transliteration || '?'}`;
+                hintLevel = 2;
+            } else if (hintLevel === 2) {
+                // Hint 3: First Letter + Underscores
                 const first = q.correct.charAt(0);
                 const rest = q.correct.length > 1 ? ' _'.repeat(q.correct.length - 1) : '';
-                area.innerText = first + rest;
-                hintLevel = 2;
+                area.innerText = `Début : ${first}${rest}`;
+                hintLevel = 3; // Max level
             }
-            // Optional: Cycle back to 0? Or keep at 2? The user spec didn't strictly say, but usually users want it to stay or provide more help.
-            // Let's stop at 2 for now, or clear if clicked again?
-            // "Au premier clic... Au deuxième clic..." implies progressive.
         }
 
         window.checkInputState = function (el) {
