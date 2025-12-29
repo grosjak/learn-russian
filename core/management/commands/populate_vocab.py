@@ -60,6 +60,15 @@ class Command(BaseCommand):
             if rus in examples_map:
                 example = examples_map[rus]
 
+            # Handle potential duplicates (Clean up before update)
+            existing_dups = Word.objects.filter(russian=rus, target_language='ru')
+            if existing_dups.count() > 1:
+                # Keep the oldest one (first created), delete others
+                # This minimizes risk of losing progress if progress is attached to the "original"
+                keep = existing_dups.order_by('id').first()
+                deleted_count, _ = existing_dups.exclude(id=keep.id).delete()
+                print(f"cleaned up {deleted_count} duplicates for '{rus}'")
+
             word, created = Word.objects.update_or_create(
                 russian=rus,
                 target_language='ru',
