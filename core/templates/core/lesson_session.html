@@ -248,6 +248,10 @@
                 const rest = q.correct.length > 1 ? ' _'.repeat(q.correct.length - 1) : '';
                 area.innerText = `Début : ${first}${rest}`;
                 hintLevel = 3; // Max level
+            } else {
+                // Reset (Loop back)
+                area.innerText = '';
+                hintLevel = 0;
             }
         }
 
