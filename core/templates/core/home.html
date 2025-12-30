@@ -4,79 +4,182 @@
 {% block content %}
 <div class="container" style="display: flex; flex-direction: column; justify-content: center; min-height: 80vh;">
     <!-- User Header -->
-    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 2rem;">
-        <!-- Empty left side or title -->
-        <div></div>
-
-        <div style="text-align: right;">
-            {% if user.is_authenticated %}
-            <div style="color: #1CB0F6; font-weight: bold; font-size: 1.2rem;">👤 {{ user.username }}</div>
-            <div style="margin-top: 5px;">
-                <a href="{% url 'select_language' %}"
-                    style="color: #aaa; text-decoration: none; font-size: 0.9rem; margin-right: 10px;">Changer
-                    langue</a>
-                <a href="{% url 'logout' %}"
-                    style="color: #FF4B4B; text-decoration: none; font-size: 0.9rem;">Déconnexion</a>
+    <div class="dashboard-header">
+        <div class="user-greeting">
+            <div class="avatar-circle">
+                {{ user.username|make_list|first|upper }}
             </div>
-            {% endif %}
+            <div class="user-info">
+                <h2>Bonjour, {{ user.username }} !</h2>
+                <div class="user-links">
+                    <a href="{% url 'select_language' %}">🌍 Changer langue</a>
+                    <span class="separator">•</span>
+                    <a href="{% url 'logout' %}" class="logout-link">Déconnexion</a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+    <div class="menu-grid">
 
         <!-- Primary Learning Path Button -->
         <a href="{% if target_language == 'ru' %}{% url 'practice' 'alphabet' %}{% else %}{% url 'roadmap' %}{% endif %}"
-            class="menu-btn">
-            <span style="font-size: 2rem; margin-right: 15px;">
+            class="menu-btn btn-alphabet">
+            <div class="icon-box">
                 {% if target_language == 'ru' %}🅰️{% else %}🚀{% endif %}
-            </span>
-            <div style="text-align: left;">
-                <div>{% if target_language == 'ru' %}Alphabet{% else %}Parcours{% endif %}</div>
-                <div style="font-size: 1rem; font-weight: normal; opacity: 0.8; margin-top: 4px;">
+            </div>
+            <div class="text-content">
+                <div class="title">{% if target_language == 'ru' %}Alphabet{% else %}Parcours{% endif %}</div>
+                <div class="subtitle">
                     {% if target_language == 'ru' %}Maîtrisez le Cyrillique{% else %}Votre progression{% endif %}
                 </div>
             </div>
         </a>
 
-        <a href="{% url 'vocabulary' %}" class="menu-btn secondary">
-            <span style="font-size: 2rem; margin-right: 15px;">📚</span>
-            <div>
-                <div>Vocabulaire</div>
-                <div style="font-size: 1rem; font-weight: normal; opacity: 0.8; margin-top: 4px;">Liste des mots appris
-                </div>
+        <a href="{% url 'vocabulary' %}" class="menu-btn btn-vocabulary">
+            <div class="icon-box">📚</div>
+            <div class="text-content">
+                <div class="title">Vocabulaire</div>
+                <div class="subtitle">Liste des mots appris</div>
             </div>
         </a>
     </div>
 </div>
 
 <style>
-    .menu-btn {
-        background-color: var(--card-bg);
-        /* Dark card */
-        border: 2px solid var(--duo-green);
-        /* Orange border */
-        color: white;
-        padding: 1.5rem;
+    .dashboard-header {
+        margin-bottom: 3rem;
+        background: #2b3a42;
+        /* Slightly lighter than main bg */
+        padding: 20px;
         border-radius: 16px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-decoration: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: 1px solid #37474f;
+    }
+
+    .user-greeting {
         display: flex;
         align-items: center;
-        box-shadow: 0 4px 0 var(--duo-green-shadow);
-        /* Orange shadow */
-        transition: transform 0.1s, background 0.2s;
+        gap: 20px;
+    }
+
+    .avatar-circle {
+        width: 60px;
+        height: 60px;
+        background: #58cc02;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: bold;
+        box-shadow: 0 4px 0 #46a302;
+    }
+
+    .user-info h2 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: white;
+    }
+
+    .user-links {
+        margin-top: 5px;
+        font-size: 0.9rem;
+        color: #b0bec5;
+    }
+
+    .user-links a {
+        color: #4fc3f7;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .user-links a:hover {
+        text-decoration: underline;
+    }
+
+    .user-links .logout-link {
+        color: #ef5350;
+    }
+
+    .separator {
+        margin: 0 10px;
+        color: #546e7a;
+    }
+
+    /* Menu Buttons */
+    .menu-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .menu-btn {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem;
+        border-radius: 20px;
+        text-decoration: none;
+        color: white;
+        transition: transform 0.1s, filter 0.2s;
+        border-bottom-width: 5px;
+        border-style: solid;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .menu-btn:hover {
+        transform: translateY(-2px);
+        filter: brightness(1.05);
     }
 
     .menu-btn:active {
-        transform: translateY(4px);
-        box-shadow: none;
+        transform: translateY(2px);
+        border-bottom-width: 2px;
+        margin-top: 3px;
+        /* visual offset compensation */
     }
 
-    .menu-btn.secondary {
-        border-color: #555;
-        box-shadow: 0 4px 0 #333;
-        color: #aaa;
+    .icon-box {
+        font-size: 2.5rem;
+        margin-right: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .text-content {
+        flex: 1;
+    }
+
+    .title {
+        font-size: 1.6rem;
+        font-weight: 800;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+        font-weight: 500;
+    }
+
+    /* Styles Specific */
+    .btn-alphabet {
+        background-color: #ff9600;
+        border-color: #cc7800;
+    }
+
+    .btn-vocabulary {
+        background-color: #1cb0f6;
+        border-color: #118cc6;
     }
 </style>
 {% endblock %}
