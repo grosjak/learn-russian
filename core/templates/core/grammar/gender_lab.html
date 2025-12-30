@@ -1,0 +1,228 @@
+{% extends 'core/base_app.html' %}
+
+{% block content %}
+<div class="grammar-container">
+    <div class="header">
+        <h1>⚥ Le Labo du Genre</h1>
+        <p>Glissez les mots dans le bon panier !</p>
+    </div>
+
+    <!-- The Word to Sort -->
+    <div class="word-stage">
+        <div id="current-word" class="draggable-word" draggable="true">Chargement...</div>
+    </div>
+
+    <!-- Buckets -->
+    <div class="buckets-container">
+        <div class="bucket masculine" data-gender="m">
+            <div class="icon">🧔</div>
+            <div class="label">Masculin</div>
+        </div>
+        <div class="bucket feminine" data-gender="f">
+            <div class="icon">👩</div>
+            <div class="label">Féminin</div>
+        </div>
+        <div class="bucket neuter" data-gender="n">
+            <div class="icon">😐</div>
+            <div class="label">Neutre</div>
+        </div>
+    </div>
+
+    <div id="feedback" class="feedback hidden"></div>
+    <div class="score">Score: <span id="score-val">0</span></div>
+</div>
+
+<style>
+    .grammar-container {
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .word-stage {
+        min-height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .draggable-word {
+        background: white;
+        padding: 1rem 2rem;
+        font-size: 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        cursor: grab;
+        user-select: none;
+        touch-action: none;
+        /* Important for custom touch handling */
+        transition: transform 0.1s;
+    }
+
+    .draggable-word:active {
+        cursor: grabbing;
+        transform: scale(1.1);
+    }
+
+    .buckets-container {
+        display: flex;
+        justify-content: space-around;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .bucket {
+        background: rgba(255, 255, 255, 0.8);
+        border: 3px dashed #ccc;
+        border-radius: 16px;
+        padding: 1.5rem;
+        width: 30%;
+        min-width: 100px;
+        transition: all 0.2s;
+    }
+
+    .bucket.hovered {
+        background: #e3f2fd;
+        border-color: #2196f3;
+        transform: scale(1.05);
+    }
+
+    .bucket.correct {
+        background: #e8f5e9;
+        border-color: #4caf50;
+    }
+
+    .bucket.wrong {
+        background: #ffebee;
+        border-color: #f44336;
+    }
+
+    .bucket .icon {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .bucket .label {
+        font-weight: bold;
+        color: #555;
+    }
+
+    .masculine {
+        border-color: #90caf9;
+    }
+
+    .feminine {
+        border-color: #f48fb1;
+    }
+
+    .neuter {
+        border-color: #fff59d;
+    }
+
+    .feedback {
+        margin-top: 2rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        min-height: 1.5em;
+    }
+
+    .hidden {
+        visibility: hidden;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentWordObj = null;
+        let score = 0;
+        const wordEl = document.getElementById('current-word');
+        const feedbackEl = document.getElementById('feedback');
+        const scoreEl = document.getElementById('score-val');
+
+        function fetchNextWord() {
+            // Reset state
+            wordEl.style.display = 'none'; // Hide briefly
+            wordEl.classList.remove('dragging');
+            feedbackEl.classList.add('hidden');
+
+            fetch('/core/api/grammar/gender_data/')
+                .then(r => r.json())
+                .then(data => {
+                    currentWordObj = data;
+                    wordEl.textContent = data.word;
+                    wordEl.style.display = 'block';
+                })
+                .catch(err => {
+                    wordEl.textContent = "Erreur...";
+                    console.error(err);
+                });
+        }
+
+        fetchNextWord();
+
+        // -- Drag & Drop Logic --
+        // Mouse/Desktop
+        wordEl.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', 'word');
+            // Just a dummy data to enable D&D
+            setTimeout(() => wordEl.style.opacity = '0.5', 0);
+        });
+        wordEl.addEventListener('dragend', () => {
+            wordEl.style.opacity = '1';
+        });
+
+        document.querySelectorAll('.bucket').forEach(bucket => {
+            bucket.addEventListener('dragover', (e) => {
+                e.preventDefault(); // Allow drop
+                bucket.classList.add('hovered');
+            });
+            bucket.addEventListener('dragleave', () => {
+                bucket.classList.remove('hovered');
+            });
+            bucket.addEventListener('drop', (e) => {
+                e.preventDefault();
+                bucket.classList.remove('hovered');
+                checkAnswer(bucket.dataset.gender, bucket);
+            });
+
+            // Mobile / Touch handling (Simple Click for now usually better than complex touch drag)
+            // Let's add Click interaction as fallback/alternative
+            bucket.addEventListener('click', () => {
+                checkAnswer(bucket.dataset.gender, bucket);
+            });
+        });
+
+        // Also make word clickable to "select" it? No, better: 
+        // Just click bucket to send current word there. "Click-to-sort"
+
+        function checkAnswer(selectedGender, bucketEl) {
+            if (!currentWordObj) return;
+
+            if (selectedGender === currentWordObj.gender) {
+                // Correct
+                feedbackEl.textContent = "Correct ! " + currentWordObj.explanation;
+                feedbackEl.style.color = "green";
+                feedbackEl.classList.remove('hidden');
+                bucketEl.classList.add('correct');
+                score++;
+                scoreEl.textContent = score;
+                setTimeout(() => {
+                    bucketEl.classList.remove('correct');
+                    fetchNextWord();
+                }, 1000);
+            } else {
+                // Wrong
+                feedbackEl.textContent = "Non ! " + currentWordObj.explanation;
+                feedbackEl.style.color = "red";
+                feedbackEl.classList.remove('hidden');
+                bucketEl.classList.add('wrong');
+                setTimeout(() => {
+                    bucketEl.classList.remove('wrong');
+                }, 1000);
+            }
+        }
+    });
+</script>
+{% endblock %}

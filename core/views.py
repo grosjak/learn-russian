@@ -426,3 +426,55 @@ def get_letter_breakdown(word):
         elif char.strip(): # Ignore pure whitespace in breakdown if confusing, but keeping punctuation is good
             breakdown.append({'char': char, 'sound': char})
     return breakdown
+
+@login_required
+def grammar_practice(request):
+    return render(request, 'core/grammar/gender_lab.html')
+
+@login_required
+def get_grammar_gender_data(request):
+    # Heuristic for determining gender + explanation
+    # 1. Fetch a random noun (category='word')
+    # Filter for words that have "nice" endings for A1 level
+    # Avoid exceptions for now if possible, or handle them.
+    
+    # Let's simple pick random words and simplistic rules for the prototype
+    count = Word.objects.filter(category='word').count()
+    if count == 0:
+        return JsonResponse({'error': 'No words'}, status=404)
+    
+    random_idx = random.randint(0, count - 1)
+    word = Word.objects.filter(category='word')[random_idx]
+    
+    ru = word.russian.lower().strip()
+    
+    gender = '?'
+    explanation = ""
+    
+    # Exceptions (Soft sign is tricky, usually feminine but not always)
+    if ru.endswith('ь'):
+        # Skip soft sign for A1 version to avoid confusion, RECURSE
+        return get_grammar_gender_data(request)
+        
+    elif ru.endswith(('а', 'я')):
+        gender = 'f'
+        explanation = f"Terminaison en -{ru[-1]} -> Féminin"
+        # Exception: Papa, Dyadya (Male) - ignored for prototype or check specific list
+        if ru in ['папа', 'дядя', 'дедушка', 'мужчина']:
+            gender = 'm'
+            explanation = "Exception : Désigne un homme -> Masculin"
+            
+    elif ru.endswith(('о', 'е', 'ё', 'мя')):
+        gender = 'n'
+        explanation = f"Terminaison en -{ru[-1]} -> Neutre"
+        
+    else:
+        # Consonant (or й)
+        gender = 'm'
+        explanation = "Terminaison consonne/й -> Masculin"
+        
+    return JsonResponse({
+        'word': word.russian,
+        'gender': gender,
+        'explanation': explanation
+    })

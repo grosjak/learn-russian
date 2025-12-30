@@ -19,6 +19,11 @@ urlpatterns = [
     path('revision/', views.revision_list, name='revision_list'),
     path('practice/<str:mode>/', views.practice, name='practice'),
     path('api/practice/<str:mode>/', views.practice_data, name='practice_data'),
+    
+    # Grammar
+    path('grammar/gender/', views.grammar_practice, name='grammar_practice'),
+    path('api/grammar/gender_data/', views.get_grammar_gender_data, name='get_grammar_gender_data'),
+
     path('lesson/<int:lesson_id>/', views.lesson_detail, name='lesson_detail'),
     path('api/lesson/<int:lesson_id>/', views.lesson_data, name='lesson_data'),
 ]
