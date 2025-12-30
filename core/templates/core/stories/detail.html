@@ -140,7 +140,10 @@
 </style>
 
 <script>
+    { { story.word_translations | json_script: "story-glossary" } }
+
     document.addEventListener('DOMContentLoaded', function () {
+        const glossary = JSON.parse(document.getElementById('story-glossary').textContent);
         const rusContainer = document.getElementById('russian-text');
         const rawText = `{{ story.content_russian|escapejs }}`;
 
@@ -176,6 +179,16 @@
             const popFr = document.getElementById('pop-french');
 
             popRus.textContent = word;
+
+            // 1. Try local static glossary
+            const lowerWord = word.toLowerCase();
+            if (glossary && glossary[lowerWord]) {
+                popFr.textContent = glossary[lowerWord];
+                popover.classList.remove('hidden');
+                return;
+            }
+
+            // 2. Fallback to API
             popFr.textContent = "Recherche...";
             popover.classList.remove('hidden');
 
