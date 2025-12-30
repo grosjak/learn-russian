@@ -147,7 +147,7 @@
             wordEl.classList.remove('dragging');
             feedbackEl.classList.add('hidden');
 
-            fetch('/core/api/grammar/gender_data/')
+            fetch('/api/grammar/gender_data/')
                 .then(r => r.json())
                 .then(data => {
                     currentWordObj = data;

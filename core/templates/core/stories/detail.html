@@ -12,13 +12,30 @@
         <button id="toggle-trans" class="btn-secondary">Voir la traduction complète</button>
     </div>
 
-    <div class="split-view">
-        <div class="text-column russian-text" id="russian-text">
-            <!-- JS will populate spans here -->
-            {{ story.content_russian|linebreaks }}
+    <div class="reader-container">
+        <a href="{% url 'stories_list' %}" class="btn-back">← Retour aux lectures</a>
+
+        <h1 style="text-align: center; margin-bottom: 2rem; color: #ffa726;">{{ story.content_russian|truncatewords:4 }}
+        </h1>
+
+        <div class="story-actions">
+            <span class="level-badge">{{ story.difficulty }}</span>
+            <button onclick="toggleTranslation()" class="btn-toggle">
+                👁️ Voir la traduction complète
+            </button>
         </div>
-        <div class="text-column english-text hidden" id="english-text">
-            {{ story.content_english|linebreaks }}
+
+        <div class="story-card">
+            <div class="russian-text story-content">
+                {% for word in story.content_russian.split %}
+                <span onclick="lookupWord(this)">{{ word }}</span>
+                {% endfor %}
+            </div>
+
+            <div id="english-translation" class="english-text" style="display: none;">
+                <hr style="margin: 20px 0; border-color: #eee;">
+                {{ story.content_english|linebreaks }}
+            </div>
         </div>
     </div>
 
@@ -33,54 +50,88 @@
 
 <style>
     .reader-container {
-        max-width: 900px;
+        max-width: 800px;
         margin: 0 auto;
         padding: 20px;
+        font-family: 'Inter', sans-serif;
     }
 
-    .reader-header {
+    .btn-back {
+        display: inline-block;
+        color: #ccc;
+        text-decoration: none;
+        margin-bottom: 20px;
+        font-weight: bold;
+        transition: color 0.2s;
+    }
+
+    .btn-back:hover {
+        color: white;
+    }
+
+    .story-actions {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        margin-bottom: 2rem;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .level-badge {
+        background: #ffa726;
+        color: #000;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .btn-toggle {
+        background: #37464f;
+        color: white;
+        border: 2px solid #546e7a;
+        padding: 8px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.2s;
+    }
+
+    .btn-toggle:hover {
+        background: #455a64;
+        border-color: #78909c;
     }
 
     .story-card {
         background: white;
-        /* Card is white */
-        color: #1a1a1a;
-        /* Text must be dark */
-        padding: 2rem;
+        color: #1a1a1a !important;
+        /* Force dark text */
+        padding: 30px;
         border-radius: 20px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         line-height: 1.8;
-        font-size: 1.2rem;
+        font-size: 1.25rem;
+    }
+
+    .english-text {
+        color: #444;
+        /* Dark grey for translation */
+        font-size: 1.1rem;
+        margin-top: 20px;
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 10px;
     }
 
     .story-content span {
         cursor: pointer;
-        padding: 2px 4px;
-        border-radius: 4px;
-        transition: background 0.2s;
-        border-bottom: 2px solid transparent;
-        display: inline-block;
-        /* Helps with touch targets */
+        border-bottom: 1px dashed #ccc;
+        transition: 0.2s;
     }
 
     .story-content span:hover {
         background: #e3f2fd;
-        border-bottom-color: #2196f3;
         color: #0d47a1;
-    }
-
-    .english-text {
-        margin-top: 1rem;
-        background: #f8f9fa;
-        border-left: 4px solid #4a90e2;
-    }
-
-    .hidden {
-        display: none;
+        border-bottom-color: #2196f3;
     }
 
     .popover {
