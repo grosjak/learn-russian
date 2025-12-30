@@ -28,6 +28,20 @@
             transform: scale(1.1);
         }
 
+        .nav-mini-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .nav-mini-btn:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
         /* SRS Premium Buttons */
         .srs-grid {
             display: grid;
@@ -111,8 +125,12 @@
 <body>
     <div class="container lesson-container">
         <!-- Header -->
-        <div class="progress-header">
-            <div class="close-btn" onclick="window.location.href='/'">✕</div>
+        <div class="progress-header" style="justify-content: space-between; margin-bottom: 15px;">
+            <div style="display: flex; gap: 10px;">
+                <button class="nav-mini-btn" onclick="window.location.href='/'" title="Menu Principal">🏠</button>
+                <button class="nav-mini-btn" onclick="window.location.href='{% url 'select_language' %}'"
+                    title="Changer Langue">🌍</button>
+            </div>
             <div class="progress-bar-bg">
                 <div class="progress-bar-fill" id="progressBar"></div>
             </div>

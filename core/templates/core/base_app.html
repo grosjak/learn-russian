@@ -12,12 +12,35 @@
 
 <body>
     <div class="app-header"
-        style="background: #202F36; padding: 10px 20px; display: flex; align-items: center; border-bottom: 2px solid #37464f; margin-bottom: 20px;">
-        <a href="{% url 'home' %}"
-            style="text-decoration: none; color: white; font-weight: bold; font-size: 1.2rem; display: flex; align-items: center; gap: 10px;">
-            <span>🎓 Apprendre les langues</span>
+        style="background: #202F36; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #37464f; margin-bottom: 20px;">
+        <!-- Home Button -->
+        <a href="{% url 'home' %}" class="nav-btn"
+            style="text-decoration: none; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; background: #37464f; padding: 8px 16px; border-radius: 12px; border: 2px solid #4b5b64; transition: all 0.2s;">
+            <span>🏠</span>
+            <span>Menu</span>
+        </a>
+
+        <!-- Title (Optional, hidden on small screens if needed) -->
+        <div style="color: #666; font-weight: bold; font-size: 0.9rem;">APPLI RUSSE</div>
+
+        <!-- Language Button -->
+        <a href="{% url 'select_language' %}" class="nav-btn"
+            style="text-decoration: none; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; background: #37464f; padding: 8px 16px; border-radius: 12px; border: 2px solid #4b5b64; transition: all 0.2s;">
+            <span>🌍</span>
+            <span>Langue</span>
         </a>
     </div>
+
+    <style>
+        .nav-btn:hover {
+            background: #4b5b64 !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:active {
+            transform: translateY(0);
+        }
+    </style>
 
     <div class="app-container">
         {% block content %}
