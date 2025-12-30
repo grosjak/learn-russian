@@ -157,27 +157,205 @@ Many people go to their dacha to relax in nature. There they heat the banya and 
 The most important holiday in winter is New Year. Russians cook a lot of delicious food, for example, Olivier salad.
 They decorate the Christmas tree and give each other gifts. At midnight the chimes strike on Red Square."""
             },
-            # Level B2
+            # Level A2 (Adding 4 more -> Total 5)
             {
-                'title': 'Технологии и будущее (Technology and Future)',
-                'slug': 'tech-future',
+                'title': 'Мой любимый фильм (My favorite movie)',
+                'slug': 'favorite-movie',
+                'difficulty': 'A2',
+                'content_russian': """Мой любимый фильм — это старая советская комедия.
+Я смотрел его много раз. Он очень смешной и добрый.
+Там играют известные актёры. Сюжет простой, но интересный.
+Мы часто смотрим этот фильм всей семьёй на Новый год.
+Я люблю этот фильм, потому что он напоминает мне о детстве.""",
+                'content_english': """My favorite movie is an old Soviet comedy.
+I watched it many times. It is very funny and kind.
+Famous actors play there. The plot is simple but interesting.
+We often watch this movie with the whole family on New Year.
+I love this movie because it reminds me of my childhood."""
+            },
+            {
+                'title': 'В ресторане (At the restaurant)',
+                'slug': 'at-the-restaurant',
+                'difficulty': 'A2',
+                'content_russian': """Вчера мы были в ресторане. Мы праздновали день рождения друга.
+Ресторан был очень уютный. Там играла тихая музыка.
+Мы заказали пиццу, салат и вино. Еда была вкусная.
+Официант был вежливый и быстрый.
+Мы много разговаривали и смеялись. Это был отличный вечер.""",
+                'content_english': """Yesterday we were at a restaurant. We celebrated a friend's birthday.
+The restaurant was very cozy. Quiet music was playing there.
+We ordered pizza, salad and wine. The food was delicious.
+The waiter was polite and fast.
+We talked and laughed a lot. It was a great evening."""
+            },
+            {
+                'title': 'Планы на лето (Plans for summer)',
+                'slug': 'summer-plans',
+                'difficulty': 'A2',
+                'content_russian': """Скоро будет лето. Я хочу поехать на море.
+Я люблю плавать и загорать. Я хочу жить в отеле рядом с пляжем.
+Мои друзья хотят поехать в горы. Они любят ходить в походы.
+Мы ещё не решили, куда поедем. Может быть, мы разделимся.
+Главное — это хорошо отдохнуть.""",
+                'content_english': """Soon it will be summer. I want to go to the sea.
+I like to swim and sunbathe. I want to live in a hotel near the beach.
+My friends want to go to the mountains. They like hiking.
+We haven't decided where we will go yet. Maybe we will split up.
+The main thing is to have a good rest."""
+            },
+            {
+                'title': 'Моя квартира (My apartment)',
+                'slug': 'my-apartment',
+                'difficulty': 'A2',
+                'content_russian': """Я живу в маленькой квартире. Там есть одна комната и кухня.
+В комнате стоит диван, стол и телевизор. На окне стоят цветы.
+Кухня светлая и удобная. Я люблю готовить там завтрак.
+У меня нет балкона, но есть большие окна.
+Мне нравится мой дом, потому что он уютный.""",
+                'content_english': """I live in a small apartment. There is one room and a kitchen.
+In the room there is a sofa, a table and a TV. There are flowers on the window.
+The kitchen is bright and comfortable. I like to cook breakfast there.
+I do not have a balcony, but have big windows.
+I like my home because it is cozy."""
+            },
+
+            # Level B1 (Adding 4 more -> Total 5)
+            {
+                'title': 'Путешествие на поезде (Train Travel)',
+                'slug': 'train-travel',
+                'difficulty': 'B1',
+                'content_russian': """Путешествовать на поезде по России — это особое приключение.
+Расстояния огромные, и поездка может длиться несколько дней.
+В поезде люди часто знакомятся и пьют чай из стаканов с подстаканниками.
+Можно смотреть в окно на леса, поля и деревни.
+Многие иностранцы мечтают проехать по Транссибирской магистрали.
+Это уникальный шанс увидеть настоящую Россию.""",
+                'content_english': """Traveling by train in Russia is a special adventure.
+Distances are huge, and the trip can last several days.
+In the train, people often meet and drink tea from glasses with glass holders.
+You can look out the window at forests, fields and villages.
+Many foreigners dream of traveling on the Trans-Siberian Railway.
+This is a unique chance to see real Russia."""
+            },
+            {
+                'title': 'Спорт в моей жизни (Sport in my life)',
+                'slug': 'sport-life',
+                'difficulty': 'B1',
+                'content_russian': """Я стараюсь вести здоровый образ жизни.
+Два раза в неделю я хожу в спортзал. Я бегаю на дорожке и поднимаю гантели.
+Летом я люблю кататься на велосипеде в парке. Это помогает мне расслабиться.
+Зимой я иногда катаюсь на лыжах, хотя это трудно.
+Спорт даёт мне энергию и хорошее настроение. Я считаю, что движение — это жизнь.""",
+                'content_english': """I try to lead a healthy lifestyle.
+Twice a week I go to the gym. I run on the treadmill and lift dumbbells.
+In summer I like to ride a bike in the park. It helps me relax.
+In winter I sometimes go skiing, although it is difficult.
+Sport gives me energy and a good mood. I believe that movement is life."""
+            },
+            {
+                'title': 'Москвы не сразу строилась (Moscow wasn\'t built in a day)',
+                'slug': 'moscow-history',
+                'difficulty': 'B1',
+                'content_russian': """Москва — древний город с богатой историей.
+Она была основана Юрием Долгоруким в 1147 году.
+Кремль — это сердце Москвы. Раньше он был деревянным, а сейчас кирпичный.
+Город пережил много пожаров и войн, но всегда восстанавливался.
+Сегодня Москва — это огромный мегаполис, который никогда не спит.
+Здесь старинные церкви стоят рядом с небоскрёбами.""",
+                'content_english': """Moscow is an ancient city with a rich history.
+It was founded by Yuri Dolgorukiy in 1147.
+The Kremlin is the heart of Moscow. Previously it was wooden, and now is brick.
+The city survived many fires and wars, but always recovered.
+Today Moscow is a huge metropolis that never sleeps.
+Here ancient churches stand next to skyscrapers."""
+            },
+            {
+                'title': 'Русская кухня (Russian Cuisine)',
+                'slug': 'russian-cuisine',
+                'difficulty': 'B1',
+                'content_russian': """Русская кухня очень сытная и разнообразная.
+Самое известное блюдо — это борщ. Это суп из свёклы, капусты и мяса.
+Ещё русские любят блины. Их едят с маслом, икрой или сметаной.
+Пельмени — это тоже популярное блюдо, похожее на равиоли.
+Традиционные напитки — это квас и морс.
+Если вы приедете в Россию, обязательно попробуйте пирожки.""",
+                'content_english': """Russian cuisine is very hearty and varied.
+The most famous dish is borsch. It is a soup made of beets, cabbage and meat.
+Russians also like pancakes (blini). They are eaten with butter, caviar or sour cream.
+Pelmeni is also a popular dish, similar to ravioli.
+Traditional drinks are kvas and mors.
+If you come to Russia, be sure to try pirozhki."""
+            },
+
+            # Level B2 (Adding 4 more -> Total 5)
+            {
+                'title': 'Экологические проблемы (Environmental Issues)',
+                'slug': 'ecology',
                 'difficulty': 'B2',
-                'content_russian': """В современном мире технологии развиваются с невероятной скоростью.
-Влияние искусственного интеллекта на нашу жизнь становится всё более заметным.
-С одной стороны, это открывает перед человечеством огромные возможности: автоматизация рутинных задач, улучшение медицины и образования.
-С другой стороны, возникают этические вопросы и опасения по поводу потери рабочих мест.
-Многие эксперты спорят о том, сможет ли компьютер когда-нибудь полностью заменить человека.
-Важно найти баланс между технологическим прогрессом и сохранением человеческих ценностей.
-Мы должны учиться адаптироваться к изменениям и использовать технологии во благо общества.""",
-                'content_english': """In the modern world, technologies are developing at an incredible speed.
-The influence of artificial intelligence on our life is becoming more and more noticeable.
-On the one hand, this opens up huge opportunities for humanity: automation of routine tasks, improvement of medicine and education.
-On the other hand, ethical questions and concerns about job losses arise.
-Many experts argue about whether a computer will ever be able to completely replace a human.
-It is important to find a balance between technological progress and the preservation of human values.
-We must learn to adapt to changes and use technologies for the benefit of society."""
+                'content_russian': """Загрязнение окружающей среды — одна из главных проблем современности.
+Мы используем слишком много пластика, который загрязняет океаны.
+Изменение климата приводит к таянию ледников и повышению уровня моря.
+Необходимо переходить на возобновляемые источники энергии, такие как солнце и ветер.
+Каждый человек может внести свой вклад, сортируя мусор и экономя воду.
+Мы ответственны за планету, которую оставим нашим детям.""",
+                'content_english': """Environmental pollution is one of the main problems of our time.
+We use too much plastic, which pollutes the oceans.
+Climate change leads to melting glaciers and rising sea levels.
+It is necessary to switch to renewable energy sources, such as sun and wind.
+Every person can contribute by sorting garbage and saving water.
+We are responsible for the planet we leave to our children."""
+            },
+            {
+                'title': 'Образование онлайн (Online Education)',
+                'slug': 'online-education',
+                'difficulty': 'B2',
+                'content_russian': """Пандемия изменила наш подход к обучению.
+Онлайн-курсы стали невероятно популярны во всём мире.
+Это удобно, так как можно учиться в любое время и в любом месте.
+Однако дистанционное обучение требует высокой самодисциплины.
+Многим студентам не хватает живого общения с преподавателями и одногруппниками.
+Вероятно, будущее за гибридным форматом, который объединяет лучшее из обоих миров.""",
+                'content_english': """The pandemic has changed our approach to learning.
+Online courses have become incredibly popular all over the world.
+It is convenient, as you can study anytime and anywhere.
+However, distance learning requires high self-discipline.
+Many students lack live communication with teachers and classmates.
+Probably, the future belongs to a hybrid format that combines the best of both worlds."""
+            },
+            {
+                'title': 'Искусство и культура (Art and Culture)',
+                'slug': 'art-culture',
+                'difficulty': 'B2',
+                'content_russian': """Русская литература и музыка известны во всём мире.
+Произведения Толстого и Достоевского заставляют задуматься о смысле жизни.
+Музыка Чайковского и Рахманинова трогает сердца слушателей.
+Русский балет считается одним из лучших в мире.
+Искусство помогает нам понять друг друга и преодолеть культурные барьеры.
+Посещение музеев и театров обогащает наш внутренний мир.""",
+                'content_english': """Russian literature and music are famous all over the world.
+The works of Tolstoy and Dostoevsky make one think about the meaning of life.
+The music of Tchaikovsky and Rachmaninoff touches the hearts of listeners.
+Russian ballet is considered one of the best in the world.
+Art helps us understand each other and overcome cultural barriers.
+Visiting museums and theaters enriches our inner world."""
+            },
+            {
+                'title': 'Работа и карьера (Work and Career)',
+                'slug': 'work-career',
+                'difficulty': 'B2',
+                'content_russian': """Выбор профессии — это важное решение в жизни каждого человека.
+Раньше люди часто работали на одном месте всю жизнь.
+Сейчас ситуация изменилась: люди чаще меняют работу и ищут новые возможности.
+Важно постоянно учиться и развивать новые навыки (soft skills).
+Умение работать в команде и адаптироваться к изменениям ценится работодателями.
+Успешная карьера требует не только знаний, но и настойчивости.""",
+                'content_english': """Choosing a profession is an important decision in every person's life.
+Previously, people often worked in one place all their lives.
+Now the situation has changed: people change jobs more often and look for new opportunities.
+It is important to constantly learn and develop new skills (soft skills).
+The ability to work in a team and adapt to changes is valued by employers.
+A successful career requires not only knowledge, but also perseverance."""
             }
-        ]
 
         for s in stories:
             story, created = Story.objects.get_or_create(
