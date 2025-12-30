@@ -356,6 +356,7 @@ It is important to constantly learn and develop new skills (soft skills).
 The ability to work in a team and adapt to changes is valued by employers.
 A successful career requires not only knowledge, but also perseverance."""
             }
+        ]
 
         for s in stories:
             story, created = Story.objects.get_or_create(
