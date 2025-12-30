@@ -1,0 +1,102 @@
+{% extends 'core/base_app.html' %}
+
+{% block content %}
+<div class="stories-container">
+    <div class="page-header">
+        <h1>Lectures (Stories)</h1>
+        <p>Améliorez votre compréhension en lisant des textes adaptés à votre niveau.</p>
+    </div>
+
+    <div class="story-grid">
+        {% for story in stories %}
+        <div class="story-card">
+            <div class="story-level badge-{{ story.difficulty }}">{{ story.difficulty }}</div>
+            <h3>{{ story.title }}</h3>
+            <p class="story-preview">{{ story.content_russian|truncatewords:20 }}</p>
+            <a href="{% url 'story_detail' story.slug %}" class="btn-read">Lire l'histoire</a>
+        </div>
+        {% empty %}
+        <p>Aucune histoire disponible pour le moment.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .stories-container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .story-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .story-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+        position: relative;
+    }
+
+    .story-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .story-level {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+    }
+
+    .badge-A1 {
+        background: #e6f4ea;
+        color: #1e8e3e;
+    }
+
+    .badge-A2 {
+        background: #e8f0fe;
+        color: #1967d2;
+    }
+
+    .badge-B1 {
+        background: #fce8e6;
+        color: #c5221f;
+    }
+
+    .story-card h3 {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .story-preview {
+        color: #666;
+        margin-bottom: 1.5rem;
+    }
+
+    .btn-read {
+        display: block;
+        width: 100%;
+        padding: 0.8rem;
+        background: var(--primary-color, #4a90e2);
+        color: white;
+        text-align: center;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}

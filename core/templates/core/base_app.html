@@ -20,6 +20,25 @@
             <span>Menu</span>
         </a>
 
+        <!-- Navigation Links -->
+        <div style="display: flex; gap: 15px;">
+            <a href="{% url 'vocabulary' %}" class="nav-btn"
+                style="text-decoration: none; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; background: #37464f; padding: 8px 16px; border-radius: 12px; border: 2px solid #4b5b64; transition: all 0.2s;">
+                <span>📖</span>
+                <span>Mots</span>
+            </a>
+            <a href="{% url 'stories_list' %}" class="nav-btn"
+                style="text-decoration: none; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; background: #37464f; padding: 8px 16px; border-radius: 12px; border: 2px solid #4b5b64; transition: all 0.2s;">
+                <span>📚</span>
+                <span>Lectures</span>
+            </a>
+            <a href="{% url 'roadmap' %}" class="nav-btn"
+                style="text-decoration: none; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; background: #37464f; padding: 8px 16px; border-radius: 12px; border: 2px solid #4b5b64; transition: all 0.2s;">
+                <span>🗺️</span>
+                <span>Parcours</span>
+            </a>
+        </div>
+
         <!-- Title (Optional, hidden on small screens if needed) -->
         <div style="color: #666; font-weight: bold; font-size: 0.9rem;">APPLI RUSSE</div>
 

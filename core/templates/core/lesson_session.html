@@ -670,6 +670,39 @@
             btn.disabled = false;
         }
 
+        function checkSelectAnswer(btn, value) {
+            if (isAnswered) return;
+            isAnswered = true;
+
+            const q = questions[currentQuestionIndex];
+            const isCorrect = (value === q.correct);
+            const feedback = document.getElementById('feedback-area');
+
+            // Highlight logic
+            const buttons = document.querySelectorAll('.option-btn');
+            buttons.forEach(b => {
+                if (b.innerText === q.correct) b.classList.add('correct');
+                if (b === btn && !isCorrect) b.classList.add('wrong');
+            });
+
+            feedback.classList.remove('hidden');
+            if (isCorrect) {
+                feedback.innerHTML = `<div class="feedback correct">
+                <h3>Excellent ! 🎉</h3>
+                ${q.reveal_word ? `<div style="font-size:1.5rem; margin-top:10px; color:#333;">${q.reveal_word}</div>` : ''}
+                <button class="next-btn" onclick="nextQuestion()">Continuer</button>
+            </div>`;
+                playSound('correct');
+            } else {
+                feedback.innerHTML = `<div class="feedback wrong">
+                <h3>Pas tout à fait...</h3>
+                <p>La réponse était : <strong>${q.correct}</strong></p>
+                ${q.reveal_word ? `<div style="font-size:1.5rem; margin-top:10px; color:#333;">${q.reveal_word}</div>` : ''}
+                <button class="next-btn" onclick="nextQuestion()">Continuer</button>
+            </div>`;
+                playSound('wrong');
+            }
+        }
         function handleSelectionValidation(q) {
             const btn = document.getElementById('checkBtn');
             const correct = q.correct;

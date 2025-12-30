@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
+from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
-from .models import Lesson, Letter, Word, UserWordProgress
+from .models import Letter, Lesson, Word, UserWordProgress, Story
 import json
 import random
 
@@ -45,8 +47,45 @@ def roadmap(request):
     return render(request, 'core/roadmap.html', {'lessons': lessons})
 
 @login_required
-def vocabulary(request):
-    return render(request, 'core/vocabulary.html')
+def stories_list(request):
+    stories = Story.objects.all().order_by('created_at')
+    return render(request, 'core/stories/list.html', {'stories': stories})
+
+@login_required
+def story_detail(request, slug):
+    story = get_object_or_404(Story, slug=slug)
+    return render(request, 'core/stories/detail.html', {'story': story})
+
+@login_required
+def lookup_word(request):
+    word_text = request.GET.get('word', '').strip()
+    if not word_text:
+        return JsonResponse({'found': False})
+    
+    # Simple direct lookup
+    # Enhancements needed later: lemmatization, stripping endings
+    # For now, exact match or simple stripping
+    
+    # Try exact match first
+    # Using 'russian' field
+    word = Word.objects.filter(russian__iexact=word_text).first()
+    
+    if not word:
+        # Try stripping punctuation just in case JS didn't clean it all
+        clean_word = "".join(c for c in word_text if c.isalnum())
+        word = Word.objects.filter(russian__iexact=clean_word).first()
+
+    if word:
+        translation = word.french
+        # If the 'french' field holds English (as per our dict switch), it returns that.
+        return JsonResponse({
+            'found': True,
+            'word': word.russian,
+            'translation': translation
+        })
+    else:
+        return JsonResponse({'found': False})
+
 
 @login_required
 def revision_list(request):
@@ -118,6 +157,37 @@ def practice_data(request, mode):
             'letters': [{'char': l.character, 'trans': l.transliteration} for l in letters]
         })
             
+
+    elif mode == 'audio_challenge':
+        # Ghost Mode: Audio -> Select Translation
+        # Only words with audio
+        words = list(Word.objects.filter(audio__isnull=False).exclude(audio=''))
+        if len(words) < 5:
+            # Fallback if few words have audio: take all and UI will use TTS fallback if implemented or just show text
+            # For now, let's assume we have some. If empty, return empty.
+            pass
+            
+        if words:
+            random.shuffle(words)
+            selected = words[:15]
+            
+            for word in selected:
+                # Distractors (French translations)
+                all_words = list(Word.objects.exclude(id=word.id))
+                distractors = random.sample(all_words, 3) if len(all_words) >= 3 else all_words
+                options = [w.french for w in distractors] + [word.french]
+                random.shuffle(options)
+                
+                questions.append({
+                    'type': 'listen_and_select',
+                    'id': word.id,
+                    'prompt': '🎧 Écoutez...', # Text hidden, only audio icon
+                    'audio_url': word.audio.url if word.audio else None,
+                    'correct': word.french, # User selects French
+                    'options': options,
+                    'reveal_word': word.russian, # Show after answer
+                    'example': word.example_sentence
+                })
 
     elif mode in ['words', 'verbs', 'revision']:
         if mode == 'revision':

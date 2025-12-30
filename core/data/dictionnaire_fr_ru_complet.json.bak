@@ -1,0 +1,2462 @@
+[
+  {
+    "id": 1,
+    "fr": "le",
+    "ru_cyrillic": "ТО",
+    "ru_phonetique": "TO"
+  },
+  {
+    "id": 2,
+    "fr": "de",
+    "ru_cyrillic": "из",
+    "ru_phonetique": "iz"
+  },
+  {
+    "id": 3,
+    "fr": "un",
+    "ru_cyrillic": "А",
+    "ru_phonetique": "A"
+  },
+  {
+    "id": 4,
+    "fr": "être",
+    "ru_cyrillic": "быть",
+    "ru_phonetique": "byt'"
+  },
+  {
+    "id": 5,
+    "fr": "et",
+    "ru_cyrillic": "И",
+    "ru_phonetique": "I"
+  },
+  {
+    "id": 6,
+    "fr": "à",
+    "ru_cyrillic": "имеет",
+    "ru_phonetique": "imeet"
+  },
+  {
+    "id": 7,
+    "fr": "il",
+    "ru_cyrillic": "он",
+    "ru_phonetique": "on"
+  },
+  {
+    "id": 8,
+    "fr": "avoir",
+    "ru_cyrillic": "иметь",
+    "ru_phonetique": "imet'"
+  },
+  {
+    "id": 9,
+    "fr": "ne",
+    "ru_cyrillic": "рожденный",
+    "ru_phonetique": "rozhdennyj"
+  },
+  {
+    "id": 10,
+    "fr": "je",
+    "ru_cyrillic": "я",
+    "ru_phonetique": "ja"
+  },
+  {
+    "id": 11,
+    "fr": "son",
+    "ru_cyrillic": "ее",
+    "ru_phonetique": "ee"
+  },
+  {
+    "id": 12,
+    "fr": "que",
+    "ru_cyrillic": "что",
+    "ru_phonetique": "chto"
+  },
+  {
+    "id": 13,
+    "fr": "se",
+    "ru_cyrillic": "видишь",
+    "ru_phonetique": "vidish'"
+  },
+  {
+    "id": 14,
+    "fr": "qui",
+    "ru_cyrillic": "ВОЗ",
+    "ru_phonetique": "VOZ"
+  },
+  {
+    "id": 15,
+    "fr": "en",
+    "ru_cyrillic": "в",
+    "ru_phonetique": "v"
+  },
+  {
+    "id": 16,
+    "fr": "ce",
+    "ru_cyrillic": "Этот",
+    "ru_phonetique": "Etot"
+  },
+  {
+    "id": 17,
+    "fr": "dans",
+    "ru_cyrillic": "В",
+    "ru_phonetique": "V"
+  },
+  {
+    "id": 18,
+    "fr": "tout",
+    "ru_cyrillic": "Все",
+    "ru_phonetique": "Vse"
+  },
+  {
+    "id": 19,
+    "fr": "faire",
+    "ru_cyrillic": "ДЕЛАТЬ",
+    "ru_phonetique": "DELAT'"
+  },
+  {
+    "id": 20,
+    "fr": "on",
+    "ru_cyrillic": "мы",
+    "ru_phonetique": "my"
+  },
+  {
+    "id": 21,
+    "fr": "par",
+    "ru_cyrillic": "к",
+    "ru_phonetique": "k"
+  },
+  {
+    "id": 22,
+    "fr": "plus",
+    "ru_cyrillic": "более",
+    "ru_phonetique": "bolee"
+  },
+  {
+    "id": 23,
+    "fr": "sur",
+    "ru_cyrillic": "на",
+    "ru_phonetique": "na"
+  },
+  {
+    "id": 24,
+    "fr": "au",
+    "ru_cyrillic": "В",
+    "ru_phonetique": "V"
+  },
+  {
+    "id": 25,
+    "fr": "pouvoir",
+    "ru_cyrillic": "власть",
+    "ru_phonetique": "vlast'"
+  },
+  {
+    "id": 26,
+    "fr": "dire",
+    "ru_cyrillic": "сказать",
+    "ru_phonetique": "skazat'"
+  },
+  {
+    "id": 27,
+    "fr": "nous",
+    "ru_cyrillic": "Мы",
+    "ru_phonetique": "My"
+  },
+  {
+    "id": 28,
+    "fr": "avec",
+    "ru_cyrillic": "с",
+    "ru_phonetique": "s"
+  },
+  {
+    "id": 29,
+    "fr": "vous",
+    "ru_cyrillic": "ТЫ",
+    "ru_phonetique": "TY"
+  },
+  {
+    "id": 30,
+    "fr": "me",
+    "ru_cyrillic": "мне",
+    "ru_phonetique": "mne"
+  },
+  {
+    "id": 31,
+    "fr": "aller",
+    "ru_cyrillic": "идти",
+    "ru_phonetique": "idti"
+  },
+  {
+    "id": 32,
+    "fr": "voir",
+    "ru_cyrillic": "видеть",
+    "ru_phonetique": "videt'"
+  },
+  {
+    "id": 33,
+    "fr": "mon",
+    "ru_cyrillic": "Мой",
+    "ru_phonetique": "Moj"
+  },
+  {
+    "id": 34,
+    "fr": "homme",
+    "ru_cyrillic": "мужчина",
+    "ru_phonetique": "muzhchina"
+  },
+  {
+    "id": 35,
+    "fr": "vouloir",
+    "ru_cyrillic": "хотеть",
+    "ru_phonetique": "hotet'"
+  },
+  {
+    "id": 36,
+    "fr": "si",
+    "ru_cyrillic": "если",
+    "ru_phonetique": "esli"
+  },
+  {
+    "id": 37,
+    "fr": "bien",
+    "ru_cyrillic": "ХОРОШИЙ",
+    "ru_phonetique": "HOROShIJ"
+  },
+  {
+    "id": 38,
+    "fr": "y",
+    "ru_cyrillic": "й",
+    "ru_phonetique": "j"
+  },
+  {
+    "id": 39,
+    "fr": "venir",
+    "ru_cyrillic": "приходить",
+    "ru_phonetique": "prihodit'"
+  },
+  {
+    "id": 40,
+    "fr": "grand",
+    "ru_cyrillic": "большой",
+    "ru_phonetique": "bol'shoj"
+  },
+  {
+    "id": 41,
+    "fr": "devoir",
+    "ru_cyrillic": "долг",
+    "ru_phonetique": "dolg"
+  },
+  {
+    "id": 42,
+    "fr": "elle",
+    "ru_cyrillic": "Она",
+    "ru_phonetique": "Ona"
+  },
+  {
+    "id": 43,
+    "fr": "ici",
+    "ru_cyrillic": "здесь",
+    "ru_phonetique": "zdes'"
+  },
+  {
+    "id": 44,
+    "fr": "ou",
+    "ru_cyrillic": "Или",
+    "ru_phonetique": "Ili"
+  },
+  {
+    "id": 45,
+    "fr": "savoir",
+    "ru_cyrillic": "знать",
+    "ru_phonetique": "znat'"
+  },
+  {
+    "id": 46,
+    "fr": "prendre",
+    "ru_cyrillic": "брать",
+    "ru_phonetique": "brat'"
+  },
+  {
+    "id": 47,
+    "fr": "petit",
+    "ru_cyrillic": "маленький",
+    "ru_phonetique": "malen'kij"
+  },
+  {
+    "id": 48,
+    "fr": "où",
+    "ru_cyrillic": "Или",
+    "ru_phonetique": "Ili"
+  },
+  {
+    "id": 49,
+    "fr": "falloir",
+    "ru_cyrillic": "нуждаться",
+    "ru_phonetique": "nuzhdat'sja"
+  },
+  {
+    "id": 50,
+    "fr": "croire",
+    "ru_cyrillic": "полагать",
+    "ru_phonetique": "polagat'"
+  },
+  {
+    "id": 51,
+    "fr": "sans",
+    "ru_cyrillic": "без",
+    "ru_phonetique": "bez"
+  },
+  {
+    "id": 52,
+    "fr": "pour",
+    "ru_cyrillic": "Для",
+    "ru_phonetique": "Dlja"
+  },
+  {
+    "id": 53,
+    "fr": "mettre",
+    "ru_cyrillic": "помещать",
+    "ru_phonetique": "pomeschat'"
+  },
+  {
+    "id": 54,
+    "fr": "votre",
+    "ru_cyrillic": "твой",
+    "ru_phonetique": "tvoj"
+  },
+  {
+    "id": 55,
+    "fr": "chose",
+    "ru_cyrillic": "вещь",
+    "ru_phonetique": "vesch'"
+  },
+  {
+    "id": 56,
+    "fr": "temps",
+    "ru_cyrillic": "время",
+    "ru_phonetique": "vremja"
+  },
+  {
+    "id": 57,
+    "fr": "autre",
+    "ru_cyrillic": "другой",
+    "ru_phonetique": "drugoj"
+  },
+  {
+    "id": 58,
+    "fr": "même",
+    "ru_cyrillic": "даже",
+    "ru_phonetique": "dazhe"
+  },
+  {
+    "id": 59,
+    "fr": "trouver",
+    "ru_cyrillic": "находить",
+    "ru_phonetique": "nahodit'"
+  },
+  {
+    "id": 60,
+    "fr": "donner",
+    "ru_cyrillic": "давать",
+    "ru_phonetique": "davat'"
+  },
+  {
+    "id": 61,
+    "fr": "femme",
+    "ru_cyrillic": "женщины",
+    "ru_phonetique": "zhenschiny"
+  },
+  {
+    "id": 62,
+    "fr": "parler",
+    "ru_cyrillic": "разговаривать",
+    "ru_phonetique": "razgovarivat'"
+  },
+  {
+    "id": 63,
+    "fr": "peu",
+    "ru_cyrillic": "маленький",
+    "ru_phonetique": "malen'kij"
+  },
+  {
+    "id": 64,
+    "fr": "sous",
+    "ru_cyrillic": "ниже",
+    "ru_phonetique": "nizhe"
+  },
+  {
+    "id": 65,
+    "fr": "vie",
+    "ru_cyrillic": "жизнь",
+    "ru_phonetique": "zhizn'"
+  },
+  {
+    "id": 66,
+    "fr": "moins",
+    "ru_cyrillic": "меньше",
+    "ru_phonetique": "men'she"
+  },
+  {
+    "id": 67,
+    "fr": "aimer",
+    "ru_cyrillic": "нравиться",
+    "ru_phonetique": "nravit'sja"
+  },
+  {
+    "id": 68,
+    "fr": "passer",
+    "ru_cyrillic": "проходить",
+    "ru_phonetique": "prohodit'"
+  },
+  {
+    "id": 69,
+    "fr": "main",
+    "ru_cyrillic": "рука",
+    "ru_phonetique": "ruka"
+  },
+  {
+    "id": 70,
+    "fr": "jamais",
+    "ru_cyrillic": "Никогда",
+    "ru_phonetique": "Nikogda"
+  },
+  {
+    "id": 71,
+    "fr": "penser",
+    "ru_cyrillic": "думать",
+    "ru_phonetique": "dumat'"
+  },
+  {
+    "id": 72,
+    "fr": "laisser",
+    "ru_cyrillic": "уйти",
+    "ru_phonetique": "ujti"
+  },
+  {
+    "id": 73,
+    "fr": "nouveau",
+    "ru_cyrillic": "новый",
+    "ru_phonetique": "novyj"
+  },
+  {
+    "id": 74,
+    "fr": "demander",
+    "ru_cyrillic": "просить",
+    "ru_phonetique": "prosit'"
+  },
+  {
+    "id": 75,
+    "fr": "jour",
+    "ru_cyrillic": "день",
+    "ru_phonetique": "den'"
+  },
+  {
+    "id": 76,
+    "fr": "arriver",
+    "ru_cyrillic": "приезжать",
+    "ru_phonetique": "priezzhat'"
+  },
+  {
+    "id": 77,
+    "fr": "toujours",
+    "ru_cyrillic": "всегда",
+    "ru_phonetique": "vsegda"
+  },
+  {
+    "id": 78,
+    "fr": "cette",
+    "ru_cyrillic": "этот",
+    "ru_phonetique": "etot"
+  },
+  {
+    "id": 79,
+    "fr": "après",
+    "ru_cyrillic": "После",
+    "ru_phonetique": "Posle"
+  },
+  {
+    "id": 80,
+    "fr": "leur",
+    "ru_cyrillic": "их",
+    "ru_phonetique": "ih"
+  },
+  {
+    "id": 81,
+    "fr": "rester",
+    "ru_cyrillic": "оставаться",
+    "ru_phonetique": "ostavat'sja"
+  },
+  {
+    "id": 82,
+    "fr": "comprendre",
+    "ru_cyrillic": "понять",
+    "ru_phonetique": "ponjat'"
+  },
+  {
+    "id": 83,
+    "fr": "connaître",
+    "ru_cyrillic": "знать",
+    "ru_phonetique": "znat'"
+  },
+  {
+    "id": 84,
+    "fr": "tenir",
+    "ru_cyrillic": "держать",
+    "ru_phonetique": "derzhat'"
+  },
+  {
+    "id": 85,
+    "fr": "mort",
+    "ru_cyrillic": "мертвый",
+    "ru_phonetique": "mertvyj"
+  },
+  {
+    "id": 86,
+    "fr": "dieu",
+    "ru_cyrillic": "Бог",
+    "ru_phonetique": "Bog"
+  },
+  {
+    "id": 87,
+    "fr": "père",
+    "ru_cyrillic": "отец",
+    "ru_phonetique": "otets"
+  },
+  {
+    "id": 88,
+    "fr": "entendre",
+    "ru_cyrillic": "слышать",
+    "ru_phonetique": "slyshat'"
+  },
+  {
+    "id": 89,
+    "fr": "regarder",
+    "ru_cyrillic": "смотреть",
+    "ru_phonetique": "smotret'"
+  },
+  {
+    "id": 90,
+    "fr": "deux",
+    "ru_cyrillic": "два",
+    "ru_phonetique": "dva"
+  },
+  {
+    "id": 91,
+    "fr": "monsieur",
+    "ru_cyrillic": "Сэр",
+    "ru_phonetique": "Ser"
+  },
+  {
+    "id": 92,
+    "fr": "enfant",
+    "ru_cyrillic": "ребенок",
+    "ru_phonetique": "rebenok"
+  },
+  {
+    "id": 93,
+    "fr": "aussi",
+    "ru_cyrillic": "Также",
+    "ru_phonetique": "Takzhe"
+  },
+  {
+    "id": 94,
+    "fr": "appeler",
+    "ru_cyrillic": "позвонить",
+    "ru_phonetique": "pozvonit'"
+  },
+  {
+    "id": 95,
+    "fr": "cœur",
+    "ru_cyrillic": "сердце",
+    "ru_phonetique": "serdtse"
+  },
+  {
+    "id": 96,
+    "fr": "œil",
+    "ru_cyrillic": "глаз",
+    "ru_phonetique": "glaz"
+  },
+  {
+    "id": 97,
+    "fr": "maison",
+    "ru_cyrillic": "Дом",
+    "ru_phonetique": "Dom"
+  },
+  {
+    "id": 98,
+    "fr": "nom",
+    "ru_cyrillic": "имя",
+    "ru_phonetique": "imja"
+  },
+  {
+    "id": 99,
+    "fr": "monde",
+    "ru_cyrillic": "мир",
+    "ru_phonetique": "mir"
+  },
+  {
+    "id": 100,
+    "fr": "mot",
+    "ru_cyrillic": "слово",
+    "ru_phonetique": "slovo"
+  },
+  {
+    "id": 101,
+    "fr": "répondre",
+    "ru_cyrillic": "отвечать",
+    "ru_phonetique": "otvechat'"
+  },
+  {
+    "id": 102,
+    "fr": "attendre",
+    "ru_cyrillic": "ждать",
+    "ru_phonetique": "zhdat'"
+  },
+  {
+    "id": 103,
+    "fr": "ciel",
+    "ru_cyrillic": "небо",
+    "ru_phonetique": "nebo"
+  },
+  {
+    "id": 104,
+    "fr": "trois",
+    "ru_cyrillic": "три",
+    "ru_phonetique": "tri"
+  },
+  {
+    "id": 105,
+    "fr": "nuit",
+    "ru_cyrillic": "ночь",
+    "ru_phonetique": "noch'"
+  },
+  {
+    "id": 106,
+    "fr": "moment",
+    "ru_cyrillic": "момент",
+    "ru_phonetique": "moment"
+  },
+  {
+    "id": 107,
+    "fr": "partir",
+    "ru_cyrillic": "оставлять",
+    "ru_phonetique": "ostavljat'"
+  },
+  {
+    "id": 108,
+    "fr": "vivre",
+    "ru_cyrillic": "жить",
+    "ru_phonetique": "zhit'"
+  },
+  {
+    "id": 109,
+    "fr": "pourquoi",
+    "ru_cyrillic": "Почему",
+    "ru_phonetique": "Pochemu"
+  },
+  {
+    "id": 110,
+    "fr": "train",
+    "ru_cyrillic": "тренироваться",
+    "ru_phonetique": "trenirovat'sja"
+  },
+  {
+    "id": 111,
+    "fr": "chercher",
+    "ru_cyrillic": "искать",
+    "ru_phonetique": "iskat'"
+  },
+  {
+    "id": 112,
+    "fr": "sentir",
+    "ru_cyrillic": "чувствовать",
+    "ru_phonetique": "chuvstvovat'"
+  },
+  {
+    "id": 113,
+    "fr": "revenir",
+    "ru_cyrillic": "вернуться",
+    "ru_phonetique": "vernut'sja"
+  },
+  {
+    "id": 114,
+    "fr": "très",
+    "ru_cyrillic": "очень",
+    "ru_phonetique": "ochen'"
+  },
+  {
+    "id": 115,
+    "fr": "jeune",
+    "ru_cyrillic": "молодой",
+    "ru_phonetique": "molodoj"
+  },
+  {
+    "id": 116,
+    "fr": "fille",
+    "ru_cyrillic": "девочка",
+    "ru_phonetique": "devochka"
+  },
+  {
+    "id": 117,
+    "fr": "seul",
+    "ru_cyrillic": "один",
+    "ru_phonetique": "odin"
+  },
+  {
+    "id": 118,
+    "fr": "année",
+    "ru_cyrillic": "год",
+    "ru_phonetique": "god"
+  },
+  {
+    "id": 119,
+    "fr": "alors",
+    "ru_cyrillic": "ТАК",
+    "ru_phonetique": "TAK"
+  },
+  {
+    "id": 120,
+    "fr": "rendre",
+    "ru_cyrillic": "отдать назад",
+    "ru_phonetique": "otdat' nazad"
+  },
+  {
+    "id": 121,
+    "fr": "côté",
+    "ru_cyrillic": "сторона",
+    "ru_phonetique": "storona"
+  },
+  {
+    "id": 122,
+    "fr": "terre",
+    "ru_cyrillic": "земля",
+    "ru_phonetique": "zemlja"
+  },
+  {
+    "id": 123,
+    "fr": "devant",
+    "ru_cyrillic": "спереди",
+    "ru_phonetique": "speredi"
+  },
+  {
+    "id": 124,
+    "fr": "écrire",
+    "ru_cyrillic": "писать",
+    "ru_phonetique": "pisat'"
+  },
+  {
+    "id": 125,
+    "fr": "tête",
+    "ru_cyrillic": "голова",
+    "ru_phonetique": "golova"
+  },
+  {
+    "id": 126,
+    "fr": "mère",
+    "ru_cyrillic": "мать",
+    "ru_phonetique": "mat'"
+  },
+  {
+    "id": 127,
+    "fr": "amour",
+    "ru_cyrillic": "любовь",
+    "ru_phonetique": "ljubov'"
+  },
+  {
+    "id": 128,
+    "fr": "beau",
+    "ru_cyrillic": "красивый",
+    "ru_phonetique": "krasivyj"
+  },
+  {
+    "id": 129,
+    "fr": "vieux",
+    "ru_cyrillic": "старый",
+    "ru_phonetique": "staryj"
+  },
+  {
+    "id": 130,
+    "fr": "commencer",
+    "ru_cyrillic": "начать",
+    "ru_phonetique": "nachat'"
+  },
+  {
+    "id": 131,
+    "fr": "devenir",
+    "ru_cyrillic": "становиться",
+    "ru_phonetique": "stanovit'sja"
+  },
+  {
+    "id": 132,
+    "fr": "fils",
+    "ru_cyrillic": "сын",
+    "ru_phonetique": "syn"
+  },
+  {
+    "id": 133,
+    "fr": "gens",
+    "ru_cyrillic": "люди",
+    "ru_phonetique": "ljudi"
+  },
+  {
+    "id": 134,
+    "fr": "perdre",
+    "ru_cyrillic": "терять",
+    "ru_phonetique": "terjat'"
+  },
+  {
+    "id": 135,
+    "fr": "ami",
+    "ru_cyrillic": "друг",
+    "ru_phonetique": "drug"
+  },
+  {
+    "id": 136,
+    "fr": "heure",
+    "ru_cyrillic": "час",
+    "ru_phonetique": "chas"
+  },
+  {
+    "id": 137,
+    "fr": "sortir",
+    "ru_cyrillic": "выйти",
+    "ru_phonetique": "vyjti"
+  },
+  {
+    "id": 138,
+    "fr": "gros",
+    "ru_cyrillic": "толстый",
+    "ru_phonetique": "tolstyj"
+  },
+  {
+    "id": 139,
+    "fr": "voix",
+    "ru_cyrillic": "голос",
+    "ru_phonetique": "golos"
+  },
+  {
+    "id": 140,
+    "fr": "mieux",
+    "ru_cyrillic": "лучше",
+    "ru_phonetique": "luchshe"
+  },
+  {
+    "id": 141,
+    "fr": "eau",
+    "ru_cyrillic": "вода",
+    "ru_phonetique": "voda"
+  },
+  {
+    "id": 142,
+    "fr": "bon",
+    "ru_cyrillic": "Хороший",
+    "ru_phonetique": "Horoshij"
+  },
+  {
+    "id": 143,
+    "fr": "lire",
+    "ru_cyrillic": "читать",
+    "ru_phonetique": "chitat'"
+  },
+  {
+    "id": 144,
+    "fr": "finir",
+    "ru_cyrillic": "заканчивать",
+    "ru_phonetique": "zakanchivat'"
+  },
+  {
+    "id": 145,
+    "fr": "montrer",
+    "ru_cyrillic": "показать",
+    "ru_phonetique": "pokazat'"
+  },
+  {
+    "id": 146,
+    "fr": "guerre",
+    "ru_cyrillic": "война",
+    "ru_phonetique": "vojna"
+  },
+  {
+    "id": 147,
+    "fr": "pourtant",
+    "ru_cyrillic": "Еще",
+    "ru_phonetique": "Esche"
+  },
+  {
+    "id": 148,
+    "fr": "ouvrir",
+    "ru_cyrillic": "открыть",
+    "ru_phonetique": "otkryt'"
+  },
+  {
+    "id": 149,
+    "fr": "maintenant",
+    "ru_cyrillic": "СЕЙЧАС",
+    "ru_phonetique": "SEJChAS"
+  },
+  {
+    "id": 150,
+    "fr": "chambre",
+    "ru_cyrillic": "спальня",
+    "ru_phonetique": "spal'nja"
+  },
+  {
+    "id": 151,
+    "fr": "porte",
+    "ru_cyrillic": "дверь",
+    "ru_phonetique": "dver'"
+  },
+  {
+    "id": 152,
+    "fr": "pied",
+    "ru_cyrillic": "ступня",
+    "ru_phonetique": "stupnja"
+  },
+  {
+    "id": 153,
+    "fr": "recevoir",
+    "ru_cyrillic": "получать",
+    "ru_phonetique": "poluchat'"
+  },
+  {
+    "id": 154,
+    "fr": "manger",
+    "ru_cyrillic": "есть",
+    "ru_phonetique": "est'"
+  },
+  {
+    "id": 155,
+    "fr": "travailler",
+    "ru_cyrillic": "работать",
+    "ru_phonetique": "rabotat'"
+  },
+  {
+    "id": 156,
+    "fr": "ville",
+    "ru_cyrillic": "город",
+    "ru_phonetique": "gorod"
+  },
+  {
+    "id": 157,
+    "fr": "pays",
+    "ru_cyrillic": "страна",
+    "ru_phonetique": "strana"
+  },
+  {
+    "id": 158,
+    "fr": "gagner",
+    "ru_cyrillic": "зарабатывать",
+    "ru_phonetique": "zarabatyvat'"
+  },
+  {
+    "id": 159,
+    "fr": "acheter",
+    "ru_cyrillic": "купить",
+    "ru_phonetique": "kupit'"
+  },
+  {
+    "id": 160,
+    "fr": "tuer",
+    "ru_cyrillic": "убийство",
+    "ru_phonetique": "ubijstvo"
+  },
+  {
+    "id": 161,
+    "fr": "servir",
+    "ru_cyrillic": "служить",
+    "ru_phonetique": "sluzhit'"
+  },
+  {
+    "id": 162,
+    "fr": "garder",
+    "ru_cyrillic": "держать",
+    "ru_phonetique": "derzhat'"
+  },
+  {
+    "id": 163,
+    "fr": "douter",
+    "ru_cyrillic": "сомневаться",
+    "ru_phonetique": "somnevat'sja"
+  },
+  {
+    "id": 164,
+    "fr": "rire",
+    "ru_cyrillic": "смех",
+    "ru_phonetique": "smeh"
+  },
+  {
+    "id": 165,
+    "fr": "quand",
+    "ru_cyrillic": "Когда",
+    "ru_phonetique": "Kogda"
+  },
+  {
+    "id": 166,
+    "fr": "million",
+    "ru_cyrillic": "миллион",
+    "ru_phonetique": "million"
+  },
+  {
+    "id": 167,
+    "fr": "esprit",
+    "ru_cyrillic": "дух",
+    "ru_phonetique": "duh"
+  },
+  {
+    "id": 168,
+    "fr": "moyen",
+    "ru_cyrillic": "СРЕДНИЙ",
+    "ru_phonetique": "SREDNIJ"
+  },
+  {
+    "id": 169,
+    "fr": "droit",
+    "ru_cyrillic": "верно",
+    "ru_phonetique": "verno"
+  },
+  {
+    "id": 170,
+    "fr": "histoire",
+    "ru_cyrillic": "история",
+    "ru_phonetique": "istorija"
+  },
+  {
+    "id": 171,
+    "fr": "rue",
+    "ru_cyrillic": "Улица",
+    "ru_phonetique": "Ulitsa"
+  },
+  {
+    "id": 172,
+    "fr": "forme",
+    "ru_cyrillic": "форма",
+    "ru_phonetique": "forma"
+  },
+  {
+    "id": 173,
+    "fr": "bureau",
+    "ru_cyrillic": "рабочий стол",
+    "ru_phonetique": "rabochij stol"
+  },
+  {
+    "id": 174,
+    "fr": "air",
+    "ru_cyrillic": "воздух",
+    "ru_phonetique": "vozduh"
+  },
+  {
+    "id": 175,
+    "fr": "jeu",
+    "ru_cyrillic": "игра",
+    "ru_phonetique": "igra"
+  },
+  {
+    "id": 176,
+    "fr": "livre",
+    "ru_cyrillic": "книга",
+    "ru_phonetique": "kniga"
+  },
+  {
+    "id": 177,
+    "fr": "corps",
+    "ru_cyrillic": "тело",
+    "ru_phonetique": "telo"
+  },
+  {
+    "id": 178,
+    "fr": "famille",
+    "ru_cyrillic": "семья",
+    "ru_phonetique": "sem'ja"
+  },
+  {
+    "id": 179,
+    "fr": "fin",
+    "ru_cyrillic": "КОНЕЦ",
+    "ru_phonetique": "KONETs"
+  },
+  {
+    "id": 180,
+    "fr": "lumière",
+    "ru_cyrillic": "свет",
+    "ru_phonetique": "svet"
+  },
+  {
+    "id": 181,
+    "fr": "an",
+    "ru_cyrillic": "год",
+    "ru_phonetique": "god"
+  },
+  {
+    "id": 182,
+    "fr": "bras",
+    "ru_cyrillic": "рука",
+    "ru_phonetique": "ruka"
+  },
+  {
+    "id": 183,
+    "fr": "soir",
+    "ru_cyrillic": "вечер",
+    "ru_phonetique": "vecher"
+  },
+  {
+    "id": 184,
+    "fr": "peur",
+    "ru_cyrillic": "страх",
+    "ru_phonetique": "strah"
+  },
+  {
+    "id": 185,
+    "fr": "idée",
+    "ru_cyrillic": "идея",
+    "ru_phonetique": "ideja"
+  },
+  {
+    "id": 186,
+    "fr": "travail",
+    "ru_cyrillic": "работа",
+    "ru_phonetique": "rabota"
+  },
+  {
+    "id": 187,
+    "fr": "partie",
+    "ru_cyrillic": "часть",
+    "ru_phonetique": "chast'"
+  },
+  {
+    "id": 188,
+    "fr": "cause",
+    "ru_cyrillic": "причина",
+    "ru_phonetique": "prichina"
+  },
+  {
+    "id": 189,
+    "fr": "manière",
+    "ru_cyrillic": "манера",
+    "ru_phonetique": "manera"
+  },
+  {
+    "id": 190,
+    "fr": "avis",
+    "ru_cyrillic": "уведомление",
+    "ru_phonetique": "uvedomlenie"
+  },
+  {
+    "id": 191,
+    "fr": "place",
+    "ru_cyrillic": "место",
+    "ru_phonetique": "mesto"
+  },
+  {
+    "id": 192,
+    "fr": "moment",
+    "ru_cyrillic": "момент",
+    "ru_phonetique": "moment"
+  },
+  {
+    "id": 193,
+    "fr": "fond",
+    "ru_cyrillic": "нижний",
+    "ru_phonetique": "nizhnij"
+  },
+  {
+    "id": 194,
+    "fr": "force",
+    "ru_cyrillic": "сила",
+    "ru_phonetique": "sila"
+  },
+  {
+    "id": 195,
+    "fr": "route",
+    "ru_cyrillic": "дорога",
+    "ru_phonetique": "doroga"
+  },
+  {
+    "id": 196,
+    "fr": "besoin",
+    "ru_cyrillic": "нуждаться",
+    "ru_phonetique": "nuzhdat'sja"
+  },
+  {
+    "id": 197,
+    "fr": "long",
+    "ru_cyrillic": "длинный",
+    "ru_phonetique": "dlinnyj"
+  },
+  {
+    "id": 198,
+    "fr": "seul",
+    "ru_cyrillic": "один",
+    "ru_phonetique": "odin"
+  },
+  {
+    "id": 199,
+    "fr": "vrai",
+    "ru_cyrillic": "истинный",
+    "ru_phonetique": "istinnyj"
+  },
+  {
+    "id": 200,
+    "fr": "notre",
+    "ru_cyrillic": "НАШ",
+    "ru_phonetique": "NASh"
+  },
+  {
+    "id": 201,
+    "fr": "entre",
+    "ru_cyrillic": "между",
+    "ru_phonetique": "mezhdu"
+  },
+  {
+    "id": 202,
+    "fr": "quoi",
+    "ru_cyrillic": "Что",
+    "ru_phonetique": "Chto"
+  },
+  {
+    "id": 203,
+    "fr": "jusque",
+    "ru_cyrillic": "до",
+    "ru_phonetique": "do"
+  },
+  {
+    "id": 204,
+    "fr": "vers",
+    "ru_cyrillic": "к",
+    "ru_phonetique": "k"
+  },
+  {
+    "id": 205,
+    "fr": "comment",
+    "ru_cyrillic": "как",
+    "ru_phonetique": "kak"
+  },
+  {
+    "id": 206,
+    "fr": "tel",
+    "ru_cyrillic": "такой",
+    "ru_phonetique": "takoj"
+  },
+  {
+    "id": 207,
+    "fr": "là",
+    "ru_cyrillic": "там",
+    "ru_phonetique": "tam"
+  },
+  {
+    "id": 208,
+    "fr": "pendant",
+    "ru_cyrillic": "в течение",
+    "ru_phonetique": "v techenie"
+  },
+  {
+    "id": 209,
+    "fr": "fois",
+    "ru_cyrillic": "раз",
+    "ru_phonetique": "raz"
+  },
+  {
+    "id": 210,
+    "fr": "donc",
+    "ru_cyrillic": "ТАК",
+    "ru_phonetique": "TAK"
+  },
+  {
+    "id": 211,
+    "fr": "point",
+    "ru_cyrillic": "точка",
+    "ru_phonetique": "tochka"
+  },
+  {
+    "id": 212,
+    "fr": "depuis",
+    "ru_cyrillic": "С",
+    "ru_phonetique": "S"
+  },
+  {
+    "id": 213,
+    "fr": "contre",
+    "ru_cyrillic": "против",
+    "ru_phonetique": "protiv"
+  },
+  {
+    "id": 214,
+    "fr": "déjà",
+    "ru_cyrillic": "Уже",
+    "ru_phonetique": "Uzhe"
+  },
+  {
+    "id": 215,
+    "fr": "loin",
+    "ru_cyrillic": "далеко",
+    "ru_phonetique": "daleko"
+  },
+  {
+    "id": 216,
+    "fr": "problème",
+    "ru_cyrillic": "проблема",
+    "ru_phonetique": "problema"
+  },
+  {
+    "id": 217,
+    "fr": "semaine",
+    "ru_cyrillic": "неделя",
+    "ru_phonetique": "nedelja"
+  },
+  {
+    "id": 218,
+    "fr": "mois",
+    "ru_cyrillic": "месяц",
+    "ru_phonetique": "mesjats"
+  },
+  {
+    "id": 219,
+    "fr": "souvent",
+    "ru_cyrillic": "часто",
+    "ru_phonetique": "chasto"
+  },
+  {
+    "id": 220,
+    "fr": "hier",
+    "ru_cyrillic": "вчера",
+    "ru_phonetique": "vchera"
+  },
+  {
+    "id": 221,
+    "fr": "aujourd'hui",
+    "ru_cyrillic": "Сегодня",
+    "ru_phonetique": "Segodnja"
+  },
+  {
+    "id": 222,
+    "fr": "demain",
+    "ru_cyrillic": "завтра",
+    "ru_phonetique": "zavtra"
+  },
+  {
+    "id": 223,
+    "fr": "matin",
+    "ru_cyrillic": "Утро",
+    "ru_phonetique": "Utro"
+  },
+  {
+    "id": 224,
+    "fr": "joli",
+    "ru_cyrillic": "симпатичный",
+    "ru_phonetique": "simpatichnyj"
+  },
+  {
+    "id": 225,
+    "fr": "rapide",
+    "ru_cyrillic": "быстрый",
+    "ru_phonetique": "bystryj"
+  },
+  {
+    "id": 226,
+    "fr": "lent",
+    "ru_cyrillic": "медленный",
+    "ru_phonetique": "medlennyj"
+  },
+  {
+    "id": 227,
+    "fr": "simple",
+    "ru_cyrillic": "простой",
+    "ru_phonetique": "prostoj"
+  },
+  {
+    "id": 228,
+    "fr": "difficile",
+    "ru_cyrillic": "трудный",
+    "ru_phonetique": "trudnyj"
+  },
+  {
+    "id": 229,
+    "fr": "facile",
+    "ru_cyrillic": "легкий",
+    "ru_phonetique": "legkij"
+  },
+  {
+    "id": 230,
+    "fr": "triste",
+    "ru_cyrillic": "грустный",
+    "ru_phonetique": "grustnyj"
+  },
+  {
+    "id": 231,
+    "fr": "heureux",
+    "ru_cyrillic": "счастливый",
+    "ru_phonetique": "schastlivyj"
+  },
+  {
+    "id": 232,
+    "fr": "pauvre",
+    "ru_cyrillic": "бедный",
+    "ru_phonetique": "bednyj"
+  },
+  {
+    "id": 233,
+    "fr": "riche",
+    "ru_cyrillic": "богатый",
+    "ru_phonetique": "bogatyj"
+  },
+  {
+    "id": 234,
+    "fr": "chaud",
+    "ru_cyrillic": "горячий",
+    "ru_phonetique": "gorjachij"
+  },
+  {
+    "id": 235,
+    "fr": "froid",
+    "ru_cyrillic": "холодный",
+    "ru_phonetique": "holodnyj"
+  },
+  {
+    "id": 236,
+    "fr": "propre",
+    "ru_cyrillic": "собственный",
+    "ru_phonetique": "sobstvennyj"
+  },
+  {
+    "id": 237,
+    "fr": "sale",
+    "ru_cyrillic": "грязный",
+    "ru_phonetique": "grjaznyj"
+  },
+  {
+    "id": 238,
+    "fr": "fort",
+    "ru_cyrillic": "сильный",
+    "ru_phonetique": "sil'nyj"
+  },
+  {
+    "id": 239,
+    "fr": "faible",
+    "ru_cyrillic": "слабый",
+    "ru_phonetique": "slabyj"
+  },
+  {
+    "id": 240,
+    "fr": "haut",
+    "ru_cyrillic": "высокий",
+    "ru_phonetique": "vysokij"
+  },
+  {
+    "id": 241,
+    "fr": "bas",
+    "ru_cyrillic": "вниз",
+    "ru_phonetique": "vniz"
+  },
+  {
+    "id": 242,
+    "fr": "court",
+    "ru_cyrillic": "короткий",
+    "ru_phonetique": "korotkij"
+  },
+  {
+    "id": 243,
+    "fr": "sombre",
+    "ru_cyrillic": "темный",
+    "ru_phonetique": "temnyj"
+  },
+  {
+    "id": 244,
+    "fr": "clair",
+    "ru_cyrillic": "прозрачный",
+    "ru_phonetique": "prozrachnyj"
+  },
+  {
+    "id": 245,
+    "fr": "rouge",
+    "ru_cyrillic": "красный",
+    "ru_phonetique": "krasnyj"
+  },
+  {
+    "id": 246,
+    "fr": "bleu",
+    "ru_cyrillic": "синий",
+    "ru_phonetique": "sinij"
+  },
+  {
+    "id": 247,
+    "fr": "vert",
+    "ru_cyrillic": "Зеленый",
+    "ru_phonetique": "Zelenyj"
+  },
+  {
+    "id": 248,
+    "fr": "jaune",
+    "ru_cyrillic": "ЖЕЛТЫЙ",
+    "ru_phonetique": "ZhELTYJ"
+  },
+  {
+    "id": 249,
+    "fr": "noir",
+    "ru_cyrillic": "черный",
+    "ru_phonetique": "chernyj"
+  },
+  {
+    "id": 250,
+    "fr": "blanc",
+    "ru_cyrillic": "белый",
+    "ru_phonetique": "belyj"
+  },
+  {
+    "id": 251,
+    "fr": "garçon",
+    "ru_cyrillic": "мальчик",
+    "ru_phonetique": "mal'chik"
+  },
+  {
+    "id": 252,
+    "fr": "voiture",
+    "ru_cyrillic": "машина",
+    "ru_phonetique": "mashina"
+  },
+  {
+    "id": 253,
+    "fr": "argent",
+    "ru_cyrillic": "деньги",
+    "ru_phonetique": "den'gi"
+  },
+  {
+    "id": 254,
+    "fr": "école",
+    "ru_cyrillic": "школа",
+    "ru_phonetique": "shkola"
+  },
+  {
+    "id": 255,
+    "fr": "lettre",
+    "ru_cyrillic": "письмо",
+    "ru_phonetique": "pis'mo"
+  },
+  {
+    "id": 256,
+    "fr": "mer",
+    "ru_cyrillic": "море",
+    "ru_phonetique": "more"
+  },
+  {
+    "id": 257,
+    "fr": "soleil",
+    "ru_cyrillic": "солнце",
+    "ru_phonetique": "solntse"
+  },
+  {
+    "id": 258,
+    "fr": "feu",
+    "ru_cyrillic": "огонь",
+    "ru_phonetique": "ogon'"
+  },
+  {
+    "id": 259,
+    "fr": "vent",
+    "ru_cyrillic": "ветер",
+    "ru_phonetique": "veter"
+  },
+  {
+    "id": 260,
+    "fr": "pluie",
+    "ru_cyrillic": "дождь",
+    "ru_phonetique": "dozhd'"
+  },
+  {
+    "id": 261,
+    "fr": "arbre",
+    "ru_cyrillic": "ДЕРЕВО",
+    "ru_phonetique": "DEREVO"
+  },
+  {
+    "id": 262,
+    "fr": "fleur",
+    "ru_cyrillic": "цветок",
+    "ru_phonetique": "tsvetok"
+  },
+  {
+    "id": 263,
+    "fr": "chien",
+    "ru_cyrillic": "собака",
+    "ru_phonetique": "sobaka"
+  },
+  {
+    "id": 264,
+    "fr": "chat",
+    "ru_cyrillic": "кот",
+    "ru_phonetique": "kot"
+  },
+  {
+    "id": 265,
+    "fr": "oiseau",
+    "ru_cyrillic": "птица",
+    "ru_phonetique": "ptitsa"
+  },
+  {
+    "id": 266,
+    "fr": "cheval",
+    "ru_cyrillic": "лошадь",
+    "ru_phonetique": "loshad'"
+  },
+  {
+    "id": 267,
+    "fr": "vêtement",
+    "ru_cyrillic": "одежда",
+    "ru_phonetique": "odezhda"
+  },
+  {
+    "id": 268,
+    "fr": "chaussure",
+    "ru_cyrillic": "туфля",
+    "ru_phonetique": "tuflja"
+  },
+  {
+    "id": 269,
+    "fr": "table",
+    "ru_cyrillic": "стол",
+    "ru_phonetique": "stol"
+  },
+  {
+    "id": 270,
+    "fr": "chaise",
+    "ru_cyrillic": "стул",
+    "ru_phonetique": "stul"
+  },
+  {
+    "id": 271,
+    "fr": "lit",
+    "ru_cyrillic": "кровать",
+    "ru_phonetique": "krovat'"
+  },
+  {
+    "id": 272,
+    "fr": "fenêtre",
+    "ru_cyrillic": "окно",
+    "ru_phonetique": "okno"
+  },
+  {
+    "id": 273,
+    "fr": "mur",
+    "ru_cyrillic": "стена",
+    "ru_phonetique": "stena"
+  },
+  {
+    "id": 274,
+    "fr": "sol",
+    "ru_cyrillic": "земля",
+    "ru_phonetique": "zemlja"
+  },
+  {
+    "id": 275,
+    "fr": "couteau",
+    "ru_cyrillic": "нож",
+    "ru_phonetique": "nozh"
+  },
+  {
+    "id": 276,
+    "fr": "fourchette",
+    "ru_cyrillic": "вилка",
+    "ru_phonetique": "vilka"
+  },
+  {
+    "id": 277,
+    "fr": "cuillère",
+    "ru_cyrillic": "ложка",
+    "ru_phonetique": "lozhka"
+  },
+  {
+    "id": 278,
+    "fr": "assiette",
+    "ru_cyrillic": "тарелка",
+    "ru_phonetique": "tarelka"
+  },
+  {
+    "id": 279,
+    "fr": "verre",
+    "ru_cyrillic": "стекло",
+    "ru_phonetique": "steklo"
+  },
+  {
+    "id": 280,
+    "fr": "repas",
+    "ru_cyrillic": "еда",
+    "ru_phonetique": "eda"
+  },
+  {
+    "id": 281,
+    "fr": "fruit",
+    "ru_cyrillic": "фрукты",
+    "ru_phonetique": "frukty"
+  },
+  {
+    "id": 282,
+    "fr": "légume",
+    "ru_cyrillic": "овощной",
+    "ru_phonetique": "ovoschnoj"
+  },
+  {
+    "id": 283,
+    "fr": "viande",
+    "ru_cyrillic": "мясо",
+    "ru_phonetique": "mjaso"
+  },
+  {
+    "id": 284,
+    "fr": "poisson",
+    "ru_cyrillic": "рыба",
+    "ru_phonetique": "ryba"
+  },
+  {
+    "id": 285,
+    "fr": "sucre",
+    "ru_cyrillic": "сахар",
+    "ru_phonetique": "sahar"
+  },
+  {
+    "id": 286,
+    "fr": "sel",
+    "ru_cyrillic": "соль",
+    "ru_phonetique": "sol'"
+  },
+  {
+    "id": 287,
+    "fr": "café",
+    "ru_cyrillic": "кофе",
+    "ru_phonetique": "kofe"
+  },
+  {
+    "id": 288,
+    "fr": "thé",
+    "ru_cyrillic": "чай",
+    "ru_phonetique": "chaj"
+  },
+  {
+    "id": 289,
+    "fr": "lait",
+    "ru_cyrillic": "молоко",
+    "ru_phonetique": "moloko"
+  },
+  {
+    "id": 290,
+    "fr": "pain",
+    "ru_cyrillic": "хлеб",
+    "ru_phonetique": "hleb"
+  },
+  {
+    "id": 291,
+    "fr": "beurre",
+    "ru_cyrillic": "масло",
+    "ru_phonetique": "maslo"
+  },
+  {
+    "id": 292,
+    "fr": "fromage",
+    "ru_cyrillic": "сыр",
+    "ru_phonetique": "syr"
+  },
+  {
+    "id": 293,
+    "fr": "œuf",
+    "ru_cyrillic": "яйцо",
+    "ru_phonetique": "jajtso"
+  },
+  {
+    "id": 294,
+    "fr": "faim",
+    "ru_cyrillic": "голод",
+    "ru_phonetique": "golod"
+  },
+  {
+    "id": 295,
+    "fr": "soif",
+    "ru_cyrillic": "испытывающий жажду",
+    "ru_phonetique": "ispytyvajuschij zhazhdu"
+  },
+  {
+    "id": 296,
+    "fr": "fatigue",
+    "ru_cyrillic": "усталость",
+    "ru_phonetique": "ustalost'"
+  },
+  {
+    "id": 297,
+    "fr": "maladie",
+    "ru_cyrillic": "болезнь",
+    "ru_phonetique": "bolezn'"
+  },
+  {
+    "id": 298,
+    "fr": "médecin",
+    "ru_cyrillic": "врач",
+    "ru_phonetique": "vrach"
+  },
+  {
+    "id": 299,
+    "fr": "hôpital",
+    "ru_cyrillic": "больница",
+    "ru_phonetique": "bol'nitsa"
+  },
+  {
+    "id": 300,
+    "fr": "police",
+    "ru_cyrillic": "полиция",
+    "ru_phonetique": "politsija"
+  },
+  {
+    "id": 301,
+    "fr": "argent",
+    "ru_cyrillic": "деньги",
+    "ru_phonetique": "den'gi"
+  },
+  {
+    "id": 302,
+    "fr": "prix",
+    "ru_cyrillic": "цена",
+    "ru_phonetique": "tsena"
+  },
+  {
+    "id": 303,
+    "fr": "magasin",
+    "ru_cyrillic": "магазин",
+    "ru_phonetique": "magazin"
+  },
+  {
+    "id": 304,
+    "fr": "musique",
+    "ru_cyrillic": "музыка",
+    "ru_phonetique": "muzyka"
+  },
+  {
+    "id": 305,
+    "fr": "film",
+    "ru_cyrillic": "фильм",
+    "ru_phonetique": "fil'm"
+  },
+  {
+    "id": 306,
+    "fr": "photo",
+    "ru_cyrillic": "фото",
+    "ru_phonetique": "foto"
+  },
+  {
+    "id": 307,
+    "fr": "ordinateur",
+    "ru_cyrillic": "компьютер",
+    "ru_phonetique": "komp'juter"
+  },
+  {
+    "id": 308,
+    "fr": "téléphone",
+    "ru_cyrillic": "телефон",
+    "ru_phonetique": "telefon"
+  },
+  {
+    "id": 309,
+    "fr": "papier",
+    "ru_cyrillic": "бумага",
+    "ru_phonetique": "bumaga"
+  },
+  {
+    "id": 310,
+    "fr": "crayon",
+    "ru_cyrillic": "карандаш",
+    "ru_phonetique": "karandash"
+  },
+  {
+    "id": 311,
+    "fr": "sac",
+    "ru_cyrillic": "сумка",
+    "ru_phonetique": "sumka"
+  },
+  {
+    "id": 312,
+    "fr": "clé",
+    "ru_cyrillic": "ключ",
+    "ru_phonetique": "kljuch"
+  },
+  {
+    "id": 313,
+    "fr": "voyage",
+    "ru_cyrillic": "путешествие",
+    "ru_phonetique": "puteshestvie"
+  },
+  {
+    "id": 314,
+    "fr": "avion",
+    "ru_cyrillic": "самолет",
+    "ru_phonetique": "samolet"
+  },
+  {
+    "id": 315,
+    "fr": "bateau",
+    "ru_cyrillic": "лодка",
+    "ru_phonetique": "lodka"
+  },
+  {
+    "id": 316,
+    "fr": "train",
+    "ru_cyrillic": "тренироваться",
+    "ru_phonetique": "trenirovat'sja"
+  },
+  {
+    "id": 317,
+    "fr": "bus",
+    "ru_cyrillic": "автобус",
+    "ru_phonetique": "avtobus"
+  },
+  {
+    "id": 318,
+    "fr": "vélo",
+    "ru_cyrillic": "велосипед",
+    "ru_phonetique": "velosiped"
+  },
+  {
+    "id": 319,
+    "fr": "billet",
+    "ru_cyrillic": "билет",
+    "ru_phonetique": "bilet"
+  },
+  {
+    "id": 320,
+    "fr": "carte",
+    "ru_cyrillic": "карта",
+    "ru_phonetique": "karta"
+  },
+  {
+    "id": 321,
+    "fr": "nord",
+    "ru_cyrillic": "север",
+    "ru_phonetique": "sever"
+  },
+  {
+    "id": 322,
+    "fr": "sud",
+    "ru_cyrillic": "юг",
+    "ru_phonetique": "jug"
+  },
+  {
+    "id": 323,
+    "fr": "est",
+    "ru_cyrillic": "Восток",
+    "ru_phonetique": "Vostok"
+  },
+  {
+    "id": 324,
+    "fr": "ouest",
+    "ru_cyrillic": "запад",
+    "ru_phonetique": "zapad"
+  },
+  {
+    "id": 325,
+    "fr": "gauche",
+    "ru_cyrillic": "ЛЕВЫЙ",
+    "ru_phonetique": "LEVYJ"
+  },
+  {
+    "id": 326,
+    "fr": "droite",
+    "ru_cyrillic": "ВЕРНО",
+    "ru_phonetique": "VERNO"
+  },
+  {
+    "id": 327,
+    "fr": "haut",
+    "ru_cyrillic": "высокий",
+    "ru_phonetique": "vysokij"
+  },
+  {
+    "id": 328,
+    "fr": "bas",
+    "ru_cyrillic": "вниз",
+    "ru_phonetique": "vniz"
+  },
+  {
+    "id": 329,
+    "fr": "milieu",
+    "ru_cyrillic": "середина",
+    "ru_phonetique": "seredina"
+  },
+  {
+    "id": 330,
+    "fr": "bout",
+    "ru_cyrillic": "конец",
+    "ru_phonetique": "konets"
+  },
+  {
+    "id": 331,
+    "fr": "nombre",
+    "ru_cyrillic": "число",
+    "ru_phonetique": "chislo"
+  },
+  {
+    "id": 332,
+    "fr": "groupe",
+    "ru_cyrillic": "группа",
+    "ru_phonetique": "gruppa"
+  },
+  {
+    "id": 333,
+    "fr": "classe",
+    "ru_cyrillic": "сорт",
+    "ru_phonetique": "sort"
+  },
+  {
+    "id": 334,
+    "fr": "question",
+    "ru_cyrillic": "вопрос",
+    "ru_phonetique": "vopros"
+  },
+  {
+    "id": 335,
+    "fr": "réponse",
+    "ru_cyrillic": "отвечать",
+    "ru_phonetique": "otvechat'"
+  },
+  {
+    "id": 336,
+    "fr": "raison",
+    "ru_cyrillic": "причина",
+    "ru_phonetique": "prichina"
+  },
+  {
+    "id": 337,
+    "fr": "vérité",
+    "ru_cyrillic": "правда",
+    "ru_phonetique": "pravda"
+  },
+  {
+    "id": 338,
+    "fr": "mensonge",
+    "ru_cyrillic": "ложь",
+    "ru_phonetique": "lozh'"
+  },
+  {
+    "id": 339,
+    "fr": "paix",
+    "ru_cyrillic": "мир",
+    "ru_phonetique": "mir"
+  },
+  {
+    "id": 340,
+    "fr": "liberté",
+    "ru_cyrillic": "свобода",
+    "ru_phonetique": "svoboda"
+  },
+  {
+    "id": 341,
+    "fr": "rêve",
+    "ru_cyrillic": "мечтать",
+    "ru_phonetique": "mechtat'"
+  },
+  {
+    "id": 342,
+    "fr": "sommeil",
+    "ru_cyrillic": "спать",
+    "ru_phonetique": "spat'"
+  },
+  {
+    "id": 343,
+    "fr": "sourire",
+    "ru_cyrillic": "улыбка",
+    "ru_phonetique": "ulybka"
+  },
+  {
+    "id": 344,
+    "fr": "larmes",
+    "ru_cyrillic": "слезы",
+    "ru_phonetique": "slezy"
+  },
+  {
+    "id": 345,
+    "fr": "joie",
+    "ru_cyrillic": "радость",
+    "ru_phonetique": "radost'"
+  },
+  {
+    "id": 346,
+    "fr": "colère",
+    "ru_cyrillic": "злость",
+    "ru_phonetique": "zlost'"
+  },
+  {
+    "id": 347,
+    "fr": "surprise",
+    "ru_cyrillic": "сюрприз",
+    "ru_phonetique": "sjurpriz"
+  },
+  {
+    "id": 348,
+    "fr": "honte",
+    "ru_cyrillic": "стыд",
+    "ru_phonetique": "styd"
+  },
+  {
+    "id": 349,
+    "fr": "courage",
+    "ru_cyrillic": "храбрость",
+    "ru_phonetique": "hrabrost'"
+  },
+  {
+    "id": 350,
+    "fr": "espoir",
+    "ru_cyrillic": "надеяться",
+    "ru_phonetique": "nadejat'sja"
+  },
+  {
+    "id": 351,
+    "fr": "marcher",
+    "ru_cyrillic": "ходить",
+    "ru_phonetique": "hodit'"
+  },
+  {
+    "id": 352,
+    "fr": "courir",
+    "ru_cyrillic": "бегать",
+    "ru_phonetique": "begat'"
+  },
+  {
+    "id": 353,
+    "fr": "sauter",
+    "ru_cyrillic": "прыгать",
+    "ru_phonetique": "prygat'"
+  },
+  {
+    "id": 354,
+    "fr": "nager",
+    "ru_cyrillic": "плавать",
+    "ru_phonetique": "plavat'"
+  },
+  {
+    "id": 355,
+    "fr": "voler",
+    "ru_cyrillic": "летать",
+    "ru_phonetique": "letat'"
+  },
+  {
+    "id": 356,
+    "fr": "tomber",
+    "ru_cyrillic": "падать",
+    "ru_phonetique": "padat'"
+  },
+  {
+    "id": 357,
+    "fr": "monter",
+    "ru_cyrillic": "подняться",
+    "ru_phonetique": "podnjat'sja"
+  },
+  {
+    "id": 358,
+    "fr": "descendre",
+    "ru_cyrillic": "спуститься",
+    "ru_phonetique": "spustit'sja"
+  },
+  {
+    "id": 359,
+    "fr": "arrêter",
+    "ru_cyrillic": "Останавливаться",
+    "ru_phonetique": "Ostanavlivat'sja"
+  },
+  {
+    "id": 360,
+    "fr": "bouger",
+    "ru_cyrillic": "двигаться",
+    "ru_phonetique": "dvigat'sja"
+  },
+  {
+    "id": 361,
+    "fr": "toucher",
+    "ru_cyrillic": "коснуться",
+    "ru_phonetique": "kosnut'sja"
+  },
+  {
+    "id": 362,
+    "fr": "goûter",
+    "ru_cyrillic": "по вкусу",
+    "ru_phonetique": "po vkusu"
+  },
+  {
+    "id": 363,
+    "fr": "dormir",
+    "ru_cyrillic": "спать",
+    "ru_phonetique": "spat'"
+  },
+  {
+    "id": 364,
+    "fr": "réveiller",
+    "ru_cyrillic": "будить",
+    "ru_phonetique": "budit'"
+  },
+  {
+    "id": 365,
+    "fr": "laver",
+    "ru_cyrillic": "стирать",
+    "ru_phonetique": "stirat'"
+  },
+  {
+    "id": 366,
+    "fr": "habiller",
+    "ru_cyrillic": "одеваться",
+    "ru_phonetique": "odevat'sja"
+  },
+  {
+    "id": 367,
+    "fr": "aider",
+    "ru_cyrillic": "помощь",
+    "ru_phonetique": "pomosch'"
+  },
+  {
+    "id": 368,
+    "fr": "changer",
+    "ru_cyrillic": "изменить",
+    "ru_phonetique": "izmenit'"
+  },
+  {
+    "id": 369,
+    "fr": "choisir",
+    "ru_cyrillic": "выбирать",
+    "ru_phonetique": "vybirat'"
+  },
+  {
+    "id": 370,
+    "fr": "décider",
+    "ru_cyrillic": "решать",
+    "ru_phonetique": "reshat'"
+  },
+  {
+    "id": 371,
+    "fr": "apprendre",
+    "ru_cyrillic": "учиться",
+    "ru_phonetique": "uchit'sja"
+  },
+  {
+    "id": 372,
+    "fr": "enseigner",
+    "ru_cyrillic": "учить",
+    "ru_phonetique": "uchit'"
+  },
+  {
+    "id": 373,
+    "fr": "lire",
+    "ru_cyrillic": "читать",
+    "ru_phonetique": "chitat'"
+  },
+  {
+    "id": 374,
+    "fr": "compter",
+    "ru_cyrillic": "считать",
+    "ru_phonetique": "schitat'"
+  },
+  {
+    "id": 375,
+    "fr": "payer",
+    "ru_cyrillic": "платить",
+    "ru_phonetique": "platit'"
+  },
+  {
+    "id": 376,
+    "fr": "vendre",
+    "ru_cyrillic": "продавать",
+    "ru_phonetique": "prodavat'"
+  },
+  {
+    "id": 377,
+    "fr": "crier",
+    "ru_cyrillic": "кричать",
+    "ru_phonetique": "krichat'"
+  },
+  {
+    "id": 378,
+    "fr": "pleurer",
+    "ru_cyrillic": "плакать",
+    "ru_phonetique": "plakat'"
+  },
+  {
+    "id": 379,
+    "fr": "chanter",
+    "ru_cyrillic": "петь",
+    "ru_phonetique": "pet'"
+  },
+  {
+    "id": 380,
+    "fr": "danser",
+    "ru_cyrillic": "танцевать",
+    "ru_phonetique": "tantsevat'"
+  },
+  {
+    "id": 381,
+    "fr": "jouer",
+    "ru_cyrillic": "играть",
+    "ru_phonetique": "igrat'"
+  },
+  {
+    "id": 382,
+    "fr": "jeter",
+    "ru_cyrillic": "бросать",
+    "ru_phonetique": "brosat'"
+  },
+  {
+    "id": 383,
+    "fr": "pousser",
+    "ru_cyrillic": "толкать",
+    "ru_phonetique": "tolkat'"
+  },
+  {
+    "id": 384,
+    "fr": "tirer",
+    "ru_cyrillic": "тянуть",
+    "ru_phonetique": "tjanut'"
+  },
+  {
+    "id": 385,
+    "fr": "frapper",
+    "ru_cyrillic": "ударять",
+    "ru_phonetique": "udarjat'"
+  },
+  {
+    "id": 386,
+    "fr": "casser",
+    "ru_cyrillic": "сломать",
+    "ru_phonetique": "slomat'"
+  },
+  {
+    "id": 387,
+    "fr": "construire",
+    "ru_cyrillic": "строить",
+    "ru_phonetique": "stroit'"
+  },
+  {
+    "id": 388,
+    "fr": "détruire",
+    "ru_cyrillic": "разрушать",
+    "ru_phonetique": "razrushat'"
+  },
+  {
+    "id": 389,
+    "fr": "envoyer",
+    "ru_cyrillic": "отправлять",
+    "ru_phonetique": "otpravljat'"
+  },
+  {
+    "id": 390,
+    "fr": "quitter",
+    "ru_cyrillic": "уйти",
+    "ru_phonetique": "ujti"
+  },
+  {
+    "id": 391,
+    "fr": "oublier",
+    "ru_cyrillic": "забывать",
+    "ru_phonetique": "zabyvat'"
+  },
+  {
+    "id": 392,
+    "fr": "souvenir",
+    "ru_cyrillic": "память",
+    "ru_phonetique": "pamjat'"
+  },
+  {
+    "id": 393,
+    "fr": "plaire",
+    "ru_cyrillic": "доставить удовольствие",
+    "ru_phonetique": "dostavit' udovol'stvie"
+  },
+  {
+    "id": 394,
+    "fr": "manquer",
+    "ru_cyrillic": "скучать",
+    "ru_phonetique": "skuchat'"
+  },
+  {
+    "id": 395,
+    "fr": "boire",
+    "ru_cyrillic": "напиток",
+    "ru_phonetique": "napitok"
+  },
+  {
+    "id": 396,
+    "fr": "fumer",
+    "ru_cyrillic": "курить",
+    "ru_phonetique": "kurit'"
+  },
+  {
+    "id": 397,
+    "fr": "ignorer",
+    "ru_cyrillic": "игнорировать",
+    "ru_phonetique": "ignorirovat'"
+  },
+  {
+    "id": 398,
+    "fr": "espérer",
+    "ru_cyrillic": "надеяться",
+    "ru_phonetique": "nadejat'sja"
+  },
+  {
+    "id": 399,
+    "fr": "préférer",
+    "ru_cyrillic": "предпочитать",
+    "ru_phonetique": "predpochitat'"
+  },
+  {
+    "id": 400,
+    "fr": "détester",
+    "ru_cyrillic": "ненавидеть",
+    "ru_phonetique": "nenavidet'"
+  },
+  {
+    "id": 401,
+    "fr": "refuser",
+    "ru_cyrillic": "мусор",
+    "ru_phonetique": "musor"
+  },
+  {
+    "id": 402,
+    "fr": "accepter",
+    "ru_cyrillic": "принимать",
+    "ru_phonetique": "prinimat'"
+  },
+  {
+    "id": 403,
+    "fr": "expliquer",
+    "ru_cyrillic": "объяснять",
+    "ru_phonetique": "ob'jasnjat'"
+  },
+  {
+    "id": 404,
+    "fr": "proposer",
+    "ru_cyrillic": "предложить",
+    "ru_phonetique": "predlozhit'"
+  },
+  {
+    "id": 405,
+    "fr": "utiliser",
+    "ru_cyrillic": "использовать",
+    "ru_phonetique": "ispol'zovat'"
+  },
+  {
+    "id": 406,
+    "fr": "essayer",
+    "ru_cyrillic": "попробовать",
+    "ru_phonetique": "poprobovat'"
+  },
+  {
+    "id": 407,
+    "fr": "réussir",
+    "ru_cyrillic": "преуспевать",
+    "ru_phonetique": "preuspevat'"
+  },
+  {
+    "id": 408,
+    "fr": "rater",
+    "ru_cyrillic": "скучать",
+    "ru_phonetique": "skuchat'"
+  },
+  {
+    "id": 409,
+    "fr": "continuer",
+    "ru_cyrillic": "продолжать",
+    "ru_phonetique": "prodolzhat'"
+  },
+  {
+    "id": 410,
+    "fr": "exister",
+    "ru_cyrillic": "существовать",
+    "ru_phonetique": "suschestvovat'"
+  }
+]

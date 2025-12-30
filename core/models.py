@@ -67,3 +67,25 @@ class UserWordProgress(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.word.russian} ({'Review' if self.needs_review else 'Known'})"
+
+class Story(models.Model):
+    DIFFICULTY_CHOICES = [
+        ('A1', 'A1 - Beginner'),
+        ('A2', 'A2 - Elementary'),
+        ('B1', 'B1 - Intermediate'),
+        ('B2', 'B2 - Upper Intermediate'),
+    ]
+
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+    content_russian = models.TextField(help_text="The full Russian text of the story")
+    content_english = models.TextField(help_text="The full English translation")
+    difficulty = models.CharField(max_length=2, choices=DIFFICULTY_CHOICES, default='A1')
+    created_at = models.DateTimeField(auto_now_add=True)
+    audio_file = models.FileField(upload_to='stories_audio/', null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name_plural = "Stories"

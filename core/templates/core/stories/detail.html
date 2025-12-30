@@ -1,0 +1,165 @@
+{% extends 'core/base_app.html' %}
+
+{% block content %}
+<div class="reader-container">
+    <div class="reader-header">
+        <a href="{% url 'stories_list' %}" class="btn-back">← Retour</a>
+        <h1>{{ story.title }}</h1>
+        <div class="level-badge">{{ story.difficulty }}</div>
+    </div>
+
+    <div class="reader-mode-toggle">
+        <button id="toggle-trans" class="btn-secondary">Voir la traduction complète</button>
+    </div>
+
+    <div class="split-view">
+        <div class="text-column russian-text" id="russian-text">
+            <!-- JS will populate spans here -->
+            {{ story.content_russian|linebreaks }}
+        </div>
+        <div class="text-column english-text hidden" id="english-text">
+            {{ story.content_english|linebreaks }}
+        </div>
+    </div>
+
+    <!-- Popover for word translation -->
+    <div id="word-popover" class="popover hidden">
+        <div class="popover-content">
+            <strong id="pop-russian"></strong>
+            <p id="pop-french">Chargement...</p>
+        </div>
+    </div>
+</div>
+
+<style>
+    .reader-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .reader-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+    }
+
+    .text-column {
+        font-size: 1.4rem;
+        line-height: 1.8;
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .russian-text span {
+        cursor: pointer;
+        transition: background 0.2s;
+        border-radius: 4px;
+        padding: 0 2px;
+    }
+
+    .russian-text span:hover {
+        background: #e3f2fd;
+        color: #1565c0;
+    }
+
+    .english-text {
+        margin-top: 1rem;
+        background: #f8f9fa;
+        border-left: 4px solid #4a90e2;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .popover {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #333;
+        color: white;
+        padding: 15px 25px;
+        border-radius: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        text-align: center;
+        min-width: 200px;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const rusContainer = document.getElementById('russian-text');
+        const rawText = `{{ story.content_russian|escapejs }}`;
+
+        // Split text into words and wrap in spans
+        // This is a naive split, ideally consistent with backend tokenization
+        const words = rawText.split(/\s+/);
+        let html = '';
+        words.forEach(word => {
+            // Remove punctuation for clean matching if needed, but display it
+            // For now simplest: just wrap everything separated by space
+            if (word) {
+                html += `<span class="clickable-word" data-word="${word}">${word}</span> `;
+            }
+        });
+        rusContainer.innerHTML = html.replace(/\n/g, '<br>');
+
+        // Click handler
+        document.querySelectorAll('.clickable-word').forEach(span => {
+            span.addEventListener('click', function (e) {
+                const word = this.dataset.word.replace(/[.,!?;:()"]/g, ""); // Clean punctuation
+                showTranslation(word);
+            });
+        });
+
+        // Toggle full translation
+        document.getElementById('toggle-trans').addEventListener('click', function () {
+            document.getElementById('english-text').classList.toggle('hidden');
+        });
+
+        function showTranslation(word) {
+            const popover = document.getElementById('word-popover');
+            const popRus = document.getElementById('pop-russian');
+            const popFr = document.getElementById('pop-french');
+
+            popRus.textContent = word;
+            popFr.textContent = "Recherche...";
+            popover.classList.remove('hidden');
+
+            // Fetch from our internal dictionary API (to be implemented)
+            // For now, demo mock
+            // Ideally we hit an endpoint /api/lookup?word=...
+            fetch(`/core/api/lookup/?word=${encodeURIComponent(word)}`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.found) {
+                        popFr.textContent = data.translation;
+                    } else {
+                        popFr.textContent = "Non trouvé";
+                    }
+                })
+                .catch(() => {
+                    popFr.textContent = "Erreur...";
+                });
+
+            // Auto hide after 3s
+            setTimeout(() => {
+                // popover.classList.add('hidden');
+            }, 5000);
+        }
+
+        // Hide popover on click outside
+        document.addEventListener('click', function (e) {
+            if (!e.target.classList.contains('clickable-word')) {
+                document.getElementById('word-popover').classList.add('hidden');
+            }
+        });
+    });
+</script>
+{% endblock %}
