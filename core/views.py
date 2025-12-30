@@ -164,8 +164,8 @@ def practice_data(request, mode):
 
     elif mode == 'audio_challenge':
         # Ghost Mode: Audio -> Select Translation
-        # Only words with audio
-        words = list(Word.objects.filter(audio__isnull=False).exclude(audio=''))
+        # Use all words (Frontend will use TTS if no audio file)
+        words = list(Word.objects.filter(category='word'))
         if len(words) < 5:
             # Fallback if few words have audio: take all and UI will use TTS fallback if implemented or just show text
             # For now, let's assume we have some. If empty, return empty.

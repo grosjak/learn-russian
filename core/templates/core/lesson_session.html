@@ -259,9 +259,26 @@
                 renderSelectTextOpt(q);
             } else if (q.type === 'flashcard') {
                 renderFlashcard(q);
+            } else if (q.type === 'listen_and_select') {
+                renderListenAndSelect(q);
             } else if (q.type === 'input_text') {
                 renderInputQuestion(q);
             }
+        }
+
+        function renderListenAndSelect(q) {
+            questionArea.innerHTML = `
+                <h2>${q.prompt}</h2>
+                 <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; min-height: 150px;">
+                    <button class="audio-btn" style="font-size: 4rem; width: 100px; height: 100px; border-radius: 50%; background: #58CC02; color: white; border: none; box-shadow: 0 4px 0 #46a302;" onclick="playAudio('${q.reveal_word.replace("'", "\\'")}')">🔊</button>
+                </div>
+                <div class="options-grid">
+                    ${q.options.map((opt, idx) => `
+                        <div class="option-btn" data-val="${opt}" onclick="selectOption(this, '${opt.replace("'", "\\'")}')">${opt}</div>
+                    `).join('')}
+                </div>
+            `;
+            setTimeout(() => playAudio(q.reveal_word), 500);
         }
 
         function handleCheckClick() {
