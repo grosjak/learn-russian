@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Letter, Lesson, Word, UserWordProgress, Story
+from .utils import generate_glossary
 import json
 import random
 
@@ -58,6 +59,12 @@ def stories_list(request):
 @login_required
 def story_detail(request, slug):
     story = get_object_or_404(Story, slug=slug)
+    
+    # Self-healing: if glossary is empty, generate it now
+    if not story.word_translations:
+        story.word_translations = generate_glossary(story.content_russian)
+        story.save(update_fields=['word_translations'])
+        
     return render(request, 'core/stories/detail.html', {'story': story})
 
 @login_required
