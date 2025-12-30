@@ -139,8 +139,8 @@
     }
 </style>
 
+{{ glossary | json_script: "story-glossary" }}
 <script>
-    { { glossary | json_script: "story-glossary" } }
 
     document.addEventListener('DOMContentLoaded', function () {
         let glossary = {};
