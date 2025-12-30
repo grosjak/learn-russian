@@ -280,6 +280,12 @@
                         <button class="hint-btn" onclick="toggleHint()" title="Indice">💡</button>
                     </div>
 
+                    ${q.example ? `
+                    <div style="background-color: #f0f7ff; border-left: 5px solid #1CB0F6; padding: 15px; margin-bottom: 2rem; text-align: left; border-radius: 8px;">
+                        <div style="font-size: 1.1rem; color: #555; font-style: italic; margin-bottom: 5px;">Exemple :</div>
+                        <div style="font-size: 1.3rem; color: #333;">${q.example}</div>
+                    </div>` : ''}
+
                     <div id="hintArea" style="min-height: 1.5rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 5px; align-items: center;"></div>
                     
                     ${q.audio_url ? `<!-- Audio Hint if needed -->` : ''}
