@@ -239,6 +239,14 @@
             currentQuestionStartTime = Date.now();
             updateProgress();
 
+            // Progress Bar Visibility
+            const progBarContainer = document.querySelector('.progress-bar-bg');
+            if (q.type === 'alphabet_grid') {
+                progBarContainer.style.visibility = 'hidden';
+            } else {
+                progBarContainer.style.visibility = 'visible';
+            }
+
             if (q.type === 'intro') {
                 renderIntro(q);
                 newCheckBtn.disabled = false;

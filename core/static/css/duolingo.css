@@ -267,14 +267,27 @@ h1 {
     left: 0;
     width: 100%;
     padding: 1rem;
-    /* Compact padding */
     box-sizing: border-box;
-    /* Fix sizing issues */
+    background: transparent;
+    /* Make background transparent so it doesn't look like a solid bar? No, buttons need bg or shadow. */
+    /* Let's keep white bg but maybe remove border-top if it looks like a line? */
     background: white;
     border-top: 2px solid var(--duo-gray);
     display: flex;
     justify-content: center;
     z-index: 100;
+}
+
+@media (min-width: 600px) {
+    .check-footer {
+        /* On desktop, maybe center it nicely */
+        width: 100%;
+    }
+
+    .btn-primary {
+        max-width: 400px;
+        /* Constrain width */
+    }
 }
 
 .btn-primary {
