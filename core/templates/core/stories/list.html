@@ -5,11 +5,19 @@
     <div class="page-header">
         <h1>Lectures (Stories)</h1>
         <p>Améliorez votre compréhension en lisant des textes adaptés à votre niveau.</p>
+
+        <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">Tous</button>
+            <button class="filter-btn" data-filter="A1">A1</button>
+            <button class="filter-btn" data-filter="A2">A2</button>
+            <button class="filter-btn" data-filter="B1">B1</button>
+            <button class="filter-btn" data-filter="B2">B2</button>
+        </div>
     </div>
 
     <div class="story-grid">
         {% for story in stories %}
-        <div class="story-card">
+        <div class="story-card" data-level="{{ story.difficulty }}">
             <div class="story-level badge-{{ story.difficulty }}">{{ story.difficulty }}</div>
             <h3>{{ story.title }}</h3>
             <p class="story-preview">{{ story.content_russian|truncatewords:20 }}</p>
@@ -100,5 +108,62 @@
         text-decoration: none;
         font-weight: bold;
     }
+
+    .filter-container {
+        margin-top: 1.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .filter-btn {
+        background: #f0f0f0;
+        border: none;
+        padding: 0.5rem 1.2rem;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #555;
+        transition: all 0.2s;
+    }
+
+    .filter-btn:hover {
+        background: #e0e0e0;
+    }
+
+    .filter-btn.active {
+        background: var(--primary-color, #4a90e2);
+        color: white;
+    }
 </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const buttons = document.querySelectorAll('.filter-btn');
+        const cards = document.querySelectorAll('.story-card');
+
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                cards.forEach(card => {
+                    const level = card.dataset.level;
+                    if (filter === 'all' || level === filter) {
+                        card.style.display = 'block';
+                        // Add nice animation
+                        card.style.opacity = '0';
+                        setTimeout(() => card.style.opacity = '1', 50);
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
 {% endblock %}

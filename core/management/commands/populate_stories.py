@@ -355,7 +355,319 @@ Now the situation has changed: people change jobs more often and look for new op
 It is important to constantly learn and develop new skills (soft skills).
 The ability to work in a team and adapt to changes is valued by employers.
 A successful career requires not only knowledge, but also perseverance."""
-            }
+            },
+
+            # --- NEW BATCH 20 STORIES (5 per level) ---
+
+            # A1 Additional
+            {
+                'title': 'Мой кот (My Cat)',
+                'slug': 'my-cat',
+                'difficulty': 'A1',
+                'content_russian': """У меня есть кот. Его зовут Барсик.
+Барсик очень красивый. Он белый и пушистый.
+Он любит спать на диване. Ещё он любит играть с мячом.
+Барсик ест рыбу и пьёт молоко. Я очень люблю моего кота.""",
+                'content_english': """I have a cat. His name is Barsik.
+Barsik is very beautiful. He is white and fluffy.
+He likes to sleep on the sofa. He also likes to play with a ball.
+Barsik eats fish and drinks milk. I love my cat very much."""
+            },
+            {
+                'title': 'В парке (In the Park)',
+                'slug': 'in-the-park',
+                'difficulty': 'A1',
+                'content_russian': """Сегодня хорошая погода. Я иду в парк.
+В парке много людей. Они гуляют и отдыхают.
+Дети играют на плошадке. Птицы поют песни.
+Я сижу на скамейке и читаю книгу.
+Мне нравится этот парк. Здесь очень тихо и красиво.""",
+                'content_english': """Today the weather is good. I am going to the park.
+There are many people in the park. They are walking and relaxing.
+Children are playing on the playground. Birds are singing songs.
+I am sitting on a bench and reading a book.
+I like this park. It is very quiet and beautiful here."""
+            },
+            {
+                'title': 'Мой дом (My House)',
+                'slug': 'my-house',
+                'difficulty': 'A1',
+                'content_russian': """Это мой дом. Он маленький, но уютный.
+Здесь есть кухня, спальня и гостиная.
+На столе стоит ваза с цветами. На стене висит картина.
+Моя комната светлая. Я там учу русский язык.
+Я люблю быть дома.""",
+                'content_english': """This is my house. It is small but cozy.
+There is a kitchen, a bedroom and a living room.
+There is a vase with flowers on the table. There is a picture hanging on the wall.
+My room is bright. I study Russian there.
+I like being at home."""
+            },
+            {
+                'title': 'В магазине одежды (In the Clothing Store)',
+                'slug': 'clothing-store',
+                'difficulty': 'A1',
+                'content_russian': """— Здравствуйте! У вас есть джинсы?
+— Да, конечно. Какой у вас размер?
+— Мой размер 42.
+— Вот эти синие джинсы. Померяйте, пожалуйста.
+— Спасибо. Они мне нравятся. Сколько они стоят?
+— Две тысячи рублей.""",
+                'content_english': """— Hello! Do you have jeans?
+— Yes, of course. What is your size?
+— My size is 42.
+— Here are these blue jeans. Try them on, please.
+— Thank you. I like them. How much do they cost?
+— Two thousand rubles."""
+            },
+            {
+                'title': 'Мой друг (My Friend)',
+                'slug': 'my-friend-a1',
+                'difficulty': 'A1',
+                'content_russian': """Это Антон. Он мой лучший друг.
+Антону двадцать пять лет. Он высокий и сильный.
+Он любит футбол и кино. Мы часто гуляем вместе.
+Антон работает в банке. Он очень умный.
+Я рад, что у меня есть такой друг.""",
+                'content_english': """This is Anton. He is my best friend.
+Anton is twenty-five years old. He is tall and strong.
+He likes football and cinema. We often walk together.
+Anton works in a bank. He is very smart.
+I am glad that I have such a friend."""
+            },
+
+            # A2 Additional
+            {
+                'title': 'Выходные на даче (Weekend at the Dacha)',
+                'slug': 'weekend-dacha',
+                'difficulty': 'A2',
+                'content_russian': """В прошлые выходные мы ездили на дачу.
+Дача находится недалеко от Москвы, в лесу.
+Мы собирали грибы и ягоды. Вечером мы делали шашлык.
+Было очень весело. Мы пели песни и играли на гитаре.
+В воскресенье мы поехали домой уставшие, но счастливые.""",
+                'content_english': """Last weekend we went to the dacha.
+The dacha is located not far from Moscow, in the forest.
+We picked mushrooms and berries. In the evening we made shashlik (barbecue).
+It was very fun. We sang songs and played the guitar.
+On Sunday we went home tired but happy."""
+            },
+            {
+                'title': 'Моя учёба (My Studies)',
+                'slug': 'my-studies',
+                'difficulty': 'A2',
+                'content_russian': """Я учусь в университете на факультете истории.
+Учёба трудная, но интересная. У нас много лекций и семинаров.
+Скоро у меня будут экзамены. Я должен много читать.
+Мой любимый предмет — история России.
+После университета я хочу работать в музее.""",
+                'content_english': """I study at the university at the faculty of history.
+Studying is difficult but interesting. We have many lectures and seminars.
+Soon I will have exams. I must read a lot.
+My favorite subject is Russian history.
+After university I want to work in a museum."""
+            },
+            {
+                'title': 'Поход в театр (Trip to the Theater)',
+                'slug': 'trip-theater',
+                'difficulty': 'A2',
+                'content_russian': """Вчера я ходил в Большой театр. Мы смотрели балет "Лебединое озеро".
+Театр очень красивый внутри. Там много золота и света.
+Балерины танцевали прекрасно. Музыка была волшебной.
+В антракте мы пили шампанское в буфете.
+Это был незабываемый вечер.""",
+                'content_english': """Yesterday I went to the Bolshoi Theater. We watched the ballet "Swan Lake".
+The theater is very beautiful inside. There is a lot of gold and light.
+The ballerinas danced beautifully. The music was magical.
+In the intermission we drank champagne in the buffet.
+It was an unforgettable evening."""
+            },
+            {
+                'title': 'Письмо другу (Letter to a Friend)',
+                'slug': 'letter-friend',
+                'difficulty': 'A2',
+                'content_russian': """Привет, Дима! Как твои дела?
+Я сейчас в отпуске. Я отдыхаю в Сочи.
+Здесь тепло и солнечно. Я каждый день плаваю в море.
+Вчера я ездил на экскурсию в горы. Вид был потрясающий.
+Я привезу тебе сувенир. До встречи!""",
+                'content_english': """Hi Dima! How are you?
+I am on vacation now. I am relaxing in Sochi.
+It is warm and sunny here. I swim in the sea every day.
+Yesterday I went on an excursion to the mountains. The view was amazing.
+I will bring you a souvenir. See you!"""
+            },
+            {
+                'title': 'Покупка подарка (Buying a Gift)',
+                'slug': 'buying-gift',
+                'difficulty': 'A2',
+                'content_russian': """Завтра у мамы день рождения. Я ищу подарок.
+Я был в торговом центре, но ничего не купил.
+Может быть, купить ей книгу? Она любит читать романы.
+Или красивые цветы? Розы или тюльпаны.
+Я думаю, лучше всего купить большой торт и цветы.""",
+                'content_english': """Tomorrow is Mom's birthday. I am looking for a gift.
+I was at the mall but didn't buy anything.
+Maybe buy her a book? She likes reading novels.
+Or beautiful flowers? Roses or tulips.
+I think it is best to buy a big cake and flowers."""
+            },
+
+            # B1 Additional
+            {
+                'title': 'Традиции гостеприимства (Traditions of Hospitality)',
+                'slug': 'hospitality',
+                'difficulty': 'B1',
+                'content_russian': """В России очень важны традиции гостеприимства.
+Если вас пригласили в гости, нельзя приходить с пустыми руками.
+Обычно гости приносят торт, конфеты или вино.
+Хозяева всегда готовят много еды. Стол должен быть полным.
+Русские люди любят сидеть на кухне и разговаривать о жизни до поздней ночи.""",
+                'content_english': """In Russia, traditions of hospitality are very important.
+If you are invited to visit, you cannot come empty-handed.
+Usually guests bring a cake, sweets (candy) or wine.
+Hosts always cook a lot of food. The table must be full.
+Russian people love sitting in the kitchen and talking about life until late at night."""
+            },
+            {
+                'title': 'Жизнь в мегаполисе (Life in a Metropolis)',
+                'slug': 'metropolis-life',
+                'difficulty': 'B1',
+                'content_russian': """Жизнь в большом городе имеет свои плюсы и минусы.
+С одной стороны, здесь много работы, развлечений и возможностей.
+С другой стороны, плохая экология, шум и пробки на дорогах.
+Люди в мегаполисе всегда спешат и часто испытывают стресс.
+Однако ритм большого города заряжает энергией и мотивирует развиваться.""",
+                'content_english': """Life in a big city has its pros and cons.
+On the one hand, there is a lot of work, entertainment and opportunities.
+On the other hand, bad ecology, noise and traffic jams.
+People in a metropolis are always in a hurry and often experience stress.
+However, the rhythm of a big city recharges with energy and motivates to develop."""
+            },
+            {
+                'title': 'Моё хобби - Фотография (My Hobby - Photography)',
+                'slug': 'photography-hobby',
+                'difficulty': 'B1',
+                'content_russian': """Я увлекаюсь фотографией уже пять лет.
+Мне нравится ловить моменты и сохранять их на память.
+Я люблю снимать природу, особенно закаты и рассветы.
+Недавно я купил новую камеру и теперь учусь обрабатывать фото.
+Моя мечта — организовать свою собственную выставку фотографий.""",
+                'content_english': """I have been into photography for five years already.
+I like catching moments and saving them as a memory.
+I like shooting nature, especially sunsets and sunrises.
+Recently I bought a new camera and now I am learning to process photos.
+My dream is to organize my own photo exhibition."""
+            },
+            {
+                'title': 'Праздник Масленица (Maslenitsa Holiday)',
+                'slug': 'maslenitsa',
+                'difficulty': 'B1',
+                'content_russian': """Масленица — это весёлый праздник проводов зимы.
+Он длится целую неделю перед Великим постом.
+Главный символ Масленицы — это блины, которые символизируют солнце.
+Люди гуляют на улице, сжигают чучело зимы и радуются весне.
+Это время, когда нужно прощать обиды и мириться с близкими.""",
+                'content_english': """Maslenitsa is a fun holiday of seeing off winter.
+It lasts a whole week before the Great Lent.
+The main symbol of Maslenitsa is pancakes (blini), which symbolize the sun.
+People walk outside, burn the effigy of winter and rejoice at spring.
+This is a time when one needs to forgive offenses and make up with loved ones."""
+            },
+            {
+                'title': 'Изучение языков (Learning Languages)',
+                'slug': 'learning-languages',
+                'difficulty': 'B1',
+                'content_russian': """Изучение иностранного языка открывает двери в новый мир.
+Это не только грамматика и слова, но и культура другого народа.
+Самое трудное — начать говорить и не бояться делать ошибки.
+Регулярная практика — ключ к успеху. Нужно слушать, читать и говорить каждый день.
+Знание языков помогает путешествовать и находить друзей по всему миру.""",
+                'content_english': """Learning a foreign language opens doors to a new world.
+It's not just grammar and words, but also the culture of another people.
+The hardest thing is to start speaking and not be afraid of making mistakes.
+Regular practice is the key to success. You need to listen, read and speak every day.
+Knowledge of languages helps to travel and find friends all over the world."""
+            },
+
+            # B2 Additional
+            {
+                'title': 'Глобализация (Globalization)',
+                'slug': 'globalization',
+                'difficulty': 'B2',
+                'content_russian': """Глобализация — это процесс объединения мира в единую систему.
+Благодаря интернету и транспорту границы стираются.
+Мы можем общаться с людьми на другом конце света за секунды.
+Однако глобализация угрожает культурному разнообразию.
+Маленькие языки и традиции могут исчезнуть под влиянием массовой культуры.
+Важно сохранять свою уникальность, будучи частью глобального мира.""",
+                'content_english': """Globalization is the process of uniting the world into a single system.
+Thanks to the internet and transport, borders are being erased.
+We can communicate with people on the other side of the world in seconds.
+However, globalization threatens cultural diversity.
+Small languages and traditions may disappear under the influence of mass culture.
+It is important to preserve one's uniqueness while being part of a global world."""
+            },
+            {
+                'title': 'Литература Золотого Века (Golden Age Literature)',
+                'slug': 'golden-age-lit',
+                'difficulty': 'B2',
+                'content_russian': """XIX век называют Золотым веком русской литературы.
+В это время творили Пушкин, Лермонтов, Гоголь, Толстой и Достоевский.
+Их произведения поднимают вечные философские вопросы о добре и зле.
+Язык классической литературы богат, выразителен и сложен.
+Чтение классики в оригинале позволяет глубже понять русскую душу.""",
+                'content_english': """The 19th century is called the Golden Age of Russian literature.
+At this time Pushkin, Lermontov, Gogol, Tolstoy and Dostoevsky created (worked).
+Their works raise eternal philosophical questions about good and evil.
+The language of classical literature is rich, expressive and complex.
+Reading classics in the original allows one to understand the Russian soul deeper."""
+            },
+            {
+                'title': 'Космические исследования (Space Exploration)',
+                'slug': 'space-exploration',
+                'difficulty': 'B2',
+                'content_russian': """Россия имеет богатую историю освоения космоса.
+Полёт Юрия Гагарина в 1961 году стал поворотным моментом в истории человечества.
+Сегодня учёные разрабатывают проекты колонизации Марса и Луны.
+Космические технологии помогают нам в повседневной жизни (спутниковая связь, GPS).
+Несмотря на риски, стремление человека к звёздам остаётся неизменным.""",
+                'content_english': """Russia has a rich history of space exploration.
+Yuri Gagarin's flight in 1961 became a turning point in history of humanity.
+Today scientists are developing projects for colonization of Mars and the Moon.
+Space technologies help us in everyday life (satellite communication, GPS).
+Despite the risks, man's striving for the stars remains unchanged."""
+            },
+            {
+                'title': 'Психология успеха (Psychology of Success)',
+                'slug': 'psychology-success',
+                'difficulty': 'B2',
+                'content_russian': """Что такое успех? Для кого-то это карьера, для кого-то — семья.
+Психологи утверждают, что уверенность в себе играет ключевую роль.
+Неудачи — это не конец, а возможность научиться чему-то новому.
+Важно ставить реалистичные цели и двигаться к ним шаг за шагом.
+Настоящий успех приносит не только деньги, но и внутреннее удовлетворение.""",
+                'content_english': """What is success? For someone it is career, for someone — family.
+Psychologists claim that self-confidence plays a key role.
+Failures are not the end, but an opportunity to learn something new.
+It is important to set realistic goals and move towards them step by step.
+True success brings not only money, but also inner satisfaction."""
+            },
+            {
+                'title': 'Виртуальная реальность (Virtual Reality)',
+                'slug': 'virtual-reality',
+                'difficulty': 'B2',
+                'content_russian': """Виртуальная реальность (VR) всё больше проникает в нашу жизнь.
+Она используется не только в играх, но и в обучении, медицине и архитектуре.
+С помощью VR можно посетить музей в другой стране, не выходя из дома.
+Однако чрезмерное погружение в виртуальный мир может привести к изоляции.
+Технологии должны дополнять реальность, а не заменять её полностью.""",
+                'content_english': """Virtual reality (VR) is penetrating our life more and more.
+It is used not only in games, but also in education, medicine and architecture.
+With the help of VR one can visit a museum in another country without leaving home.
+However, excessive immersion in the virtual world can lead to isolation.
+Technologies must complement reality, not replace it completely."""
+            },
         ]
 
         for s in stories:
