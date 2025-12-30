@@ -120,8 +120,7 @@ I go to bed at eleven o'clock."""
 — I study history.
 — Cool. Let's have some coffee?
 — Let's!"""
-            }
-        ],
+            },
             # Level A2
             {
                 'title': 'Поездка в Санкт-Петербург (Trip to St. Petersburg)',
