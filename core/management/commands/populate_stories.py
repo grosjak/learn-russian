@@ -679,23 +679,16 @@ Technologies must complement reality, not replace it completely."""
         ]
 
         for s in raw_stories:
-            # Generate static glossary
-            glossary = generate_glossary(s['content_russian'])
-            
             story, created = Story.objects.get_or_create(
                 slug=s['slug'],
                 defaults={
                     'title': s['title'],
                     'difficulty': s['difficulty'],
                     'content_russian': s['content_russian'],
-                    'content_english': s['content_english'],
-                    'word_translations': glossary
+                    'content_english': s['content_english']
                 }
             )
             if not created:
-                # Update with glossary if existing
-                story.word_translations = glossary
-                story.save()
-                self.stdout.write(f"Updated story: {s['title']}")
+                self.stdout.write(f"Story already exists: {s['title']}")
             else:
                 self.stdout.write(self.style.SUCCESS(f"Created story: {s['title']}"))

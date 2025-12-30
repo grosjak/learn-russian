@@ -140,7 +140,7 @@
 </style>
 
 <script>
-    { { story.word_translations | json_script: "story-glossary" } }
+    { { glossary | json_script: "story-glossary" } }
 
     document.addEventListener('DOMContentLoaded', function () {
         let glossary = {};

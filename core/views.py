@@ -60,12 +60,10 @@ def stories_list(request):
 def story_detail(request, slug):
     story = get_object_or_404(Story, slug=slug)
     
-    # Self-healing: if glossary is empty, generate it now
-    if not story.word_translations:
-        story.word_translations = generate_glossary(story.content_russian)
-        story.save(update_fields=['word_translations'])
+    # Generate glossary on the fly (no DB storage needed)
+    glossary = generate_glossary(story.content_russian)
         
-    return render(request, 'core/stories/detail.html', {'story': story})
+    return render(request, 'core/stories/detail.html', {'story': story, 'glossary': glossary})
 
 @login_required
 def lookup_word(request):
