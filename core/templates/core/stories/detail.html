@@ -2,50 +2,39 @@
 
 {% block content %}
 <div class="reader-container">
-    <div class="reader-header">
-        <a href="{% url 'stories_list' %}" class="btn-back">← Retour</a>
-        <h1>{{ story.title }}</h1>
-        <div class="level-badge">{{ story.difficulty }}</div>
+    <a href="{% url 'stories_list' %}" class="btn-back">← Retour aux lectures</a>
+
+    <h1 style="text-align: center; margin-bottom: 2rem; color: #ffa726;">{{ story.content_russian|truncatewords:4 }}
+    </h1>
+
+    <div class="story-actions">
+        <span class="level-badge">{{ story.difficulty }}</span>
+        <button onclick="toggleTranslation()" class="btn-toggle">
+            👁️ Voir la traduction complète
+        </button>
     </div>
 
-    <div class="reader-mode-toggle">
-        <button id="toggle-trans" class="btn-secondary">Voir la traduction complète</button>
-    </div>
-
-    <div class="reader-container">
-        <a href="{% url 'stories_list' %}" class="btn-back">← Retour aux lectures</a>
-
-        <h1 style="text-align: center; margin-bottom: 2rem; color: #ffa726;">{{ story.content_russian|truncatewords:4 }}
-        </h1>
-
-        <div class="story-actions">
-            <span class="level-badge">{{ story.difficulty }}</span>
-            <button onclick="toggleTranslation()" class="btn-toggle">
-                👁️ Voir la traduction complète
-            </button>
+    <div class="story-card">
+        <div class="russian-text story-content">
+            {% for word in story.content_russian.split %}
+            <span onclick="lookupWord(this)">{{ word }}</span>
+            {% endfor %}
         </div>
 
-        <div class="story-card">
-            <div class="russian-text story-content">
-                {% for word in story.content_russian.split %}
-                <span onclick="lookupWord(this)">{{ word }}</span>
-                {% endfor %}
-            </div>
-
-            <div id="english-translation" class="english-text" style="display: none;">
-                <hr style="margin: 20px 0; border-color: #eee;">
-                {{ story.content_english|linebreaks }}
-            </div>
+        <div id="english-translation" class="english-text" style="display: none;">
+            <hr style="margin: 20px 0; border-color: #eee;">
+            {{ story.content_english|linebreaks }}
         </div>
     </div>
+</div>
 
-    <!-- Popover for word translation -->
-    <div id="word-popover" class="popover hidden">
-        <div class="popover-content">
-            <strong id="pop-russian"></strong>
-            <p id="pop-french">Chargement...</p>
-        </div>
+<!-- Popover for word translation -->
+<div id="word-popover" class="popover hidden">
+    <div class="popover-content">
+        <strong id="pop-russian"></strong>
+        <p id="pop-french">Chargement...</p>
     </div>
+</div>
 </div>
 
 <style>

@@ -488,6 +488,8 @@ def get_grammar_gender_data(request):
         
     return JsonResponse({
         'word': word.russian,
+        'translation': word.french,
+        'phonetic': word.transliteration,
         'gender': gender,
         'explanation': explanation
     })

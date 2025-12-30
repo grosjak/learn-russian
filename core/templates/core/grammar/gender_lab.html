@@ -9,7 +9,13 @@
 
     <!-- The Word to Sort -->
     <div class="word-stage">
-        <div id="current-word" class="draggable-word" draggable="true">Chargement...</div>
+        <div class="word-card-wrapper">
+            <div id="current-word" class="draggable-word" draggable="true">Chargement...</div>
+            <div class="word-info">
+                <div id="word-phonetic" class="phonetic"></div>
+                <div id="word-translation" class="translation"></div>
+            </div>
+        </div>
     </div>
 
     <!-- Buckets -->
@@ -59,6 +65,31 @@
         touch-action: none;
         /* Important for custom touch handling */
         transition: transform 0.1s;
+    }
+
+    .word-card-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .word-info {
+        color: #888;
+        font-size: 1.1rem;
+    }
+
+    .phonetic {
+        font-style: italic;
+        color: #aaa;
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .translation {
+        font-weight: bold;
+        color: #ffa726;
+        /* Orange accent */
     }
 
     .draggable-word:active {
@@ -138,6 +169,8 @@
         let currentWordObj = null;
         let score = 0;
         const wordEl = document.getElementById('current-word');
+        const phoneticEl = document.getElementById('word-phonetic');
+        const transEl = document.getElementById('word-translation');
         const feedbackEl = document.getElementById('feedback');
         const scoreEl = document.getElementById('score-val');
 
@@ -146,12 +179,16 @@
             wordEl.style.display = 'none'; // Hide briefly
             wordEl.classList.remove('dragging');
             feedbackEl.classList.add('hidden');
+            phoneticEl.textContent = '';
+            transEl.textContent = '';
 
             fetch('/api/grammar/gender_data/')
                 .then(r => r.json())
                 .then(data => {
                     currentWordObj = data;
                     wordEl.textContent = data.word;
+                    phoneticEl.textContent = `[${data.phonetic}]`;
+                    transEl.textContent = data.translation;
                     wordEl.style.display = 'block';
                 })
                 .catch(err => {
