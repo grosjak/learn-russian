@@ -47,6 +47,10 @@ def roadmap(request):
     return render(request, 'core/roadmap.html', {'lessons': lessons})
 
 @login_required
+def vocabulary(request):
+    return render(request, 'core/vocabulary.html')
+
+@login_required
 def stories_list(request):
     stories = Story.objects.all().order_by('created_at')
     return render(request, 'core/stories/list.html', {'stories': stories})

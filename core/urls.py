@@ -10,10 +10,11 @@ urlpatterns = [
     path('login/', views_auth.login_view, name='login'),
     path('logout/', views_auth.logout_view, name='logout'),
 
-    path('api/validate/', views.validate_answer, name='validate_answer'),
     path('api/word/<int:word_id>/status/', views.update_word_status, name='update_word_status'),
     path('alphabet/', views.roadmap, name='roadmap'), 
+    path('vocabulary/', views.vocabulary, name='vocabulary'),
     path('stories/', views.stories_list, name='stories_list'),
+    path('stories/<slug:slug>/', views.story_detail, name='story_detail'),
     path('stories/<slug:slug>/', views.story_detail, name='story_detail'),
     path('api/lookup/', views.lookup_word, name='lookup_word'),
     path('revision/', views.revision_list, name='revision_list'),
