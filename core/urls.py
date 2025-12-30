@@ -15,7 +15,6 @@ urlpatterns = [
     path('vocabulary/', views.vocabulary, name='vocabulary'),
     path('stories/', views.stories_list, name='stories_list'),
     path('stories/<slug:slug>/', views.story_detail, name='story_detail'),
-    path('stories/<slug:slug>/', views.story_detail, name='story_detail'),
     path('api/lookup/', views.lookup_word, name='lookup_word'),
     path('revision/', views.revision_list, name='revision_list'),
     path('practice/<str:mode>/', views.practice, name='practice'),
