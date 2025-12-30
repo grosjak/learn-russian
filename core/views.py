@@ -436,34 +436,38 @@ def grammar_practice(request):
     return render(request, 'core/grammar/gender_lab.html')
 
 @login_required
+@login_required
 def get_grammar_gender_data(request):
-    # Heuristic for determining gender + explanation
-    # 1. Fetch a random noun (category='word')
-    # Filter for words that have "nice" endings for A1 level
-    # Avoid exceptions for now if possible, or handle them.
+    attempt = int(request.GET.get('attempt', 0))
+    if attempt > 10:
+        return JsonResponse({'error': 'Too many retries'}, status=404)
+
+    # Filter for words that have "nice" endings for A1 level (exclude soft sign for now if possible)
+    # We can try to filter at DB level to be more efficient
+    candidates = Word.objects.filter(category='word').exclude(russian__endswith='ь')
     
-    # Let's simple pick random words and simplistic rules for the prototype
-    count = Word.objects.filter(category='word').count()
+    count = candidates.count()
+    if count == 0:
+         # Fallback to all words if we can't find easy ones
+        candidates = Word.objects.filter(category='word')
+        count = candidates.count()
+        
     if count == 0:
         return JsonResponse({'error': 'No words'}, status=404)
     
+    # Pick random
     random_idx = random.randint(0, count - 1)
-    word = Word.objects.filter(category='word')[random_idx]
+    word = candidates[random_idx]
     
     ru = word.russian.lower().strip()
     
     gender = '?'
     explanation = ""
     
-    # Exceptions (Soft sign is tricky, usually feminine but not always)
-    if ru.endswith('ь'):
-        # Skip soft sign for A1 version to avoid confusion, RECURSE
-        return get_grammar_gender_data(request)
-        
-    elif ru.endswith(('а', 'я')):
+    # Heuristic rules
+    if ru.endswith(('а', 'я')):
         gender = 'f'
         explanation = f"Terminaison en -{ru[-1]} -> Féminin"
-        # Exception: Papa, Dyadya (Male) - ignored for prototype or check specific list
         if ru in ['папа', 'дядя', 'дедушка', 'мужчина']:
             gender = 'm'
             explanation = "Exception : Désigne un homme -> Masculin"
@@ -473,6 +477,11 @@ def get_grammar_gender_data(request):
         explanation = f"Terminaison en -{ru[-1]} -> Neutre"
         
     else:
+        # Check if it really ends with a soft sign (if we fell back)
+        if ru.endswith('ь'):
+             # Retry with incremented attempt
+             return redirect(f"{request.path}?attempt={attempt+1}")
+             
         # Consonant (or й)
         gender = 'm'
         explanation = "Terminaison consonne/й -> Masculin"

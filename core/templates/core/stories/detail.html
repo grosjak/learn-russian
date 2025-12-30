@@ -45,25 +45,32 @@
         margin-bottom: 2rem;
     }
 
-    .text-column {
-        font-size: 1.4rem;
-        line-height: 1.8;
+    .story-card {
         background: white;
+        /* Card is white */
+        color: #1a1a1a;
+        /* Text must be dark */
         padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        line-height: 1.8;
+        font-size: 1.2rem;
     }
 
-    .russian-text span {
+    .story-content span {
         cursor: pointer;
-        transition: background 0.2s;
+        padding: 2px 4px;
         border-radius: 4px;
-        padding: 0 2px;
+        transition: background 0.2s;
+        border-bottom: 2px solid transparent;
+        display: inline-block;
+        /* Helps with touch targets */
     }
 
-    .russian-text span:hover {
+    .story-content span:hover {
         background: #e3f2fd;
-        color: #1565c0;
+        border-bottom-color: #2196f3;
+        color: #0d47a1;
     }
 
     .english-text {
