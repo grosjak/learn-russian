@@ -189,7 +189,7 @@ def practice_data(request, mode):
                     'audio_url': word.audio.url if word.audio else None,
                     'correct': word.french, # User selects French
                     'options': options,
-                    'reveal_word': word.russian, # Show after answer
+                    'reveal_word': word.russian_accented or word.russian, # Show after answer
                     'example': word.example_sentence
                 })
 
@@ -244,7 +244,8 @@ def practice_data(request, mode):
                     'type': 'input_text',
                     'id': word.id,
                     'prompt': word.french, # Show French, ask for Russian
-                    'correct': word.russian,
+                    'correct': word.russian, # Check against raw Russian
+                    'display_correct': word.russian_accented or word.russian, # For feedback
                     'category': word.category,
                     'is_revision': mode == 'revision',
                     'example': word.example_sentence,
@@ -322,7 +323,7 @@ def lesson_data(request, lesson_id):
         for word in words:
             questions.append({
                 'type': 'intro_word',
-                'word': word.russian, # 'russian' field stores Eng word
+                'word': word.russian_accented or word.russian, # 'russian' field stores Eng word
                 'translation': word.french,
                 'category': word.category,
                 'example': word.example_sentence
@@ -338,21 +339,21 @@ def lesson_data(request, lesson_id):
             
             questions.append({
                 'type': 'select_translation',
-                'prompt': f'Que signifie "{word.russian}" ?',
+                'prompt': f'Que signifie "{word.russian_accented or word.russian}" ?',
                 'correct': word.french,
                 'options': options,
-                'main_word': word.russian,
+                'main_word': word.russian_accented or word.russian,
                 'example': word.example_sentence
             })
             
             # Type B: Match Word (Fr -> En)
-            options_en = [w.russian for w in distractors] + [word.russian]
+            options_en = [w.russian_accented or w.russian for w in distractors] + [word.russian_accented or word.russian]
             random.shuffle(options_en)
              
             questions.append({
                 'type': 'select_word',
                 'prompt': f'Comment dit-on "{word.french}" ?',
-                'correct': word.russian,
+                'correct': word.russian_accented or word.russian,
                 'options': options_en,
                 'main_word': word.french, # Source word to display if needed
                 'example': word.example_sentence
@@ -389,7 +390,7 @@ def validate_answer(request):
                 'is_correct': result['is_correct'],
                 'similarity': result['similarity'],
                 'diff_html': result['diff_html'],
-                'correct_answer': word.russian
+                'correct_answer': word.russian_accented or word.russian
             })
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=400)

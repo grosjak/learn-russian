@@ -39,6 +39,7 @@ class Word(models.Model):
     ]
     
     russian = models.CharField(max_length=100)
+    russian_accented = models.CharField(max_length=100, blank=True, null=True, help_text="Russian word with accent mark")
     french = models.CharField(max_length=100)
     transliteration = models.CharField(max_length=100)
     category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='word')

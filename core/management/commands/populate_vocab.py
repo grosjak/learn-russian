@@ -91,10 +91,11 @@ class Command(BaseCommand):
                 russian=rus,
                 target_language='ru',
                 defaults={
-                    'french': fra,   # Storing English def in the 'french' field as per plan
-                    'transliteration': phon,
+                    'russian': rus,
+                    'russian_accented': item.get('accented', ''), # distinct field for visual accent
+                    'french': fra,
                     'category': category,
-                    'example_sentence': example
+                    'target_language': 'ru'
                 }
             )
             
