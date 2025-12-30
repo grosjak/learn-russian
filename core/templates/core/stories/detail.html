@@ -143,7 +143,17 @@
     { { story.word_translations | json_script: "story-glossary" } }
 
     document.addEventListener('DOMContentLoaded', function () {
-        const glossary = JSON.parse(document.getElementById('story-glossary').textContent);
+        let glossary = {};
+        try {
+            const glossaryScript = document.getElementById('story-glossary');
+            if (glossaryScript) {
+                glossary = JSON.parse(glossaryScript.textContent);
+                console.log("Glossary loaded:", Object.keys(glossary).length, "words");
+            }
+        } catch (e) {
+            console.error("Error loading glossary:", e);
+        }
+
         const rusContainer = document.getElementById('russian-text');
         const rawText = `{{ story.content_russian|escapejs }}`;
 
