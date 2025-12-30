@@ -11,32 +11,55 @@ class Command(BaseCommand):
         from django.conf import settings
 
         # New source file
-        json_path = os.path.join(settings.BASE_DIR, 'core', 'data', 'russian.json')
+        # Try to use the translated file first
+        json_path_fr = os.path.join(settings.BASE_DIR, 'core', 'data', 'russian_fr.json')
+        json_path_en = os.path.join(settings.BASE_DIR, 'core', 'data', 'russian.json')
         
-        if not os.path.exists(json_path):
-            self.stdout.write(self.style.ERROR(f'File not found: {json_path}'))
+        if os.path.exists(json_path_fr):
+            json_path = json_path_fr
+            self.stdout.write(self.style.SUCCESS(f'Using Translated Dictionary: {json_path}'))
+        elif os.path.exists(json_path_en):
+            json_path = json_path_en
+            self.stdout.write(self.style.WARNING(f'Using English Dictionary (Not yet translated): {json_path}'))
+        else:
+            self.stdout.write(self.style.ERROR(f'File not found: {json_path_en}'))
             return
 
         with open(json_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
+        # Update or Create words
         count_created = 0
         count_updated = 0
         
         for item in data:
-            # Mapping new JSON structure to Model
-            # "word" -> russian
-            # "english_translation" -> french (as we are replacing the slot, even if content is English)
-            # "romanization" -> transliteration
-            # "pos" -> category (verb detection)
-            # "example_sentence_native" + "example_sentence_english" -> example_sentence
-
             rus = item.get('word', '').strip()
-            eng_def = item.get('english_translation', '').strip()
-            phon = item.get('romanization', '').strip()
             
-            if not rus or not eng_def:
+            # Prefer French translation if available, else English
+            fra = item.get('french_translation', '').strip()
+            if not fra:
+                fra = item.get('english_translation', '').strip() # Fallback
+
+            # Prefer French example if available, else English (with context)
+            ex_native = item.get('example_sentence_native', '').strip()
+            
+            ex_trans = item.get('example_sentence_french', '').strip()
+            if not ex_trans:
+                ex_trans = item.get('example_sentence_english', '').strip()
+            
+            if ex_native and ex_trans:
+                example = f"{ex_native} ({ex_trans})"
+            elif ex_native:
+                example = ex_native
+            else:
+                example = ""
+
+            phon = item.get('romanization', '').strip()
+            pos = item.get('pos', '').lower()
+            
+            if not rus or not fra:
                 continue
+
 
             # Category
             pos = item.get('pos', '').lower()
