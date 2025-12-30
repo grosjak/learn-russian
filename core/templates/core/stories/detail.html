@@ -202,10 +202,9 @@
             popFr.textContent = "Recherche...";
             popover.classList.remove('hidden');
 
-            // Fetch from our internal dictionary API (to be implemented)
-            // For now, demo mock
+            // Fetch from our internal dictionary API
             // Ideally we hit an endpoint /api/lookup?word=...
-            fetch(`/core/api/lookup/?word=${encodeURIComponent(word)}`)
+            fetch(`/api/lookup/?word=${encodeURIComponent(word)}`)
                 .then(r => r.json())
                 .then(data => {
                     if (data.found) {
