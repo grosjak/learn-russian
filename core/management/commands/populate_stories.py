@@ -5,8 +5,7 @@ class Command(BaseCommand):
     help = 'Populate initial stories'
 
     def handle(self, *args, **options):
-        stories = [
-            
+
         # Dictionary of common words to pre-populate static translations
         # This acts as a fallback for the words in the stories to ensure instant lookup
         COMMON_TRANSLATIONS = {
