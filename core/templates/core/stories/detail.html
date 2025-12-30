@@ -15,10 +15,9 @@
     </div>
 
     <div class="story-card">
-        <div class="russian-text story-content">
-            {% for word in story.content_russian.split %}
-            <span onclick="lookupWord(this)">{{ word }}</span>
-            {% endfor %}
+        <div id="russian-text" class="russian-text story-content">
+            <!-- Text injected by JS -->
+            Chargement du texte...
         </div>
 
         <div id="english-translation" class="english-text" style="display: none;">
@@ -93,7 +92,6 @@
     .story-card {
         background: white;
         color: #1a1a1a !important;
-        /* Force dark text */
         padding: 30px;
         border-radius: 20px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -101,9 +99,12 @@
         font-size: 1.25rem;
     }
 
+    .hidden {
+        display: none !important;
+    }
+
     .english-text {
         color: #444;
-        /* Dark grey for translation */
         font-size: 1.1rem;
         margin-top: 20px;
         background: #f5f5f5;
@@ -139,7 +140,7 @@
     }
 </style>
 
-{{ glossary | json_script: "story-glossary" }}
+{{ glossary|json_script:"story-glossary" }}
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
