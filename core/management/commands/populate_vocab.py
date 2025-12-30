@@ -91,7 +91,7 @@ class Command(BaseCommand):
                 russian=rus,
                 target_language='ru',
                 defaults={
-                    'french': eng_def,   # Storing English def in the 'french' field as per plan
+                    'french': fra,   # Storing English def in the 'french' field as per plan
                     'transliteration': phon,
                     'category': category,
                     'example_sentence': example
