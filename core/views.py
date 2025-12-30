@@ -193,7 +193,7 @@ def practice_data(request, mode):
                     'example': word.example_sentence
                 })
 
-    elif mode in ['words', 'verbs', 'revision']:
+    elif mode in ['words', 'verbs', 'revision', 'daily']:
         if mode == 'revision':
             # Revision mode: only words flagged as needing review for this user
             if request.user.is_authenticated:
@@ -207,12 +207,36 @@ def practice_data(request, mode):
                 words = []
         else:
             lang = request.session.get('target_language', 'ru')
-            category = 'word' if mode == 'words' else 'verb'
-            words = list(Word.objects.filter(category=category, target_language=lang))
+            
+            if mode == 'daily':
+                # Deterministic random selection based on today's date
+                import datetime
+                today = datetime.date.today()
+                # Use today's ordinal as seed
+                seed_val = today.toordinal()
+                
+                # We need a fresh random instance to not affect global state
+                # But python's random.seed affects global. 
+                # Better: fetch all IDs, select deterministically.
+                
+                all_words = list(Word.objects.filter(target_language=lang))
+                
+                if all_words:
+                    rng = random.Random(seed_val)
+                    # Select 10 items mixed
+                    words = rng.sample(all_words, min(len(all_words), 10))
+                else:
+                    words = []
+            else:
+                category = 'word' if mode == 'words' else 'verb'
+                words = list(Word.objects.filter(category=category, target_language=lang))
 
         if len(words) > 0:
+            # Shuffle the session question order (presentation order) 
+            # For daily, the SET of words is fixed, but order can be random each time or fixed?
+            # Let's random shuffle the presentation order so it feels like a test
             random.shuffle(words)
-            # Take up to 15 words for a session
+            # Take up to 15 words for a session (Daily is capped at 10 above)
             selected = words[:15]
             
             for word in selected:

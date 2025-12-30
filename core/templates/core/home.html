@@ -22,6 +22,16 @@
 
     <div class="menu-grid">
 
+        <!-- Daily Selection Button -->
+        <a href="{% url 'practice' 'daily' %}" class="menu-btn btn-daily">
+            <div class="icon-box">📅</div>
+            <div class="text-content">
+                <div class="title">Sélection du Jour</div>
+                <div class="subtitle">10 mots quotidiens</div>
+            </div>
+            <div class="daily-badge">Nouveau</div>
+        </a>
+
         <!-- Primary Learning Path Button -->
         <a href="{% if target_language == 'ru' %}{% url 'practice' 'alphabet' %}{% else %}{% url 'roadmap' %}{% endif %}"
             class="menu-btn btn-alphabet">
@@ -180,6 +190,27 @@
     .btn-vocabulary {
         background-color: #1cb0f6;
         border-color: #118cc6;
+        box-shadow: 0 4px 0 #118cc6;
+    }
+
+    .btn-daily {
+        background: linear-gradient(135deg, #a453f5, #8a2be2);
+        border-color: #7c26cb;
+        box-shadow: 0 4px 0 #6a21ad;
+    }
+
+    .daily-badge {
+        background: #ff4b4b;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        text-transform: uppercase;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 </style>
 {% endblock %}
