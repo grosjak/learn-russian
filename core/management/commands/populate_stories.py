@@ -121,6 +121,63 @@ I go to bed at eleven o'clock."""
 — Cool. Let's have some coffee?
 — Let's!"""
             }
+        ],
+            # Level A2
+            {
+                'title': 'Поездка в Санкт-Петербург (Trip to St. Petersburg)',
+                'slug': 'trip-to-spb',
+                'difficulty': 'A2',
+                'content_russian': """В прошлом году я ездил в Санкт-Петербург. Это очень красивый город.
+Я был там летом, когда были белые ночи. Было светло даже ночью!
+Мы много гуляли по центру города. Мы видели Эрмитаж, Невский проспект и Петропавловскую крепость.
+Мне очень понравились каналы и мосты. Мы катались на лодке по реке Неве.
+Погода была хорошая, но иногда шёл дождь. В Санкт-Петербурге часто идёт дождь.
+Я купил сувениры для моей семьи. Я хочу поехать туда снова.""",
+                'content_english': """Last year I went to St. Petersburg. It is a very beautiful city.
+I was there in summer when there were white nights. It was light even at night!
+We walked a lot in the city center. We saw the Hermitage, Nevsky Prospect and the Peter and Paul Fortress.
+I really liked the canals and bridges. We took a boat ride on the Neva River.
+The weather was good, but sometimes it rained. It often rains in St. Petersburg.
+I bought souvenirs for my family. I want to go there again."""
+            },
+            # Level B1
+            {
+                'title': 'Русская зима (Russian Winter)',
+                'slug': 'russian-winter',
+                'difficulty': 'B1',
+                'content_russian': """Все говорят, что русская зима очень холодная. И это правда.
+Но зима в России — это также очень красивое время года. Всё вокруг белое от снега.
+Дети любят зиму, потому что можно кататься на санках, лыжах и коньках.
+Многие люди ездят на дачу, чтобы отдохнуть на природе. Там они топят баню и пьют горячий чай с мёдом.
+Самый главный праздник зимой — это Новый год. Россияне готовят много вкусной еды, например, салат Оливье.
+Они украшают ёлку и дарят друг другу подарки. В полночь бьют куранты на Красной площади.""",
+                'content_english': """Everyone says that the Russian winter is very cold. And it's true.
+But winter in Russia is also a very beautiful time of the year. Everything around is white with snow.
+Children love winter because they can go sledding, skiing and skating.
+Many people go to their dacha to relax in nature. There they heat the banya and drink hot tea with honey.
+The most important holiday in winter is New Year. Russians cook a lot of delicious food, for example, Olivier salad.
+They decorate the Christmas tree and give each other gifts. At midnight the chimes strike on Red Square."""
+            },
+            # Level B2
+            {
+                'title': 'Технологии и будущее (Technology and Future)',
+                'slug': 'tech-future',
+                'difficulty': 'B2',
+                'content_russian': """В современном мире технологии развиваются с невероятной скоростью.
+Влияние искусственного интеллекта на нашу жизнь становится всё более заметным.
+С одной стороны, это открывает перед человечеством огромные возможности: автоматизация рутинных задач, улучшение медицины и образования.
+С другой стороны, возникают этические вопросы и опасения по поводу потери рабочих мест.
+Многие эксперты спорят о том, сможет ли компьютер когда-нибудь полностью заменить человека.
+Важно найти баланс между технологическим прогрессом и сохранением человеческих ценностей.
+Мы должны учиться адаптироваться к изменениям и использовать технологии во благо общества.""",
+                'content_english': """In the modern world, technologies are developing at an incredible speed.
+The influence of artificial intelligence on our life is becoming more and more noticeable.
+On the one hand, this opens up huge opportunities for humanity: automation of routine tasks, improvement of medicine and education.
+On the other hand, ethical questions and concerns about job losses arise.
+Many experts argue about whether a computer will ever be able to completely replace a human.
+It is important to find a balance between technological progress and the preservation of human values.
+We must learn to adapt to changes and use technologies for the benefit of society."""
+            }
         ]
 
         for s in stories:
