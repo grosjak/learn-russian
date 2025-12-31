@@ -271,6 +271,8 @@
                 renderListenAndSelect(q);
             } else if (q.type === 'input_text') {
                 renderInputQuestion(q);
+            } else if (q.type === 'construct_sentence') {
+                renderConstructSentence(q);
             }
         }
 
@@ -903,6 +905,119 @@
             btn.parentNode.replaceChild(newBtn, btn);
             newBtn.onclick = () => window.location.href = '/';
             document.querySelector('.check-footer').style.backgroundColor = '#fff';
+        }
+
+        function renderConstructSentence(q) {
+            questionArea.innerHTML = `
+                <div class="question-card fade-in">
+                    <div class="question-header">
+                        <span class="category-badge">Construction</span>
+                    </div>
+                    
+                    <div class="intro-content">
+                        <h2 class="question-prompt" style="text-align:center; margin-bottom:20px;">${q.prompt}</h2>
+                        <p class="instruction-text" style="text-align:center; color:#777;">Construisez la phrase en Anglais</p>
+                    </div>
+
+                    <div class="bubble-container">
+                        <!-- Drop Zone -->
+                        <div id="drop-zone" class="drop-zone"></div>
+
+                        <!-- Word Bank -->
+                        <div id="word-bank" class="word-bank"></div>
+                    </div>
+                </div>
+                
+                <!-- We inject a custom helper button inside the container if needed or rely on Footer -->
+            `;
+
+            // Setup Custom Footer Button for this mode
+            const footer = document.querySelector('.check-footer');
+            const checkBtn = document.getElementById('checkBtn');
+
+            // Re-enable check button logic
+            checkBtn.disabled = true; // Disabled until at least one word dropped? Or always enabled to verify?
+            // Actually, usually disabled until all words used or at least one.
+            checkBtn.onclick = () => handleConstructCheck(q);
+
+            const dropZone = document.getElementById('drop-zone');
+            const wordBank = document.getElementById('word-bank');
+
+            // Initialize Bank
+            q.options.forEach((word, index) => {
+                const btn = document.createElement('div');
+                btn.className = 'bubble-word fade-in';
+                btn.textContent = word;
+                btn.dataset.word = word;
+                btn.dataset.index = index;
+
+                btn.onclick = () => {
+                    // Move Logic
+                    if (btn.parentNode === wordBank) {
+                        wordBank.removeChild(btn);
+                        dropZone.appendChild(btn);
+                        checkBtn.disabled = false;
+                    } else {
+                        dropZone.removeChild(btn);
+                        wordBank.appendChild(btn);
+                        if (dropZone.children.length === 0) checkBtn.disabled = true;
+                    }
+                    playSound('pop'); // Optional sound
+                };
+
+                wordBank.appendChild(btn);
+            });
+        }
+
+        function handleConstructCheck(q) {
+            const dropZone = document.getElementById('drop-zone');
+            const selectedWords = Array.from(dropZone.children).map(b => b.textContent);
+            const userSentence = selectedWords.join(' ');
+
+            // Simple validation: ignore case and punctuation?
+            // q.correct_sentence should be compared.
+            // Let's normalize slightly.
+            const normUser = userSentence.trim().replace(/[.,!?;]/g, '').toLowerCase();
+            const normCorrect = q.correct_sentence.trim().replace(/[.,!?;]/g, '').toLowerCase();
+
+            const isCorrect = (normUser === normCorrect);
+
+            const footer = document.querySelector('.check-footer');
+            const checkBtn = document.getElementById('checkBtn');
+
+            if (isCorrect) {
+                footer.style.backgroundColor = '#d7ffb8';
+                footer.innerHTML = `
+                    <div class="feedback correct">
+                        <h3>Excellent ! 🎉</h3>
+                        <p style="color:#555;">${q.correct_sentence}</p>
+                        <button class="next-btn" id="continue-btn">Continuer</button>
+                    </div>
+                `;
+                playSound('correct');
+            } else {
+                footer.style.backgroundColor = '#ffdfe0';
+                footer.innerHTML = `
+                   <div class="feedback wrong">
+                        <h3>Pas tout à fait...</h3>
+                        <p>Réponse : <strong>${q.correct_sentence}</strong></p>
+                        <button class="next-btn" id="continue-btn">Continuer</button>
+                   </div>
+                `;
+                playSound('wrong');
+            }
+
+            document.getElementById('continue-btn').onclick = () => {
+                footer.style.backgroundColor = '';
+                footer.innerHTML = '<button class="btn-primary" id="checkBtn" disabled>Vérifier</button>';
+                currentIndex++;
+                renderQuestion();
+            };
+        }
+
+        function playSound(type) {
+            // Placeholder wrapper for playSFX
+            try { playSFX(type === 'pop' ? 'success' : type); } catch (e) { }
         }
 
     </script>
