@@ -956,13 +956,26 @@
                     if (btn.parentNode === wordBank) {
                         wordBank.removeChild(btn);
                         dropZone.appendChild(btn);
-                        checkBtn.disabled = false;
                     } else {
                         dropZone.removeChild(btn);
                         wordBank.appendChild(btn);
-                        if (dropZone.children.length === 0) checkBtn.disabled = true;
                     }
-                    playSound('pop'); // Optional sound
+
+                    // Update Check Button State
+                    const hasWords = dropZone.children.length > 0;
+                    checkBtn.disabled = !hasWords;
+
+                    if (hasWords) {
+                        checkBtn.style.backgroundColor = '#58CC02';
+                        checkBtn.style.color = 'white';
+                        checkBtn.style.boxShadow = '0 4px 0 #46a302'; // Premium 3D effect
+                    } else {
+                        checkBtn.style.removeProperty('background-color');
+                        checkBtn.style.removeProperty('color');
+                        checkBtn.style.removeProperty('box-shadow');
+                    }
+
+                    playSound('pop');
                 };
 
                 wordBank.appendChild(btn);
@@ -974,7 +987,7 @@
             const selectedWords = Array.from(dropZone.children).map(b => b.textContent);
             const userSentence = selectedWords.join(' ');
 
-            // Normalize for loose comparison
+            // Normalize
             const normUser = userSentence.trim().replace(/[.,!?;]/g, '').toLowerCase();
             const normCorrect = q.correct_sentence.trim().replace(/[.,!?;]/g, '').toLowerCase();
 
@@ -996,12 +1009,12 @@
                         ${isCorrect ? `<p>${q.correct_sentence}</p>` : ''}
                     </div>
                 </div>
-                <!-- SRS Buttons (Optional, maybe for failed cards?) -->
                  ${!isCorrect ? `
                  <button class="audio-btn" style="position:absolute; right:20px; top:20px; font-size:1.5rem; background:white; border-radius:50%; width:40px; height:40px; border:none; box-shadow:0 2px 4px rgba(0,0,0,0.1);" onclick="playAudio('${q.correct_sentence.replace("'", "\\'")}')">🔊</button>
                  ` : ''}
 
-                <button id="continue-btn" class="btn btn-white" style="width:100%; margin-top:10px; font-weight:bold; border:2px solid rgba(0,0,0,0.1);">Continuer</button>
+                <!-- PREMIUM CONTINUE BUTTON -->
+                <button id="continue-btn" class="btn-primary" style="width:100%; margin-top:10px; font-size:1.1rem; padding:12px; background-color: ${isCorrect ? '#58CC02' : '#FF4B4B'}; border-color: ${isCorrect ? '#46a302' : '#ea2b2b'}; color: white; box-shadow: 0 4px 0 ${isCorrect ? '#46a302' : '#ce2525'};">Continuer</button>
             `;
 
             if (isCorrect) playSound('correct');
@@ -1009,7 +1022,7 @@
 
             document.getElementById('continue-btn').onclick = () => {
                 // Reset Footer
-                footer.className = 'check-footer'; // Remove correct/incorrect classes
+                footer.className = 'check-footer';
                 footer.style.backgroundColor = '';
                 footer.innerHTML = '<button class="btn-primary" id="checkBtn" disabled>Vérifier</button>';
 
