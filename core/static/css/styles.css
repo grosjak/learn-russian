@@ -482,12 +482,25 @@ h1 {
     font-size: 2rem;
 }
 
-.feedback-text h3 {
-    margin: 0;
-    font-size: 1.2rem;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+z-index: 10;
 }
 
-.feedback-text p {
-    margin: 5px 0 0;
-    color: var(--duo-gray);
+.level-node.current {
+    box-shadow: 0 0 0 8px rgba(255, 140, 0, 0.3), 0 6px 0 var(--duo-green-shadow);
+    animation: pulseNode 2s infinite;
+}
+
+@keyframes pulseNode {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 140, 0, 0.4), 0 6px 0 var(--duo-green-shadow);
+    }
+
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 140, 0, 0), 0 6px 0 var(--duo-green-shadow);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 140, 0, 0), 0 6px 0 var(--duo-green-shadow);
+    }
 }

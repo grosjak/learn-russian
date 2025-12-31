@@ -3,35 +3,39 @@
 {% block content %}
 <div class="container">
     <div style="margin-bottom: 2rem; text-align: center;">
-        <h1 style="color: #FF8C00; margin-bottom: 5px;">
+        <h1 style="color: white; font-size:1.5rem; text-transform:uppercase; letter-spacing:1px;">
             {% if target_language == 'ru' %}Parcours Russe{% else %}Parcours Anglais{% endif %}
         </h1>
-        <p style="color: #777;">Complétez les leçons pour avancer</p>
     </div>
 
-    <div style="display: flex; flex-direction: column; gap: 1rem; padding-bottom: 80px;">
+    <div class="path-container">
+        <!-- Connecting Line -->
+        <div class="path-line"></div>
+
         {% for lesson in lessons %}
-        <a href="{% url 'lesson_detail' lesson.id %}" class="menu-btn"
-            style="justify-content: flex-start; padding: 1.2rem; background: #2d2d2d; border-color: #FF8C00; color: white; box-shadow: 0 4px 0 #CC7000;">
-
-            <div
-                style="background: #ffecb3; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-right: 15px; flex-shrink: 0;">
+        <div class="level-row">
+            <a href="{% url 'lesson_detail' lesson.id %}"
+                class="level-node {% if forloop.counter == 1 %}current{% endif %}">
                 {{ lesson.icon }}
-            </div>
-
-            <div style="flex: 1;">
-                <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 4px;">{{ lesson.title }}</div>
-                <div style="font-size: 0.9rem; font-weight: normal; opacity: 0.8;">{{ lesson.description }}</div>
-            </div>
-
-            {% if forloop.counter == 1 %}
-            <div
-                style="background: #FF8C00; color: white; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: bold;">
-                GO
-            </div>
+                <div class="node-label">{{ lesson.title }}</div>
+            </a>
+        </div>
+        {% empty %}
+        <div style="text-align:center; padding:20px; color:#777;">
+            <p>Aucune leçon disponible pour l'instant.</p>
+            {% if target_language == 'en' %}
+            <p>Le contenu arrive bientôt ! 🇬🇧</p>
             {% endif %}
-        </a>
+        </div>
         {% endfor %}
+
+        <!-- Chest at the end -->
+        <div class="level-row" style="margin-top:20px;">
+            <div class="level-node locked"
+                style="background:#ffd700; border-color:#e6c200; box-shadow: 0 6px 0 #c7a800;">
+                🏆
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
