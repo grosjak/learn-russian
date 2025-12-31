@@ -974,9 +974,7 @@
             const selectedWords = Array.from(dropZone.children).map(b => b.textContent);
             const userSentence = selectedWords.join(' ');
 
-            // Simple validation: ignore case and punctuation?
-            // q.correct_sentence should be compared.
-            // Let's normalize slightly.
+            // Normalize for loose comparison
             const normUser = userSentence.trim().replace(/[.,!?;]/g, '').toLowerCase();
             const normCorrect = q.correct_sentence.trim().replace(/[.,!?;]/g, '').toLowerCase();
 
@@ -985,31 +983,36 @@
             const footer = document.querySelector('.check-footer');
             const checkBtn = document.getElementById('checkBtn');
 
-            if (isCorrect) {
-                footer.style.backgroundColor = '#d7ffb8';
-                footer.innerHTML = `
-                    <div class="feedback correct">
-                        <h3>Excellent ! 🎉</h3>
-                        <p style="color:#555;">${q.correct_sentence}</p>
-                        <button class="next-btn" id="continue-btn">Continuer</button>
+            // Apply Premium Styles
+            footer.classList.remove('hidden');
+            footer.className = 'feedback-footer ' + (isCorrect ? 'correct' : 'incorrect');
+
+            footer.innerHTML = `
+                <div class="feedback-content">
+                    <div class="feedback-icon">${isCorrect ? '🎉' : '❌'}</div>
+                    <div class="feedback-text">
+                        <h3>${isCorrect ? 'Excellent !' : 'Pas tout à fait...'}</h3>
+                        ${!isCorrect ? `<p>Réponse : <strong>${q.correct_sentence}</strong></p>` : ''}
+                        ${isCorrect ? `<p>${q.correct_sentence}</p>` : ''}
                     </div>
-                `;
-                playSound('correct');
-            } else {
-                footer.style.backgroundColor = '#ffdfe0';
-                footer.innerHTML = `
-                   <div class="feedback wrong">
-                        <h3>Pas tout à fait...</h3>
-                        <p>Réponse : <strong>${q.correct_sentence}</strong></p>
-                        <button class="next-btn" id="continue-btn">Continuer</button>
-                   </div>
-                `;
-                playSound('wrong');
-            }
+                </div>
+                <!-- SRS Buttons (Optional, maybe for failed cards?) -->
+                 ${!isCorrect ? `
+                 <button class="audio-btn" style="position:absolute; right:20px; top:20px; font-size:1.5rem; background:white; border-radius:50%; width:40px; height:40px; border:none; box-shadow:0 2px 4px rgba(0,0,0,0.1);" onclick="playAudio('${q.correct_sentence.replace("'", "\\'")}')">🔊</button>
+                 ` : ''}
+
+                <button id="continue-btn" class="btn btn-white" style="width:100%; margin-top:10px; font-weight:bold; border:2px solid rgba(0,0,0,0.1);">Continuer</button>
+            `;
+
+            if (isCorrect) playSound('correct');
+            else playSound('wrong');
 
             document.getElementById('continue-btn').onclick = () => {
+                // Reset Footer
+                footer.className = 'check-footer'; // Remove correct/incorrect classes
                 footer.style.backgroundColor = '';
                 footer.innerHTML = '<button class="btn-primary" id="checkBtn" disabled>Vérifier</button>';
+
                 currentIndex++;
                 renderQuestion();
             };
