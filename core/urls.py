@@ -24,6 +24,9 @@ urlpatterns = [
     path('grammar/gender/', views.grammar_practice, name='grammar_practice'),
     path('api/grammar/gender_data/', views.get_grammar_gender_data, name='get_grammar_gender_data'),
     
+    # Generic Validation
+    path('api/validate/', views.validate_answer, name='validate_answer'),
+
     # English Lab
     path('grammar/english/', views.english_lab, name='english_lab'),
     path('api/grammar/english_data/', views.get_english_data, name='get_english_data'),
