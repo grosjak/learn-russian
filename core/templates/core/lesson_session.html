@@ -316,13 +316,17 @@
         }
 
         function renderInputQuestion(q) {
+            const isEnglish = (q.target_lang === 'en');
+            const title = isEnglish ? 'Traduisez en Anglais' : 'Traduisez en Russe';
+            const placeholder = isEnglish ? 'Tapez en Anglais...' : 'Tapez en Russe...';
+
             questionArea.innerHTML = `
                 <div style="text-align: center; max-width: 600px; margin: 0 auto;">
-                    <h2 style="margin-bottom: 1rem;">Traduisez en Russe</h2>
+                    <h2 style="margin-bottom: 1rem;">${title}</h2>
                     
                      <div style="display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 2rem;">
                         <div style="font-size: 2rem; color: #4b4b4b;">"${q.prompt}"</div>
-                        <button class="hint-btn" onclick="toggleHint()" title="Indice">💡</button>
+                        ${!isEnglish ? `<button class="hint-btn" onclick="toggleHint()" title="Indice">💡</button>` : ''}
                     </div>
 
                     ${q.example ? `
@@ -337,7 +341,7 @@
 
                     <textarea id="userAnswer" 
                         class="user-input" 
-                        placeholder="Tapez en Russe..." 
+                        placeholder="${placeholder}" 
                         rows="2"
                         style="width: 100%; font-size: 1.5rem; padding: 15px; border-radius: 15px; border: 2px solid #e5e5e5; resize: none; outline: none; transition: border-color 0.2s;"
                         oninput="checkInputState(this)"></textarea>
@@ -366,7 +370,7 @@
             if (hintsVisible) {
                 // Show All Hints
                 const input = document.getElementById('userAnswer');
-                const soundHint = `<div style="color: #777; font-size: 1.1rem;">Son : ${q.transliteration || '?'}</div>`;
+                const soundHint = q.transliteration ? `<div style="color: #777; font-size: 1.1rem;">Son : ${q.transliteration}</div>` : '';
                 const structureHint = `<div id="dynamicHint" style="color: #1CB0F6; font-weight: bold; font-size: 1.2rem;"></div>`;
 
                 area.innerHTML = soundHint + structureHint;

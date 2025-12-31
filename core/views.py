@@ -256,19 +256,33 @@ def practice_data(request, mode):
                     # MVP: Split by space, keep punctuation attached to words.
                     topic_words = raw_phrase.split()
                     
-                    # Create shufflable options
-                    options = topic_words.copy()
-                    random.shuffle(options)
-                    
-                    questions.append({
-                        'type': 'construct_sentence',
-                        'id': word.id,
-                        'prompt': word.french, # Show French translation
-                        'correct_sentence': raw_phrase, # Full correct English string
-                        'options': options, # Shuffled words
-                        'category': word.category,
-                        'example': word.example_sentence
-                    })
+                    if len(topic_words) > 1:
+                        # Construct Sentence (Bubble Builder)
+                        options = topic_words.copy()
+                        random.shuffle(options)
+                        questions.append({
+                            'type': 'construct_sentence',
+                            'id': word.id,
+                            'prompt': word.french, 
+                            'correct_sentence': raw_phrase,
+                            'options': options, 
+                            'category': word.category,
+                            'example': word.example_sentence
+                        })
+                    else:
+                        # Single Word -> Input Text (Type it)
+                        questions.append({
+                            'type': 'input_text',
+                            'id': word.id,
+                            'prompt': word.french,
+                            'correct': raw_phrase,
+                            'display_correct': raw_phrase,
+                            'category': word.category,
+                            'is_revision': mode == 'revision',
+                            'example': word.example_sentence,
+                            'audio_url': word.audio.url if word.audio else None,
+                            'target_lang': 'en'  # Flag for frontend to adjust UI
+                        })
                 
                 # Russian Mode: Input Text
                 else:
