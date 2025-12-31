@@ -21,70 +21,79 @@
         </a>
 
         <!-- Navigation Links -->
-        <div class="nav-links-container">
-            <a href="{% url 'vocabulary' %}" class="nav-btn">
-                <span>📖</span>
-                <span class="nav-label">Mots</span>
-            </a>
-            <a href="{% url 'stories_list' %}" class="nav-btn">
-                <span>📚</span>
-                <span class="nav-label">Lectures</span>
-            </a>
-            <a href="{% url 'roadmap' %}" class="nav-btn">
-                <span>🗺️</span>
-                <span class="nav-label">Parcours</span>
-            </a>
-        </div>
+        <a href="{% url 'vocabulary' %}" class="nav-btn">
+            <span>📖</span>
+            <span class="nav-label">Mots</span>
+        </a>
 
-        <style>
+        {% if request.session.target_language == 'ru' or not request.session.target_language %}
+        <a href="{% url 'stories_list' %}" class="nav-btn">
+            <span>📚</span>
+            <span class="nav-label">Lectures</span>
+        </a>
+        <a href="{% url 'roadmap' %}" class="nav-btn">
+            <span>🗺️</span>
+            <span class="nav-label">Parcours</span>
+        </a>
+        {% endif %}
+
+        {% if request.session.target_language == 'en' %}
+        <a href="{% url 'english_lab' %}" class="nav-btn">
+            <span>🇬🇧</span>
+            <span class="nav-label">Labo</span>
+        </a>
+        {% endif %}
+    </div>
+
+    <style>
+        .nav-links-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            /* Allow wrapping on small screens */
+            justify-content: center;
+        }
+
+        .nav-btn {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #37464f;
+            padding: 8px 16px;
+            border-radius: 12px;
+            border: 2px solid #4b5b64;
+            transition: all 0.2s;
+        }
+
+        @media (max-width: 600px) {
             .nav-links-container {
-                display: flex;
-                gap: 15px;
-                flex-wrap: wrap;
-                /* Allow wrapping on small screens */
-                justify-content: center;
+                gap: 8px;
             }
 
             .nav-btn {
-                text-decoration: none;
-                color: white;
-                font-weight: bold;
-                font-size: 1rem;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                background: #37464f;
-                padding: 8px 16px;
-                border-radius: 12px;
-                border: 2px solid #4b5b64;
-                transition: all 0.2s;
+                padding: 6px 10px;
+                font-size: 0.9rem;
             }
 
-            @media (max-width: 600px) {
-                .nav-links-container {
-                    gap: 8px;
-                }
-
-                .nav-btn {
-                    padding: 6px 10px;
-                    font-size: 0.9rem;
-                }
-
-                .nav-label {
-                    /* Optional: Hide text on very small screens if needed, 
+            .nav-label {
+                /* Optional: Hide text on very small screens if needed, 
                        but wrapping is usually better */
-                }
             }
-        </style>
+        }
+    </style>
 
-        <!-- Title Removed as requested -->
+    <!-- Title Removed as requested -->
 
-        <!-- Language Button -->
-        <a href="{% url 'select_language' %}" class="nav-btn"
-            style="text-decoration: none; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; background: #37464f; padding: 8px 16px; border-radius: 12px; border: 2px solid #4b5b64; transition: all 0.2s;">
-            <span>🌍</span>
-            <span>Langue</span>
-        </a>
+    <!-- Language Button -->
+    <a href="{% url 'select_language' %}" class="nav-btn"
+        style="text-decoration: none; color: white; font-weight: bold; font-size: 1rem; display: flex; align-items: center; gap: 8px; background: #37464f; padding: 8px 16px; border-radius: 12px; border: 2px solid #4b5b64; transition: all 0.2s;">
+        <span>🌍</span>
+        <span>Langue</span>
+    </a>
     </div>
 
     <style>

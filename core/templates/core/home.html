@@ -46,6 +46,20 @@
             </div>
         </a>
 
+        </a>
+
+        {% if target_language == 'en' %}
+        <!-- English Lab Button -->
+        <a href="{% url 'english_lab' %}" class="menu-btn btn-eng-lab">
+            <div class="icon-box">🇬🇧</div>
+            <div class="text-content">
+                <div class="title">Labo Anglais</div>
+                <div class="subtitle">Verbes Irréguliers & Grammaire</div>
+            </div>
+            <div class="daily-badge" style="background:#58cc02; box-shadow:0 2px 4px rgba(0,0,0,0.2);">Fun</div>
+        </a>
+        {% endif %}
+
         <a href="{% url 'vocabulary' %}" class="menu-btn btn-vocabulary">
             <div class="icon-box">📚</div>
             <div class="text-content">
@@ -197,6 +211,12 @@
         background: linear-gradient(135deg, #a453f5, #8a2be2);
         border-color: #7c26cb;
         box-shadow: 0 4px 0 #6a21ad;
+    }
+
+    .btn-eng-lab {
+        background-color: #ff4b4b;
+        border-color: #d32f2f;
+        box-shadow: 0 4px 0 #c62828;
     }
 
     .daily-badge {
