@@ -440,6 +440,8 @@
                 .then(data => {
                     if (data.status === 'ok') {
                         showInputFeedback(q, data, userText);
+                    } else if (q.type === 'construct_sentence') {
+                        renderConstructSentence(q);
                     } else {
                         alert('Erreur: ' + data.message);
                         btn.disabled = false;
@@ -614,6 +616,113 @@
             } catch (e) {
                 console.warn("Audio Context Error", e);
             }
+        }
+
+        function renderConstructSentence(q) {
+            container.innerHTML = `
+                <div class="question-card fade-in">
+                    <div class="question-header">
+                        <span class="category-badge">Construction</span>
+                    </div>
+                    
+                    <div class="intro-content">
+                        <h2 class="question-prompt">${q.prompt}</h2>
+                        <p class="instruction-text">Construisez la phrase en Anglais</p>
+                    </div>
+
+                    <div class="bubble-container">
+                        <!-- Drop Zone -->
+                        <div id="drop-zone" class="drop-zone">
+                            <!-- Selected bubbles go here -->
+                        </div>
+
+                        <!-- Word Bank -->
+                        <div id="word-bank" class="word-bank">
+                            <!-- Source bubbles go here -->
+                        </div>
+                    </div>
+
+                    <button id="check-btn" class="btn btn-primary" style="margin-top:20px; width:100%;">
+                        Vérifier
+                    </button>
+                </div>
+                <!-- Feedback Footer will be injected by Base/Global logic or we recreate it -->
+                <div id="feedback-footer" class="feedback-footer hidden"></div>
+            `;
+
+            const dropZone = document.getElementById('drop-zone');
+            const wordBank = document.getElementById('word-bank');
+            const checkBtn = document.getElementById('check-btn');
+
+            let currentSelection = [];
+
+            // Initialize Bank
+            q.options.forEach((word, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'bubble-word fade-in';
+                btn.textContent = word;
+                btn.dataset.word = word;
+                btn.dataset.index = index; // Keep original index to distinguish duplicate words
+
+                btn.onclick = () => {
+                    moveBubble(btn, 'bank-to-drop');
+                };
+
+                wordBank.appendChild(btn);
+            });
+
+            function moveBubble(btn, direction) {
+                if (direction === 'bank-to-drop') {
+                    wordBank.removeChild(btn);
+                    dropZone.appendChild(btn);
+                    btn.onclick = () => moveBubble(btn, 'drop-to-bank');
+                    btn.classList.add('selected-bubble');
+                } else {
+                    dropZone.removeChild(btn);
+                    wordBank.appendChild(btn);
+                    btn.onclick = () => moveBubble(btn, 'bank-to-drop');
+                    btn.classList.remove('selected-bubble');
+                }
+            }
+
+            checkBtn.onclick = () => {
+                // Construct sentence from drop zone
+                const selectedWords = Array.from(dropZone.children).map(b => b.textContent);
+                const userSentence = selectedWords.join(' ');
+
+                const isCorrect = userSentence.trim() === q.correct_sentence.trim();
+
+                showFeedbackConstruct(isCorrect, q.correct_sentence, userSentence);
+            };
+        }
+
+        function showFeedbackConstruct(isCorrect, correctAnswer, userAnswer) {
+            const footer = document.getElementById('feedback-footer');
+            footer.classList.remove('hidden');
+            footer.className = 'feedback-footer ' + (isCorrect ? 'correct' : 'incorrect');
+
+            footer.innerHTML = `
+                <div class="feedback-content">
+                    <div class="feedback-icon">${isCorrect ? '✅' : '❌'}</div>
+                    <div class="feedback-text">
+                        <h3>${isCorrect ? 'Correct !' : 'Incorrect'}</h3>
+                        ${!isCorrect ? `<p>La réponse était : <strong>${correctAnswer}</strong></p>` : ''}
+                    </div>
+                </div>
+                <button id="next-btn" class="btn btn-white">Continuer</button>
+            `;
+
+            if (isCorrect) {
+                playAudio('correct');
+                // updateXP logic?
+            } else {
+                playAudio('incorrect');
+            }
+
+            document.getElementById('next-btn').onclick = () => {
+                currentQuestionIndex++;
+                renderQuestion();
+            };
         }
 
         function playAudio(text) {

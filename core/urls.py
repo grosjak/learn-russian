@@ -23,6 +23,10 @@ urlpatterns = [
     # Grammar
     path('grammar/gender/', views.grammar_practice, name='grammar_practice'),
     path('api/grammar/gender_data/', views.get_grammar_gender_data, name='get_grammar_gender_data'),
+    
+    # English Lab
+    path('grammar/english/', views.english_lab, name='english_lab'),
+    path('api/grammar/english_data/', views.get_english_data, name='get_english_data'),
 
     path('lesson/<int:lesson_id>/', views.lesson_detail, name='lesson_detail'),
     path('api/lesson/<int:lesson_id>/', views.lesson_data, name='lesson_data'),

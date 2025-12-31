@@ -245,18 +245,45 @@ def practice_data(request, mode):
             selected = words[:15]
             
             for word in selected:
-                questions.append({
-                    'type': 'input_text',
-                    'id': word.id,
-                    'prompt': word.french, # Show French, ask for Russian
-                    'correct': word.russian, # Check against raw Russian
-                    'display_correct': word.russian_accented or word.russian, # For feedback
-                    'category': word.category,
-                    'is_revision': mode == 'revision',
-                    'example': word.example_sentence,
-                    'audio_url': word.audio.url if word.audio else None,
-                    'transliteration': word.transliteration
-                })
+                # English Mode: Bubble Builder
+                if lang == 'en':
+                    # Split the English phrase into words
+                    raw_phrase = word.russian # 'russian' field holds English text
+                    
+                    # Simple tokenization (keep punctuation attached or separate? simpler: split by space)
+                    # Better: Remove punctuation for the "ordering" game to be less fiddly, 
+                    # OR keep it as a separate bubble.
+                    # MVP: Split by space, keep punctuation attached to words.
+                    topic_words = raw_phrase.split()
+                    
+                    # Create shufflable options
+                    options = topic_words.copy()
+                    random.shuffle(options)
+                    
+                    questions.append({
+                        'type': 'construct_sentence',
+                        'id': word.id,
+                        'prompt': word.french, # Show French translation
+                        'correct_sentence': raw_phrase, # Full correct English string
+                        'options': options, # Shuffled words
+                        'category': word.category,
+                        'example': word.example_sentence
+                    })
+                
+                # Russian Mode: Input Text
+                else:
+                    questions.append({
+                        'type': 'input_text',
+                        'id': word.id,
+                        'prompt': word.french, # Show French, ask for Russian
+                        'correct': word.russian, # Check against raw Russian
+                        'display_correct': word.russian_accented or word.russian, # For feedback
+                        'category': word.category,
+                        'is_revision': mode == 'revision',
+                        'example': word.example_sentence,
+                        'audio_url': word.audio.url if word.audio else None,
+                        'transliteration': word.transliteration
+                    })
     
     return JsonResponse({'questions': questions})
 
@@ -522,4 +549,41 @@ def get_grammar_gender_data(request):
         'phonetic': word.transliteration,
         'gender': gender,
         'explanation': explanation
+    })
+
+@login_required
+def english_lab(request):
+    return render(request, 'core/grammar/english_lab.html')
+
+@login_required
+def get_english_data(request):
+    # Fetch irregular verbs for English (stored in 'russian' field)
+    # We identify them because we stored the Past Simple in 'russian_accented'
+    # Filter: target_language='en' AND russian_accented is not empty
+    
+    candidates = Word.objects.filter(target_language='en').exclude(russian_accented__exact='').exclude(russian_accented__isnull=True)
+    
+    count = candidates.count()
+    if count < 3:
+        return JsonResponse({'error': 'Not enough data'}, status=404)
+        
+    # Pick 1 Correct
+    idx = random.randint(0, count - 1)
+    target_word = candidates[idx]
+    
+    # Pick 2 Distractors (Past forms of other verbs)
+    distractors = list(candidates.exclude(id=target_word.id))
+    selected_distractors = random.sample(distractors, min(len(distractors), 2))
+    
+    # Options
+    options = [target_word.russian_accented] # Correct answer (Past Simple)
+    options += [d.russian_accented for d in selected_distractors]
+    
+    random.shuffle(options)
+    
+    return JsonResponse({
+        'infinitive': target_word.russian.upper(), # "GO"
+        'translation': target_word.french,
+        'correct': target_word.russian_accented, # "Went"
+        'options': options
     })

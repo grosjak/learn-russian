@@ -1,0 +1,120 @@
+{% extends "core/base_app.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="quiz-container">
+
+        <!-- Header -->
+        <div class="progress-header">
+            <a href="{% url 'vocabulary' %}" class="close-btn">✕</a>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" style="width: 0%"></div>
+            </div>
+            <span style="font-size:1.5rem">🇬🇧</span>
+        </div>
+
+        <!-- Question Area -->
+        <div class="question-area fade-in" id="question-card">
+            <h2 style="color:var(--duo-gray)">Past Simple Challenge</h2>
+
+            <div style="margin: 30px 0;">
+                <p class="instruction">Quel est le prétérit de :</p>
+                <div class="big-char" id="word-display">...</div>
+                <p id="translation-display" style="color:#777; font-size:1.2rem; margin-top:5px;">...</p>
+            </div>
+
+            <div class="options-grid" id="options-container"
+                style="display: grid; grid-template-columns: 1fr; gap: 10px; max-width: 400px; margin: 0 auto;">
+                <!-- Buttons injected by JS -->
+            </div>
+        </div>
+
+        <!-- Feedback Footer -->
+        <div id="feedback-result" class="check-footer hidden"
+            style="flex-direction:column; align-items:center; gap:10px; border-top:none;">
+            <div id="feedback-msg" style="font-size:1.2rem; font-weight:bold;"></div>
+            <button id="next-btn" class="btn-primary">Continuer</button>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    let currentWord = null;
+    let score = 0;
+
+    function loadQuestion() {
+        fetch('/api/grammar/english_data/')
+            .then(r => r.json())
+            .then(data => {
+                if (data.error) {
+                    alert("Pas assez de verbes irréguliers pour l'instant !");
+                    window.location.href = "{% url 'vocabulary' %}";
+                    return;
+                }
+                renderQuestion(data);
+            })
+            .catch(err => console.error(err));
+    }
+
+    function renderQuestion(data) {
+        currentWord = data;
+        const display = document.getElementById('word-display');
+        const trans = document.getElementById('translation-display');
+        const container = document.getElementById('options-container');
+        const footer = document.getElementById('feedback-result');
+
+        display.textContent = "TO " + data.infinitive;
+        trans.textContent = "(" + data.translation + ")";
+        container.innerHTML = '';
+        footer.classList.add('hidden');
+
+        // Generate distractors? The API provides them or we allow the API to return full options
+        // Let's assume API returns 'options' list including correct one.
+
+        data.options.forEach(opt => {
+            const btn = document.createElement('div');
+            btn.className = 'option-btn';
+            btn.textContent = opt;
+            btn.style.justifyContent = 'center';
+
+            btn.onclick = () => checkAnswer(opt, btn);
+            container.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selected, btn) {
+        const isCorrect = (selected === currentWord.correct);
+        const footer = document.getElementById('feedback-result');
+        const msg = document.getElementById('feedback-msg');
+
+        // Disable all
+        document.querySelectorAll('.option-btn').forEach(b => b.style.pointerEvents = 'none');
+
+        if (isCorrect) {
+            btn.classList.add('correct');
+            msg.textContent = "Correct ! ✅";
+            msg.style.color = "#58CC02";
+            new Audio('https://commondatastorage.googleapis.com/codeskulptor-assets/week7-brrring.m4a').play().catch(() => { }); // Simple sound placeholder
+        } else {
+            btn.classList.add('wrong');
+            msg.innerHTML = `Oups ! La réponse était <span style="color:var(--duo-text)">${currentWord.correct}</span>`;
+            msg.style.color = "#ea2b2b";
+
+            // Highlight correct
+            document.querySelectorAll('.option-btn').forEach(b => {
+                if (b.textContent === currentWord.correct) b.classList.add('correct');
+            });
+        }
+
+        footer.classList.remove('hidden');
+
+        document.getElementById('next-btn').onclick = () => {
+            loadQuestion();
+        };
+    }
+
+    // Start
+    loadQuestion();
+</script>
+{% endblock %}
