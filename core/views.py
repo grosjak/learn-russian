@@ -283,6 +283,67 @@ def lesson_detail(request, lesson_id):
     lesson = get_object_or_404(Lesson, pk=lesson_id)
     return render(request, 'core/lesson_session.html', {'lesson': lesson})
 
+@login_required
+def lesson_data(request, lesson_id):
+    """API to get questions for the lesson"""
+    lesson = get_object_or_404(Lesson, pk=lesson_id)
+    questions = []
+
+    # Logic for Russian (Letters based)
+    # We ignore target_language checks since we forced RU, but lesson still has it.
+    
+    letters = list(lesson.letters.all())
+    
+    # 1. Intro Cards
+    for letter in letters:
+        questions.append({
+            'type': 'intro',
+            'char': letter.character,
+            'name': letter.name,
+            'trans': letter.transliteration,
+            'desc': letter.description
+        })
+        
+    # 2. Quiz Questions
+    for letter in letters:
+        all_letters = list(Letter.objects.exclude(id=letter.id))
+        
+        # Type A: Select Char
+        distractors_char = random.sample(all_letters, 3) if len(all_letters) >= 3 else all_letters
+        options_char = [l.character for l in distractors_char] + [letter.character]
+        random.shuffle(options_char)
+        
+        questions.append({
+            'type': 'select_char',
+            'prompt': f'Laquelle est "{letter.transliteration}" ?',
+            'correct': letter.character,
+            'options': options_char,
+            'main_sound': letter.transliteration 
+        })
+        
+        # Type B: Select Sound
+        distractors_sound = random.sample(all_letters, 3) if len(all_letters) >= 3 else all_letters
+        options_sound = [l.transliteration for l in distractors_sound] + [letter.transliteration]
+        random.shuffle(options_sound)
+        
+        questions.append({
+            'type': 'select_sound',
+            'prompt': 'Quel son fait cette lettre ?',
+            'correct': letter.transliteration,
+            'options': options_sound,
+            'main_char': letter.character
+        })
+        
+    intro_q = [q for q in questions if q['type'] == 'intro']
+    test_q = [q for q in questions if q['type'] != 'intro']
+    random.shuffle(test_q)
+    final_sequence = intro_q + test_q
+
+    # Logic for English (Word based) -> REMOVED/DISABLED as per Phase 5
+    # If we ever had English lessons, they will just show empty or fail softly.
+    
+    return JsonResponse({'questions': final_sequence})
+
 # ... lesson_data ...
 
 @csrf_exempt
