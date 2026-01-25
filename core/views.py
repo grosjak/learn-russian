@@ -29,13 +29,13 @@ def select_language(request):
 def home(request):
     """
     Home view: Shows categories (Alphabet, Vocabulary).
-    Filters content based on selected language.
+    Forced to Russian for now as per user request.
     """
-    target_lang = request.session.get('target_language')
+    # Force Russian context if not set (or always, since we removed English)
+    if request.session.get('target_language') != 'ru':
+        request.session['target_language'] = 'ru'
     
-    # If no language is set, render a selection page (or redirect to one)
-    if not target_lang:
-        return render(request, 'core/language_selection.html')
+    target_lang = 'ru'
         
     return render(request, 'core/home.html', {
         'target_language': target_lang
