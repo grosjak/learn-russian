@@ -284,20 +284,36 @@ def practice_data(request, mode):
                             'target_lang': 'en'  # Flag for frontend to adjust UI
                         })
                 
-                # Russian Mode: Input Text
+                # Russian Mode: Input Text or Suffix Snap
                 else:
-                    questions.append({
-                        'type': 'input_text',
-                        'id': word.id,
-                        'prompt': word.french, # Show French, ask for Russian
-                        'correct': word.russian, # Check against raw Russian
-                        'display_correct': word.russian_accented or word.russian, # For feedback
-                        'category': word.category,
-                        'is_revision': mode == 'revision',
-                        'example': word.example_sentence,
-                        'audio_url': word.audio.url if word.audio else None,
-                        'transliteration': word.transliteration
-                    })
+                    # Heuristic for Suffix Snap (Visual Grammar Demo)
+                    # If Noun ending in 'a', 30% chance to do Suffix Snap Accusative
+                    if word.category == 'noun' and word.russian.endswith('а') and random.random() < 0.3:
+                        root = word.russian[:-1]
+                        questions.append({
+                            'type': 'suffix_snap',
+                            'id': word.id,
+                            'prompt': f'Mettez "{word.russian}" à l\'Accusatif (COD)',
+                            'root': root,
+                            'correct': 'у',
+                            'options': ['а', 'у', 'ы', 'е'],
+                            'case': 'acc',
+                            'grammar_rule': 'Féminin singulier en -а devient -у à l\'accusatif.'
+                        })
+                    else:
+                        questions.append({
+                            'type': 'input_text',
+                            'id': word.id,
+                            'prompt': word.french, # Show French, ask for Russian
+                            'correct': word.russian, # Check against raw Russian
+                            'display_correct': word.russian_accented or word.russian, # For feedback
+                            'category': word.category,
+                            'aspect': word.aspect, # Send aspect for verb slider
+                            'is_revision': mode == 'revision',
+                            'example': word.example_sentence,
+                            'audio_url': word.audio.url if word.audio else None,
+                            'transliteration': word.transliteration
+                        })
     
     return JsonResponse({'questions': questions})
 
@@ -306,113 +322,7 @@ def lesson_detail(request, lesson_id):
     lesson = get_object_or_404(Lesson, pk=lesson_id)
     return render(request, 'core/lesson_session.html', {'lesson': lesson})
 
-@login_required
-def lesson_data(request, lesson_id):
-    """API to get questions for the lesson"""
-    lesson = get_object_or_404(Lesson, pk=lesson_id)
-    questions = []
-
-    # Logic for Russian (Letters based)
-    if lesson.target_language == 'ru':
-        letters = list(lesson.letters.all())
-        
-        # 1. Intro Cards
-        for letter in letters:
-            questions.append({
-                'type': 'intro',
-                'char': letter.character,
-                'name': letter.name,
-                'trans': letter.transliteration,
-                'desc': letter.description
-            })
-            
-        # 2. Quiz Questions
-        for letter in letters:
-            all_letters = list(Letter.objects.exclude(id=letter.id))
-            
-            # Type A: Select Char
-            distractors_char = random.sample(all_letters, 3) if len(all_letters) >= 3 else all_letters
-            options_char = [l.character for l in distractors_char] + [letter.character]
-            random.shuffle(options_char)
-            
-            questions.append({
-                'type': 'select_char',
-                'prompt': f'Laquelle est "{letter.transliteration}" ?',
-                'correct': letter.character,
-                'options': options_char,
-                'main_sound': letter.transliteration 
-            })
-            
-            # Type B: Select Sound
-            distractors_sound = random.sample(all_letters, 3) if len(all_letters) >= 3 else all_letters
-            options_sound = [l.transliteration for l in distractors_sound] + [letter.transliteration]
-            random.shuffle(options_sound)
-            
-            questions.append({
-                'type': 'select_sound',
-                'prompt': 'Quel son fait cette lettre ?',
-                'correct': letter.transliteration,
-                'options': options_sound,
-                'main_char': letter.character
-            })
-            
-        intro_q = [q for q in questions if q['type'] == 'intro']
-        test_q = [q for q in questions if q['type'] != 'intro']
-        random.shuffle(test_q)
-        final_sequence = intro_q + test_q
-
-    # Logic for English (Word based)
-    else:
-        words = list(lesson.words.all())
-        
-        # 1. Intro Cards (New Words)
-        for word in words:
-            questions.append({
-                'type': 'intro_word',
-                'word': word.russian_accented or word.russian, # 'russian' field stores Eng word
-                'translation': word.french,
-                'category': word.category,
-                'example': word.example_sentence
-            })
-            
-        # 2. Quiz Questions
-        for word in words:
-            # Type A: Match Translation (En -> Fr)
-            all_words = list(Word.objects.filter(target_language='en').exclude(id=word.id))
-            distractors = random.sample(all_words, 3) if len(all_words) >= 3 else all_words
-            options = [w.french for w in distractors] + [word.french]
-            random.shuffle(options)
-            
-            questions.append({
-                'type': 'select_translation',
-                'prompt': f'Que signifie "{word.russian_accented or word.russian}" ?',
-                'correct': word.french,
-                'options': options,
-                'main_word': word.russian_accented or word.russian,
-                'example': word.example_sentence
-            })
-            
-            # Type B: Match Word (Fr -> En)
-            options_en = [w.russian_accented or w.russian for w in distractors] + [word.russian_accented or word.russian]
-            random.shuffle(options_en)
-             
-            questions.append({
-                'type': 'select_word',
-                'prompt': f'Comment dit-on "{word.french}" ?',
-                'correct': word.russian_accented or word.russian,
-                'options': options_en,
-                'main_word': word.french, # Source word to display if needed
-                'example': word.example_sentence
-            })
-            
-        # Shuffle logic similar to Russian
-        intro_q = [q for q in questions if q['type'] == 'intro_word']
-        test_q = [q for q in questions if q['type'] != 'intro_word']
-        random.shuffle(test_q)
-        final_sequence = intro_q + test_q
-    
-    return JsonResponse({'questions': final_sequence})
-
+# ... lesson_data ...
 
 @csrf_exempt
 @login_required
@@ -425,15 +335,19 @@ def validate_answer(request):
             data = json.loads(request.body)
             word_id = data.get('word_id')
             user_input = data.get('user_input', '')
+            aspect_check = data.get('aspect_check', True) # Default to True if not sent
             
             word = get_object_or_404(Word, pk=word_id)
             
             from .services import TextValidationService
             result = TextValidationService.validate(user_input, word.russian)
             
+            # Combine text check with aspect check
+            final_correct = result['is_correct'] and aspect_check
+            
             return JsonResponse({
                 'status': 'ok',
-                'is_correct': result['is_correct'],
+                'is_correct': final_correct,
                 'similarity': result['similarity'],
                 'diff_html': result['diff_html'],
                 'correct_answer': word.russian_accented or word.russian
