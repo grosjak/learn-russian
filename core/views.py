@@ -224,7 +224,7 @@ def practice_data(request, mode):
                 # But python's random.seed affects global. 
                 # Better: fetch all IDs, select deterministically.
                 
-                all_words = list(Word.objects.filter(target_language=lang))
+                all_words = list(Word.objects.filter(language=lang))
                 
                 if all_words:
                     rng = random.Random(seed_val)
@@ -234,7 +234,7 @@ def practice_data(request, mode):
                     words = []
             else:
                 category = 'word' if mode == 'words' else 'verb'
-                words = list(Word.objects.filter(category=category, target_language=lang))
+                words = list(Word.objects.filter(category=category, language=lang))
 
         if len(words) > 0:
             # Shuffle the session question order (presentation order) 
@@ -511,7 +511,7 @@ def get_english_data(request):
     # We identify them because we stored the Past Simple in 'russian_accented'
     # Filter: target_language='en' AND russian_accented is not empty
     
-    candidates = Word.objects.filter(target_language='en').exclude(russian_accented__exact='').exclude(russian_accented__isnull=True)
+    candidates = Word.objects.filter(language='en').exclude(russian_accented__exact='').exclude(russian_accented__isnull=True)
     
     count = candidates.count()
     if count < 3:
