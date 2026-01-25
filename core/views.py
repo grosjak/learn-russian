@@ -245,50 +245,11 @@ def practice_data(request, mode):
             selected = words[:15]
             
             for word in selected:
-                # English Mode: Bubble Builder
-                if lang == 'en':
-                    # Split the English phrase into words
-                    raw_phrase = word.russian # 'russian' field holds English text
-                    
-                    # Simple tokenization (keep punctuation attached or separate? simpler: split by space)
-                    # Better: Remove punctuation for the "ordering" game to be less fiddly, 
-                    # OR keep it as a separate bubble.
-                    # MVP: Split by space, keep punctuation attached to words.
-                    topic_words = raw_phrase.split()
-                    
-                    if len(topic_words) > 1:
-                        # Construct Sentence (Bubble Builder)
-                        options = topic_words.copy()
-                        random.shuffle(options)
-                        questions.append({
-                            'type': 'construct_sentence',
-                            'id': word.id,
-                            'prompt': word.french, 
-                            'correct_sentence': raw_phrase,
-                            'options': options, 
-                            'category': word.category,
-                            'example': word.example_sentence
-                        })
-                    else:
-                        # Single Word -> Input Text (Type it)
-                        questions.append({
-                            'type': 'input_text',
-                            'id': word.id,
-                            'prompt': word.french,
-                            'correct': raw_phrase,
-                            'display_correct': raw_phrase,
-                            'category': word.category,
-                            'is_revision': mode == 'revision',
-                            'example': word.example_sentence,
-                            'audio_url': word.audio.url if word.audio else None,
-                            'target_lang': 'en'  # Flag for frontend to adjust UI
-                        })
-                
-                # Russian Mode: Input Text or Suffix Snap
-                else:
+                # Russian Focus Only (English mode disabled)
+                if True:
                     # Heuristic for Suffix Snap (Visual Grammar Demo)
-                    # If Noun ending in 'a', 30% chance to do Suffix Snap Accusative
-                    if word.category == 'noun' and word.russian.endswith('а') and random.random() < 0.3:
+                    # If Noun ending in 'a', 100% chance to do Suffix Snap Accusative
+                    if word.category == 'noun' and word.russian.endswith('а'):
                         root = word.russian[:-1]
                         questions.append({
                             'type': 'suffix_snap',
