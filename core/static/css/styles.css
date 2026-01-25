@@ -637,7 +637,90 @@ h1 {
     /* Arrow pointing right */
 }
 
-.level-node:hover .node-label {
-    opacity: 1;
-    transform: translateY(-50%) scale(1.05);
+
+/* --- Visual Grammar & Suffix Snap --- */
+:root {
+    /* Existing variables are above, expanding scope */
+    --case-nom: #a1a1a1;
+    /* White on white is bad, using light gray or handled by bg */
+    --case-acc: #3498db;
+    --case-gen: #f1c40f;
+    --case-dat: #2ecc71;
+    --case-inst: #9b59b6;
+    --case-prep: #e67e22;
+}
+
+.suffix-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+}
+
+.suffix-block {
+    background: #e0e0e0;
+    border: none;
+    border-radius: 12px;
+    padding: 15px 25px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #444;
+    cursor: pointer;
+    /* Neumorphism Short */
+    box-shadow: 6px 6px 12px #b8b8b8, -6px -6px 12px #ffffff;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.suffix-block:hover {
+    transform: translateY(-3px);
+    box-shadow: 8px 8px 16px #acacac, -8px -8px 16px #ffffff;
+}
+
+.suffix-block:active {
+    box-shadow: inset 4px 4px 8px #bebebe, inset -4px -4px 8px #ffffff;
+    transform: translateY(1px);
+}
+
+/* Case Indicators */
+.suffix-block.case-nom {
+    border-bottom: 4px solid var(--case-nom);
+}
+
+.suffix-block.case-acc {
+    border-bottom: 4px solid var(--case-acc);
+}
+
+.suffix-block.case-gen {
+    border-bottom: 4px solid var(--case-gen);
+}
+
+.suffix-block.case-dat {
+    border-bottom: 4px solid var(--case-dat);
+}
+
+.suffix-block.case-inst {
+    border-bottom: 4px solid var(--case-inst);
+}
+
+.suffix-block.case-prep {
+    border-bottom: 4px solid var(--case-prep);
+}
+
+/* Text Root Display */
+.root-display {
+    font-size: 2.5rem;
+    color: var(--duo-text);
+    margin-right: 5px;
+    display: inline-block;
+}
+
+.suffix-slot {
+    display: inline-block;
+    min-width: 60px;
+    border-bottom: 3px dashed #777;
+    height: 10px;
+    margin-left: 5px;
 }

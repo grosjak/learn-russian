@@ -16,6 +16,12 @@ class Lesson(models.Model):
         return f"[{self.get_target_language_display()}] {self.title}"
 
 class Letter(models.Model):
+    FRIENDSHIP_CHOICES = [
+        ('true', 'Vrai Ami'),
+        ('false', 'Faux Ami'),
+        ('new', 'Nouveau (Inconnu)'),
+    ]
+
     character = models.CharField(max_length=1)
     name = models.CharField(max_length=50)
     transliteration = models.CharField(max_length=10)
@@ -24,32 +30,57 @@ class Letter(models.Model):
     example_word_eng = models.CharField(max_length=50, blank=True)
     is_vowel = models.BooleanField(default=False)
     lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True, related_name='letters')
+    friendship_category = models.CharField(max_length=5, choices=FRIENDSHIP_CHOICES, default='new')
 
     def __str__(self):
         return f"{self.character} ({self.transliteration})"
 
 class Word(models.Model):
     CATEGORY_CHOICES = [
-        ('word', 'Mot'),
+        ('noun', 'Nom'),
         ('verb', 'Verbe'),
+        ('adj', 'Adjectif'),
+        ('adv', 'Adverbe'),
+        ('part', 'Particule'),
+        ('other', 'Autre'),
     ]
-    TARGET_LANGUAGE_CHOICES = [
+    LANGUAGE_CHOICES = [
         ('ru', 'Russe'),
         ('en', 'Anglais'),
     ]
+    ASPECT_CHOICES = [
+        ('imp', 'Imperfectif'),
+        ('perf', 'Perfectif'),
+        ('none', 'N/A'),
+    ]
     
-    russian = models.CharField(max_length=100)
-    russian_accented = models.CharField(max_length=100, blank=True, null=True, help_text="Russian word with accent mark")
-    french = models.CharField(max_length=100)
-    transliteration = models.CharField(max_length=100)
-    category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='word')
-    target_language = models.CharField(max_length=2, choices=TARGET_LANGUAGE_CHOICES, default='ru')
+    # Old fields (kept for migration, deprecated)
+    russian = models.CharField(max_length=100, blank=True) 
+    russian_accented = models.CharField(max_length=100, blank=True, null=True)
+    french = models.CharField(max_length=100) # Keep as translation
+    transliteration = models.CharField(max_length=100, blank=True)
+    
+    # New Atomic Structure
+    text_root = models.CharField(max_length=100, blank=True, help_text="Racine invariante (ex: Машин)")
+    language = models.CharField(max_length=2, choices=LANGUAGE_CHOICES, default='ru')
+    base_form = models.CharField(max_length=100, blank=True, help_text="Forme de base (Nominatif/Infinitif)")
+    category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='noun')
+    
+    # Advanced Grammar
+    declensions = models.JSONField(default=dict, blank=True, help_text="Suffixes for cases (Singular/Plural)")
+    aspect = models.CharField(max_length=4, choices=ASPECT_CHOICES, default='none')
+    aspect_pair = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='paired_aspect')
+    
+    # English specific
+    past_tense = models.CharField(max_length=100, blank=True, null=True, help_text="Prétérit (pour Anglais)")
+
+    # Metadata
     lesson = models.ForeignKey(Lesson, on_delete=models.SET_NULL, null=True, blank=True, related_name='words')
-    example_sentence = models.TextField(blank=True, help_text="Phrase d'exemple pour illustrer le mot")
-    audio = models.FileField(upload_to='audio/words/', null=True, blank=True, help_text="Fichier audio pour la prononciation")
+    example_sentence = models.TextField(blank=True, help_text="Phrase d'exemple")
+    audio = models.FileField(upload_to='audio/words/', null=True, blank=True)
 
     def __str__(self):
-        return f"[{self.get_target_language_display()}] {self.russian} - {self.french}"
+        return f"[{self.language.upper()}] {self.base_form or self.russian} ({self.category})"
 
 class UserWordProgress(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
